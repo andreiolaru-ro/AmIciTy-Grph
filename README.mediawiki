@@ -13,3 +13,5 @@ You should have received a copy of the GNU General Public License along with AmI
 
 
 Part of the AmIciTy initiative, this project attempts to create a framework using graphs for context-aware, user-friendly applications.
+
+'''[https://github.com/andreiolaru-ro/AmIciTy-Grph/wiki Project wiki]'''
