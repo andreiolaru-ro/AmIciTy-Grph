@@ -1,0 +1,3 @@
+[submodule "doc-AmIciTy-Grph/wiki"]
+	path = doc-AmIciTy-Grph/wiki
+	url = git@github.com:andreiolaru-ro/AmIciTy-Grph.wiki.git
