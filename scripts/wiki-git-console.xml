@@ -10,9 +10,9 @@
   
   You should have received a copy of the GNU General Public License along with AmIciTy-Grph.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<project name="tATAmI-PC" default="wiki-git" basedir="../">
+<project name="AmIciTy-Grph" default="wiki-git" basedir="../">
 	<target name="wiki-git">
-		<exec osfamily="Windows" vmlauncher="false" dir="doc-tATAmI-PC/wiki/" executable="cmd">
+		<exec osfamily="Windows" vmlauncher="false" dir="doc-AmIciTy-Grph/wiki/" executable="cmd">
 		    <arg value="/c"/>
 		    <arg value="start cmd"/>
 		</exec>
