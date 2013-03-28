@@ -1,7 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="source"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
+	<classpathentry kind="lib" path="C:/Eclipse/JUNG1.7.6/jung-1.7.6.jar"/>
+	<classpathentry kind="lib" path="/Floyd-Warshall/src/util"/>
+	<classpathentry kind="lib" path="C:/Users/Nihal Ablachim/Documents/Research/graphtest.zip"/>
+	<classpathentry kind="lib" path="C:/Eclipse/JUNG/collections-generic-4.01.jar"/>
+	<classpathentry kind="lib" path="C:/Eclipse/JUNG/colt-1.2.0.jar"/>
+	<classpathentry kind="lib" path="C:/Eclipse/JUNG/concurrent-1.3.4.jar"/>
+	<classpathentry kind="lib" path="C:/Eclipse/JUNG/j3d-core-1.3.1.jar"/>
+	<classpathentry kind="lib" path="C:/Eclipse/JUNG/jung-3d-2.0.1.jar"/>
+	<classpathentry kind="lib" path="C:/Eclipse/JUNG/jung-3d-demos-2.0.1.jar"/>
+	<classpathentry kind="lib" path="C:/Eclipse/JUNG/jung-algorithms-2.0.1.jar"/>
+	<classpathentry kind="lib" path="C:/Eclipse/JUNG/jung-api-2.0.1.jar"/>
+	<classpathentry kind="lib" path="C:/Eclipse/JUNG/jung-graph-impl-2.0.1.jar"/>
+	<classpathentry kind="lib" path="C:/Eclipse/JUNG/jung-io-2.0.1.jar"/>
+	<classpathentry kind="lib" path="C:/Eclipse/JUNG/jung-jai-2.0.1.jar"/>
+	<classpathentry kind="lib" path="C:/Eclipse/JUNG/jung-jai-samples-2.0.1.jar"/>
+	<classpathentry kind="lib" path="C:/Eclipse/JUNG/jung-samples-2.0.1.jar"/>
+	<classpathentry kind="lib" path="C:/Eclipse/JUNG/jung-visualization-2.0.1.jar"/>
+	<classpathentry kind="lib" path="C:/Eclipse/JUNG/stax-api-1.0.1.jar"/>
+	<classpathentry kind="lib" path="C:/Eclipse/JUNG/vecmath-1.3.1.jar"/>
+	<classpathentry kind="lib" path="C:/Eclipse/JUNG/wstx-asl-3.2.6.jar"/>
 	<classpathentry kind="lib" path="C:/Users/ATLAS/Desktop/eclipse/workInEclipse/Pachete/collections-generic-4.01.jar"/>
 	<classpathentry kind="lib" path="C:/Users/ATLAS/Desktop/eclipse/workInEclipse/Pachete/colt-1.2.0.jar"/>
 	<classpathentry kind="lib" path="C:/Users/ATLAS/Desktop/eclipse/workInEclipse/Pachete/concurrent-1.3.4.jar"/>
@@ -19,6 +39,5 @@
 	<classpathentry kind="lib" path="C:/Users/ATLAS/Desktop/eclipse/workInEclipse/Pachete/stax-api-1.0.1.jar"/>
 	<classpathentry kind="lib" path="C:/Users/ATLAS/Desktop/eclipse/workInEclipse/Pachete/vecmath-1.3.1.jar"/>
 	<classpathentry kind="lib" path="C:/Users/ATLAS/Desktop/eclipse/workInEclipse/Pachete/wstx-asl-3.2.6.jar"/>
-	<classpathentry kind="lib" path="/Test Jung/lib/log4j-1.2.16.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
