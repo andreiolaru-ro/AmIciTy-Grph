@@ -1,6 +1,8 @@
 package testing.nihal;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Paint;
 import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
@@ -51,7 +53,7 @@ public class MyGraph {
 		Edge e11=new Edge(n11,n9,"in");
 		Edge e12=new Edge(n12,n11,"venue");
 		Edge e13=new Edge(n7,n8,"to");
-		g.addEdge(e1,n1, n3, EdgeType.DIRECTED); // This method
+		g.addEdge(e1,n1, n3, EdgeType.DIRECTED); 
 		g.addEdge(e2,n2, n3, EdgeType.DIRECTED);
 		g.addEdge(e3, n1, n2, EdgeType.DIRECTED);
 		g.addEdge(e4, n1, n4, EdgeType.DIRECTED); // or we can use
@@ -69,24 +71,33 @@ public class MyGraph {
 		
 		Transformer<Node,Shape> vertexSize = new Transformer<Node,Shape>(){
             public Shape transform(Node i){
-                Ellipse2D circle = new Ellipse2D.Double(-15,-15,40, 20);
+                //Ellipse2D circle = new Ellipse2D.Double(-15,-15,40, 20);
                 return new Rectangle(-20,-10,i.getLabel().length()*10,30);
                 //if(i==1) return AffineTransform.getScaleInstance(3, 3).createTransformedShape(circle);
                 //else if(i==2) return circle;
                 //else return new Rectangle(-20, -10, 40, 20);
             }
         };
+        
+        Transformer<Node,Paint> vertexPaint = new Transformer<Node,Paint>() {
+			public Paint transform(Node i) {
+			return Color.GRAY;
+			}
+			};
 		
 		vv.setPreferredSize(new Dimension(800,600));
 		vv.getRenderContext().setVertexLabelTransformer(new ToStringLabeller());
 		vv.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller());
 		vv.getRenderContext().setVertexShapeTransformer(vertexSize);
+		vv.getRenderContext().setVertexFillPaintTransformer(vertexPaint);
 		vv.getRenderer().getVertexLabelRenderer().setPosition(Position.CNTR);
 		JFrame frame = new JFrame("Simple Graph View");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().add(vv);
 		frame.pack();
 		frame.setVisible(true);
+		
+		
 		
 	}
 

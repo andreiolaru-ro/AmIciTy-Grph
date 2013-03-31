@@ -338,7 +338,7 @@ import edu.uci.ics.jung.visualization.renderers.VertexLabelRenderer;
      void createEdges(Integer[] v) {
          graph.addEdge(new Double(Math.random()), v[0], v[1], EdgeType.DIRECTED);
          graph.addEdge(new Double(Math.random()), v[0], v[1], EdgeType.DIRECTED);
-        graph.addEdge(new Double(Math.random()), v[0], v[1], EdgeType.DIRECTED);
+         graph.addEdge(new Double(Math.random()), v[0], v[1], EdgeType.DIRECTED);
          graph.addEdge(new Double(Math.random()), v[1], v[0], EdgeType.DIRECTED);
          graph.addEdge(new Double(Math.random()), v[1], v[0], EdgeType.DIRECTED);
          graph.addEdge(new Double(Math.random()), v[1], v[2]);
@@ -356,10 +356,10 @@ import edu.uci.ics.jung.visualization.renderers.VertexLabelRenderer;
          frame.pack();
          frame.setVisible(true);*/
          
-         JungforDoc f=new JungforDoc();
- 		 f.initialize();
-    	// MyGraph mG=new MyGraph();
-    	 //mG.Initialize();
+         //JungforDoc f=new JungforDoc();
+ 		 //f.initialize();
+    	MyGraph mG=new MyGraph();
+    	mG.Initialize();
  		// layouts l1=new layouts();
  		 //l1.Initialize();
      }
