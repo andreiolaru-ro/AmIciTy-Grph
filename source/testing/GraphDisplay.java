@@ -9,34 +9,32 @@
  * 
  * You should have received a copy of the GNU General Public License along with Visualization of Context Graphs.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package testing.nihal.util.graph.representation;
+package testing;
 
-import testing.nihal.util.Config;
-import testing.nihal.util.graph.GraphComponent;
+import java.awt.Color;
+import java.awt.Shape;
 
-public abstract class RepresentationElement
-{
-	public static class RepElementConfig extends Config
-	{
-		GraphRepresentation	rootRepresentation;
-		GraphComponent		representedComponent = null;
-		
-		public RepElementConfig(GraphRepresentation root, GraphComponent component)
-		{
-			this.rootRepresentation = root;
-			this.representedComponent = component;
-		}
-	}
-	
-	protected RepElementConfig	config;
-	
-	public RepresentationElement(RepElementConfig conf)
-	{
-		this.config = conf;
-	}
-	
-	public GraphRepresentation getRootRepresentation()
-	{
-		return config.rootRepresentation;
-	}
+import testing.nihal.util.graph.Edge;
+import testing.nihal.util.graph.Node;
+import edu.uci.ics.jung.graph.Graph;
+
+public interface GraphDisplay {
+	 void setGraph(Graph g);
+	 void addNode(Node n);
+	 void addEdge(Edge e);
+	 void updateGraph();
+	 void focusNode(Node n);
+	 void setNodeLabel(Node n,String s);
+	 void setEdgeLabel(Edge e,String s);
+	 void setEdgeColor(Edge e,Color c);
+	 void setNodeColor(Node n,Color c);
+	 void setNodeShape(Node n,Shape s);
+	 //void setEdgeStroke(Edge e,Stroke s);
+	 String getNodeLabel(Node n);
+	 String getEdgeLabel(Edge e);
+	 Color getEdgeColor(Edge e);
+	 Color getNodeColor(Node n);
+	 //void expandNode();
+	 
+
 }
