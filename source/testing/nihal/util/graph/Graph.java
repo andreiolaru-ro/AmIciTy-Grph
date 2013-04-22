@@ -26,7 +26,6 @@ import java.util.Scanner;
 import java.util.Set;
 
 import testing.nihal.core.interfaces.Logger;
-
 import testing.nihal.util.graph.representation.LinearGraphRepresentation;
 import testing.nihal.util.logging.Unit;
 

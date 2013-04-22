@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (C)  Andrei Olaru and contributors (see AUTHORS).
+ * Copyright (C)  Nihal Ablachim and contributors (see AUTHORS).
  * 
  * This file is part of Visualization of Context Graphs.
  * 
@@ -34,8 +34,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-  
-  import javax.swing.AbstractButton;
+
+import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.BoundedRangeModel;
 import javax.swing.Box;
@@ -44,17 +44,16 @@ import javax.swing.DefaultBoundedRangeModel;
 import javax.swing.JApplet;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-  
-  import org.apache.commons.collections15.Transformer;
-  
-  import edu.uci.ics.jung.algorithms.layout.CircleLayout;
+
+import org.apache.commons.collections15.Transformer;
+
+import edu.uci.ics.jung.algorithms.layout.CircleLayout;
 import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.graph.SparseMultigraph;
@@ -359,13 +358,13 @@ import edu.uci.ics.jung.visualization.renderers.VertexLabelRenderer;
      /**
       * a driver for this demo
       */
-     public static void main(String[] args) {
-         /*JFrame frame = new JFrame();
+     /*public static void main(String[] args) {
+         JFrame frame = new JFrame();
          frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
          Container content = frame.getContentPane();
          content.add(new EdgeDemo());
          frame.pack();
-         frame.setVisible(true);*/
+         frame.setVisible(true);
          
          //JungforDoc f=new JungforDoc();
  		 //f.initialize();
@@ -373,7 +372,7 @@ import edu.uci.ics.jung.visualization.renderers.VertexLabelRenderer;
     	mG.Initialize();
  		// layouts l1=new layouts();
  		 //l1.Initialize();
-     }
+     }*/
  }
 
 

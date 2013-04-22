@@ -13,9 +13,6 @@ package testing.nihal.util.logging;
 
 import java.io.OutputStream;
 
-import org.apache.log4j.PatternLayout;
-import org.apache.log4j.WriterAppender;
-
 import testing.nihal.core.interfaces.Logger;
 
 public class Log4JWrapper extends Logger

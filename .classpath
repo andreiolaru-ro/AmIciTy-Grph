@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="source"/>
+	<classpathentry excluding="testing/nihal/EdgeDemo.java" kind="src" path="source"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/jung/collections-generic-4.01.jar"/>
 	<classpathentry kind="lib" path="lib/jung/colt-1.2.0.jar"/>

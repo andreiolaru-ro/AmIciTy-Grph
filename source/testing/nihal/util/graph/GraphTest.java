@@ -17,7 +17,6 @@ import java.io.ByteArrayInputStream;
 
 import testing.nihal.core.interfaces.Logger;
 import testing.nihal.core.interfaces.Logger.Level;
-
 import testing.nihal.util.graph.representation.TextGraphRepresentation;
 import testing.nihal.util.logging.Log;
 import testing.nihal.util.logging.Unit;

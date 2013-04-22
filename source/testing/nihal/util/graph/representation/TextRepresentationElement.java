@@ -15,7 +15,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import testing.nihal.core.interfaces.Logger;
-
 import testing.nihal.util.ContentHolder;
 import testing.nihal.util.graph.Edge;
 import testing.nihal.util.graph.GraphComponent;

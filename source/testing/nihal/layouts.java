@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (C)  Andrei Olaru and contributors (see AUTHORS).
+\ * Copyright (C)  Andrei Olaru and contributors (see AUTHORS).
  * 
  * This file is part of Visualization of Context Graphs.
  * 
@@ -13,20 +13,9 @@ package testing.nihal;
 
 import java.awt.Dimension;
 
-import javax.swing.JFrame;
-
-import edu.uci.ics.jung.algorithms.layout.AggregateLayout;
-import edu.uci.ics.jung.algorithms.layout.CircleLayout;
-import edu.uci.ics.jung.algorithms.layout.KKLayout;
-import edu.uci.ics.jung.algorithms.layout.Layout;
-import edu.uci.ics.jung.algorithms.layout.SpringLayout;
-import edu.uci.ics.jung.algorithms.layout.StaticLayout;
 import edu.uci.ics.jung.algorithms.layout.TreeLayout;
 import edu.uci.ics.jung.graph.DelegateForest;
 import edu.uci.ics.jung.graph.Forest;
-import edu.uci.ics.jung.graph.Graph;
-import edu.uci.ics.jung.graph.SparseMultigraph;
-import edu.uci.ics.jung.graph.Tree;
 import edu.uci.ics.jung.visualization.BasicVisualizationServer;
 
 
@@ -52,12 +41,12 @@ public class layouts {
 		new BasicVisualizationServer<Integer,String>(layout);
 		vv.setPreferredSize(new Dimension(350,350)); //Sets the viewing area size
 		//JFrame frame = new JFrame("Circle Layout");
-		JFrame frame = new JFrame("Spring Layout");
+		/*JFrame frame = new JFrame("Spring Layout");
 		//JFrame frame = new JFrame("FRLayout");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().add(vv);
 		frame.pack();
-		frame.setVisible(true);
+		frame.setVisible(true);*/
 
 	}
 	

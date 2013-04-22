@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (C)  Andrei Olaru and contributors (see AUTHORS).
+ * Copyright (C)  Nihal Ablachim and contributors (see AUTHORS).
  * 
  * This file is part of Visualization of Context Graphs.
  * 
@@ -35,6 +35,5 @@ public interface GraphDisplay {
 	 Color getEdgeColor(Edge e);
 	 Color getNodeColor(Node n);
 	 //void expandNode();
-	 
 
 }

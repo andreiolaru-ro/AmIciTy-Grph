@@ -13,10 +13,9 @@ package testing.nihal.util.logging;
 
 import java.awt.TextArea;
 
-import testing.nihal.core.interfaces.Logger.Level;
 import testing.nihal.core.interfaces.Logger;
+import testing.nihal.core.interfaces.Logger.Level;
 import testing.nihal.core.interfaces.Logger.LoggerType;
-
 import testing.nihal.util.Config;
 import testing.nihal.util.logging.Log.ReportingEntity;
 

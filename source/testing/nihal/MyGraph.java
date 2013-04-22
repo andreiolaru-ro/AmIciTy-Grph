@@ -16,9 +16,6 @@ import java.awt.Dimension;
 import java.awt.Paint;
 import java.awt.Rectangle;
 import java.awt.Shape;
-import java.awt.geom.Ellipse2D;
-
-import javax.swing.JFrame;
 
 import org.apache.commons.collections15.Transformer;
 
@@ -102,11 +99,11 @@ public class MyGraph {
 		vv.getRenderContext().setVertexShapeTransformer(vertexSize);
 		vv.getRenderContext().setVertexFillPaintTransformer(vertexPaint);
 		vv.getRenderer().getVertexLabelRenderer().setPosition(Position.CNTR);
-		JFrame frame = new JFrame("Simple Graph View");
+		/*JFrame frame = new JFrame("Simple Graph View");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().add(vv);
 		frame.pack();
-		frame.setVisible(true);
+		frame.setVisible(true);*/
 		
 		
 		
