@@ -3,13 +3,13 @@
 	<owner>Andrei Olaru and contributors (see AUTHORS)</owner>
 	<copyright><![CDATA[Copyright (C) ${2013} ${owner}.
 
-This file is part of Visualization of Context Graphs.
+This file is part of AmIciTy-Grph.
 
-Visualization of Context Graphs is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or any later version.
+AmIciTy-Grph is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or any later version.
 
-Visualization of Context Graphs is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+AmIciTy-Grph is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License along with Visualization of Context Graphs.  If not, see <http://www.gnu.org/licenses/>.]]></copyright>
+You should have received a copy of the GNU General Public License along with AmIciTy-Grph.  If not, see <http://www.gnu.org/licenses/>.]]></copyright>
 	<header contentId="org.eclipse.pde.tocFile" excluded="true" />
 	<header contentId="org.eclipse.pde.ctxHelpFile" excluded="true" />
 	<header contentId="org.eclipse.jdt.core.JARManifest" excluded="true" />
@@ -25,8 +25,8 @@ You should have received a copy of the GNU General Public License along with Vis
 	<header contentId="org.eclipse.pde.productFile" excluded="true" />
 	<header contentId="org.eclipse.ui.views.log.log" excluded="true" />
 	<header contentId="org.eclipse.pde.siteManifest" excluded="true" />
-	<header contentId="org.eclipse.pde.bundleManifest" excluded="true" />
 	<header contentId="org.eclipse.pde.targetFile" excluded="true" />
+	<header contentId="org.eclipse.pde.bundleManifest" excluded="true" />
 	<header contentId="org.eclipse.wst.html.core.htmlsource" postBlankLines="0" lineFormat="false" preserveFirstLine="false">
 		<beginLine><![CDATA[<!--]]></beginLine>
 		<linePrefix><![CDATA[]]></linePrefix>
@@ -38,8 +38,8 @@ You should have received a copy of the GNU General Public License along with Vis
 		<endLine><![CDATA[-->]]></endLine>
 		<firstLinePattern><![CDATA[<\?xml version=.*\?>]]></firstLinePattern>
 	</header>
-	<header contentId="org.eclipse.pde.simpleCheatSheet" excluded="true" />
 	<header contentId="org.eclipse.pde.pluginManifest" excluded="true" />
+	<header contentId="org.eclipse.pde.simpleCheatSheet" excluded="true" />
 	<header contentId="org.eclipse.mylyn.wikitext.mediawiki" postBlankLines="0" lineFormat="false" preserveFirstLine="false">
 		<beginLine><![CDATA[<!-- ---------------------------------------------]]></beginLine>
 		<linePrefix><![CDATA[]]></linePrefix>
@@ -51,11 +51,11 @@ You should have received a copy of the GNU General Public License along with Vis
 		<endLine><![CDATA[#-------------------------------------------------------------------------------]]></endLine>
 	</header>
 	<header contentId="org.eclipse.pde.featureManifest" excluded="true" />
+	<header contentId="org.eclipse.pde.compositeCheatSheet" excluded="true" />
 	<header contentId="org.eclipse.jdt.core.javaSource" postBlankLines="0" lineFormat="false" preserveFirstLine="false">
 		<beginLine><![CDATA[/*******************************************************************************]]></beginLine>
 		<linePrefix><![CDATA[ * ]]></linePrefix>
 		<endLine><![CDATA[ ******************************************************************************/]]></endLine>
 	</header>
-	<header contentId="org.eclipse.pde.compositeCheatSheet" excluded="true" />
 	<header contentId="org.eclipse.pde.schema" excluded="true" />
 </project>
