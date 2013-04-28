@@ -9,7 +9,7 @@
  * 
  * You should have received a copy of the GNU General Public License along with Visualization of Context Graphs.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package testing.nihal.util.graph.representation;
+package util.graph.representation;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -19,9 +19,9 @@ import java.util.List;
 import java.util.Queue;
 import java.util.Set;
 
-import testing.nihal.util.graph.Graph;
-import testing.nihal.util.graph.GraphPattern.NodeP;
-import testing.nihal.util.graph.Node;
+import util.graph.Graph;
+import util.graph.Node;
+import util.graph.GraphPattern.NodeP;
 
 /**
  * Class that allows the representation of a {@link Graph} structure. Also can be written as GrapheR

@@ -9,55 +9,31 @@
  * 
  * You should have received a copy of the GNU General Public License along with Visualization of Context Graphs.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package testing.nihal.util.logging;
+package util;
 
-import java.io.OutputStream;
-
-import testing.nihal.core.interfaces.Logger;
-
-public class Log4JWrapper extends Logger
+public class ContentHolder<T>
 {
-	protected org.apache.log4j.Logger	theLog	= null;
+	T content;
 	
-	public Log4JWrapper(String name)
+	public ContentHolder(T _content)
 	{
-		theLog = org.apache.log4j.Logger.getLogger(name);
+		content = _content;
+	}
+	
+	public T get()
+	{
+		return content;
+	}
+	
+	public ContentHolder<T> set(T _content)
+	{
+		content = _content;
+		return this;
 	}
 	
 	@Override
-	public void setLevel(Level level)
+	public String toString()
 	{
-		theLog.setLevel(org.apache.log4j.Level.toLevel(level.toString()));
+		return content.toString();
 	}
-	
-	@Override
-	public void addDestination(String format, OutputStream destination)
-	{
-		theLog.addAppender(new WriterAppender(new PatternLayout(format), destination));		
-	}
-
-	@Override
-	public void error(String message)
-	{
-		theLog.error(message);
-	}
-	
-	@Override
-	public void warn(String message)
-	{
-		theLog.warn(message);
-	}
-	
-	@Override
-	public void info(String message)
-	{
-		theLog.info(message);
-	}
-	
-	@Override
-	public void trace(String message)
-	{
-		theLog.trace(message);
-	}
-	
 }

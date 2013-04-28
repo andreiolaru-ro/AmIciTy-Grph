@@ -9,37 +9,44 @@
  * 
  * You should have received a copy of the GNU General Public License along with Visualization of Context Graphs.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package testing.nihal;
+package testing;
 
 import java.awt.Color;
 import java.awt.Shape;
 
-import testing.GraphDisplay;
-import testing.nihal.util.graph.Edge;
-import testing.nihal.util.graph.Node;
+import util.graph.Edge;
+import util.graph.Node;
 import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.algorithms.layout3d.SpringLayout;
 import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.visualization.BasicVisualizationServer;
 
+/**
+ * @author 'Nihal Ablachim'
+ * A class which will take a context graph and will display it using JUNG libraries.
+ */
 public class JungGraphDisplay implements GraphDisplay {
 	private Graph graph;
 	private Layout<Node, Edge> springLayout = (Layout<Node, Edge>) new SpringLayout(graph);
 	BasicVisualizationServer<Node, Edge> bvs =new BasicVisualizationServer<Node, Edge>(springLayout);
 	
+	/**
+	 * Constructs a new object of type JungGraphDisplay
+	 */
 	public JungGraphDisplay()
 	{
 		//TODO
 	}
-	 public void setGraph(Graph g)
+
+	public void setGraph(Graph g)
 	 {
 		 graph=g;
 	 }
-	 public void addNode(Node n)
+	 public void addNode(Node node)
 	 {
 		 //TODO
 	 }
-	 public void addEdge(Edge e)
+	 public void addEdge(Node fromNode,Node toNode,Edge edge)
 	 {
 		 //TODO
 	 }
@@ -47,32 +54,32 @@ public class JungGraphDisplay implements GraphDisplay {
 	 {
 		//TODO
 	 }
-	 public void focusNode(Node n)
+	 public void focusNode(Node node)
 	 {
 		//TODO
 	 }
-	 public void setNodeLabel(Node n,String s)
+	 public void setNodeLabel(Node node,String nodeLabel)
 	 {
 		//TODO
 	 }
-	 public void setEdgeLabel(Edge e,String s)
+	 public void setEdgeLabel(Edge edge,String edgeLabel)
 	 {
 		//TODO 
 	 }
-	 public void setEdgeColor(Edge e,Color c)
+	 public void setEdgeColor(Edge edge,Color color)
 	 {
 		//TODO
 	 }
-	 public void setNodeColor(Node n,Color c)
+	 public void setNodeColor(Node node,Color color)
 	 {
 		//TODO
 	 }
-	 public void setNodeShape(Node n,Shape s)
+	 public void setNodeShape(Node node,Shape shape)
 	 {
 		//TODO
 	 }
-	 //void setEdgeStroke(Edge e,Stroke s);
-	 public String getNodeLabel(Node n)
+	 //void setEdgeStroke(Edge edge,Stroke s);
+	 public String getNodeLabel(Node node)
 	 {
 		//TODO
 		 return "";

@@ -9,7 +9,7 @@
  * 
  * You should have received a copy of the GNU General Public License along with Visualization of Context Graphs.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package testing.nihal.util.logging;
+package util.logging;
 
 import java.awt.TextArea;
 import java.io.ByteArrayOutputStream;
@@ -20,9 +20,10 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Vector;
 
-import testing.nihal.core.interfaces.Logger;
-import testing.nihal.core.interfaces.Logger.Level;
-import testing.nihal.core.interfaces.Logger.LoggerType;
+import core.interfaces.Logger;
+import core.interfaces.Logger.Level;
+import core.interfaces.Logger.LoggerType;
+
 
 /**
  * Implements a log, based on a log4j log. The idea is to have a standard log4j {@link Logger}, but with some additional features, that are accessible via

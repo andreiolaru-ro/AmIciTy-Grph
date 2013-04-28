@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (C)  Andrei Olaru and contributors (see AUTHORS).
+ * Copyright (C)  Nihal Ablachim and contributors (see AUTHORS).
  * 
  * This file is part of Visualization of Context Graphs.
  * 
@@ -14,6 +14,10 @@ package testing.nihal;
 //import edu.uci.ics.jung.graph.Vertex;
 //import edu.uci.ics.jung.graph.impl.DirectedSparseVertex;
 
+/**
+ * @author 'Nihal Ablachim'
+  * This class was created to test JUNG features using the examples from: http://www.grotto-networking.com/JUNG/JUNG2-Tutorial.pdf
+ */
 public class TJ {
 
 	/*public static void main(String[] args) {
@@ -37,10 +41,9 @@ public class TJ {
 		//g.addEdge("Edge-B", 2, 3);
 		//g.addEdge("Edge-C", 2, 3);
 		
-		// Let's see what we have. Note the nice output from the
-		// SparseMultigraph<V,E> toString() method
+		
 		System.out.println("The graph g = " + g.toString());
-		// Note that we can use the same nodes and edges in two different
+		// We can use the same nodes and edges in two different
 		// graphs.
 		/*Graph<String, String> g2 = new SparseMultigraph<String, String>();
 		g2.addVertex((String) "attend conference");

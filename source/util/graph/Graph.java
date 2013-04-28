@@ -9,7 +9,7 @@
  * 
  * You should have received a copy of the GNU General Public License along with Visualization of Context Graphs.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package testing.nihal.util.graph;
+package util.graph;
 
 
 import java.io.InputStream;
@@ -25,9 +25,10 @@ import java.util.Queue;
 import java.util.Scanner;
 import java.util.Set;
 
-import testing.nihal.core.interfaces.Logger;
-import testing.nihal.util.graph.representation.LinearGraphRepresentation;
-import testing.nihal.util.logging.Unit;
+import core.interfaces.Logger;
+
+import util.graph.representation.LinearGraphRepresentation;
+import util.logging.Unit;
 
 /**
  * <p>

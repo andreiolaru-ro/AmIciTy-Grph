@@ -9,17 +9,18 @@
  * 
  * You should have received a copy of the GNU General Public License along with Visualization of Context Graphs.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package testing.nihal.util.graph.representation;
+package util.graph.representation;
 
 import java.util.LinkedList;
 import java.util.List;
 
-import testing.nihal.core.interfaces.Logger;
-import testing.nihal.util.ContentHolder;
-import testing.nihal.util.graph.Edge;
-import testing.nihal.util.graph.GraphComponent;
-import testing.nihal.util.graph.GraphPattern.NodeP;
-import testing.nihal.util.graph.Node;
+import core.interfaces.Logger;
+
+import util.ContentHolder;
+import util.graph.Edge;
+import util.graph.GraphComponent;
+import util.graph.Node;
+import util.graph.GraphPattern.NodeP;
 
 public class TextRepresentationElement extends RepresentationElement
 {

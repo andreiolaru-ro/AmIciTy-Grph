@@ -9,11 +9,11 @@
  * 
  * You should have received a copy of the GNU General Public License along with Visualization of Context Graphs.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package testing.nihal.util.graph.representation;
+package util.graph.representation;
 
-import testing.nihal.util.graph.Graph;
-import testing.nihal.util.graph.GraphComponent;
-import testing.nihal.util.logging.Unit;
+import util.graph.Graph;
+import util.graph.GraphComponent;
+import util.logging.Unit;
 
 /**
  * Abstract class for all classes that produce a representation (graphical, textual, etc) for a {@link Graph} instance.

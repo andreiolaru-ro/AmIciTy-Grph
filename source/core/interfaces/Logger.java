@@ -9,11 +9,11 @@
  * 
  * You should have received a copy of the GNU General Public License along with Visualization of Context Graphs.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package testing.nihal.core.interfaces;
+package core.interfaces;
 
 import java.io.OutputStream;
 
-import testing.nihal.util.logging.Log;
+import util.logging.Log;
 
 /**
  * Use this interface to implement any [wrapper of a] logging structure that is returned by {@link Log}.

@@ -9,34 +9,56 @@
  * 
  * You should have received a copy of the GNU General Public License along with Visualization of Context Graphs.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package testing.nihal.util.graph.representation;
+package util.logging;
 
-import testing.nihal.util.Config;
-import testing.nihal.util.graph.GraphComponent;
+import java.io.OutputStream;
 
-public abstract class RepresentationElement
+import core.interfaces.Logger;
+
+
+public class Log4JWrapper extends Logger
 {
-	public static class RepElementConfig extends Config
+	protected org.apache.log4j.Logger	theLog	= null;
+	
+	public Log4JWrapper(String name)
 	{
-		GraphRepresentation	rootRepresentation;
-		GraphComponent		representedComponent = null;
-		
-		public RepElementConfig(GraphRepresentation root, GraphComponent component)
-		{
-			this.rootRepresentation = root;
-			this.representedComponent = component;
-		}
+		theLog = org.apache.log4j.Logger.getLogger(name);
 	}
 	
-	protected RepElementConfig	config;
-	
-	public RepresentationElement(RepElementConfig conf)
+	@Override
+	public void setLevel(Level level)
 	{
-		this.config = conf;
+		theLog.setLevel(org.apache.log4j.Level.toLevel(level.toString()));
 	}
 	
-	public GraphRepresentation getRootRepresentation()
+	@Override
+	public void addDestination(String format, OutputStream destination)
 	{
-		return config.rootRepresentation;
+		theLog.addAppender(new WriterAppender(new PatternLayout(format), destination));		
 	}
+
+	@Override
+	public void error(String message)
+	{
+		theLog.error(message);
+	}
+	
+	@Override
+	public void warn(String message)
+	{
+		theLog.warn(message);
+	}
+	
+	@Override
+	public void info(String message)
+	{
+		theLog.info(message);
+	}
+	
+	@Override
+	public void trace(String message)
+	{
+		theLog.trace(message);
+	}
+	
 }

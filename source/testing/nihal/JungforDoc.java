@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (C)  Andrei Olaru and contributors (see AUTHORS).
+ * Copyright (C)  Nihal Ablachim and contributors (see AUTHORS).
  * 
  * This file is part of Visualization of Context Graphs.
  * 
@@ -37,6 +37,12 @@ import edu.uci.ics.jung.visualization.control.TranslatingGraphMousePlugin;
 import edu.uci.ics.jung.visualization.decorators.ToStringLabeller;
 import edu.uci.ics.jung.visualization.renderers.Renderer.VertexLabel.Position;
 
+/**
+ * @author 'Nihal Ablachim'
+ * This class was created to test the interactivity of graphs and the graphs algorithms provided by 
+ * JUNG libraries using the examples from: http://www.grotto-networking.com/JUNG/JUNG2-Tutorial.pdf
+ * Attention: The algorithm part doesn't work!
+ */
 public class JungforDoc {
 
 	private Graph<Integer, String> g = new SparseMultigraph<Integer, String>();

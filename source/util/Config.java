@@ -9,7 +9,7 @@
  * 
  * You should have received a copy of the GNU General Public License along with Visualization of Context Graphs.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package testing.nihal.util;
+package util;
 
 /**
  * The Config is to be used as a base class / paradigm for any construction-time configuration that needs a large number of parameters and considers optional

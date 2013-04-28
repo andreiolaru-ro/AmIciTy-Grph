@@ -9,31 +9,34 @@
  * 
  * You should have received a copy of the GNU General Public License along with Visualization of Context Graphs.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package testing.nihal.util;
+package util.graph.representation;
 
-public class ContentHolder<T>
+import util.Config;
+import util.graph.GraphComponent;
+
+public abstract class RepresentationElement
 {
-	T content;
-	
-	public ContentHolder(T _content)
+	public static class RepElementConfig extends Config
 	{
-		content = _content;
+		GraphRepresentation	rootRepresentation;
+		GraphComponent		representedComponent = null;
+		
+		public RepElementConfig(GraphRepresentation root, GraphComponent component)
+		{
+			this.rootRepresentation = root;
+			this.representedComponent = component;
+		}
 	}
 	
-	public T get()
+	protected RepElementConfig	config;
+	
+	public RepresentationElement(RepElementConfig conf)
 	{
-		return content;
+		this.config = conf;
 	}
 	
-	public ContentHolder<T> set(T _content)
+	public GraphRepresentation getRootRepresentation()
 	{
-		content = _content;
-		return this;
-	}
-	
-	@Override
-	public String toString()
-	{
-		return content.toString();
+		return config.rootRepresentation;
 	}
 }

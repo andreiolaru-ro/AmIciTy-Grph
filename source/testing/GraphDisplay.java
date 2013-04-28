@@ -12,28 +12,87 @@
 package testing;
 
 import java.awt.Color;
-import java.awt.Shape;
 
-import testing.nihal.util.graph.Edge;
-import testing.nihal.util.graph.Node;
+import util.graph.Edge;
+import util.graph.Node;
 import edu.uci.ics.jung.graph.Graph;
 
+/**
+ * @author 'Nihal Ablachim'
+ * An interface consisting of a set of methods which will help to display a context graph regardless of the 
+     software library used for visualization of graphs.
+ */
 public interface GraphDisplay {
-	 void setGraph(Graph g);
-	 void addNode(Node n);
-	 void addEdge(Edge e);
-	 void updateGraph();
-	 void focusNode(Node n);
-	 void setNodeLabel(Node n,String s);
-	 void setEdgeLabel(Edge e,String s);
-	 void setEdgeColor(Edge e,Color c);
-	 void setNodeColor(Node n,Color c);
-	 void setNodeShape(Node n,Shape s);
+	 
+	/**
+	 * Sets the reference to the context graph given as parameter.
+	 * @param graph : the context graph to set for display
+	 */
+	void setGraph(Graph graph); 
+	
+	 /**
+	 * Adds dynamically a node to the context graph and displays the node.
+	 * @param node : the node to add to the context graph
+	 * 
+	 */
+	void addNode(Node node);
+	
+	 /**
+	 * Adds dynamically the specified edge between specified nodes to the context graph and displays the edge. 
+	 * @param fromNode : the from node
+	 * @param toNode : the to node
+	 * @param edge : the edge to add to the context graph
+	 */
+	void addEdge(Node fromNode,Node toNode,Edge edge);
+	
+	 /**
+	 * Updates the graph after changes are occurred in the graph
+	 */
+	void updateGraph();
+	
+	 /**
+	 * Sets the display view to the neighborhood of the specified node. 
+	 * @param node : the node, the neighborhood of which will be displayed
+	 */
+	void focusNode(Node node);
+	
+	 /**
+	 * Gets the label of the node given as parameter.
+	 * @param node : the node for which the label is wanted
+	 * @return the label of the node given as parameter
+	 */
+	String getNodeLabel(Node node);
+	
+	 /**
+	 * @param edge : the edge for which the label is wanted
+	 * @return    the label of the edge given as parameter
+	 */
+	String getEdgeLabel(Edge edge);
+	
+	 /**
+	 * Gets the label of the edge given as parameter.
+	 * @param edge : the edge for which the color is wanted
+	 * @return the color of the edge given as parameter
+	 */
+	Color getEdgeColor(Edge edge);
+	
+	 /**
+	 * Gets the color of the node given as parameter.
+	 * @param node :  the node for which the color is wanted
+	 * @return the color of the node given as parameter
+	 */
+	Color getNodeColor(Node node);
+	 // sets the specified label to the specified node
+	 //void setNodeLabel(Node node,String nodeLabel);
+	// sets the specified label to the specified edge
+	 //void setEdgeLabel(Edge edge,String edgeLabel);
+	// sets the specified color to the specified edge
+	 //void setEdgeColor(Edge edge,Color color);
+	// sets the specified color to the specified node
+	 //void setNodeColor(Node node,Color color);
+	// sets the specified shape to the specified node
+	 //void setNodeShape(Node node,Shape shape);
+	// sets the specified shape to the specified edge
 	 //void setEdgeStroke(Edge e,Stroke s);
-	 String getNodeLabel(Node n);
-	 String getEdgeLabel(Edge e);
-	 Color getEdgeColor(Edge e);
-	 Color getNodeColor(Node n);
-	 //void expandNode();
 
 }

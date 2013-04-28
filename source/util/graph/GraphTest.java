@@ -9,24 +9,25 @@
  * 
  * You should have received a copy of the GNU General Public License along with Visualization of Context Graphs.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package testing.nihal.util.graph;
+package util.graph;
 
 
 
 import java.io.ByteArrayInputStream;
 
-import testing.nihal.core.interfaces.Logger;
-import testing.nihal.core.interfaces.Logger.Level;
-import testing.nihal.util.graph.representation.TextGraphRepresentation;
-import testing.nihal.util.logging.Log;
-import testing.nihal.util.logging.Unit;
-import testing.nihal.util.logging.Unit.UnitConfigData;
+import core.interfaces.Logger;
+import core.interfaces.Logger.Level;
+
+import util.graph.representation.TextGraphRepresentation;
+import util.logging.Log;
+import util.logging.Unit;
+import util.logging.Unit.UnitConfigData;
 
 public class GraphTest
 {
 	private static String	unitName	= "graphMatcherTestMain";
 	
-	public static void main(String[] args)
+	/*public static void main(String[] args)
 	{
 		Logger log = Log.getLogger(unitName);
 		log.trace("Hello World");
@@ -85,6 +86,6 @@ public class GraphTest
 		new GraphMatcher(G, GP).doMatching();
 		
 		Log.exitLogger(unitName);
-*/	}
+*/	//}
 	
 }

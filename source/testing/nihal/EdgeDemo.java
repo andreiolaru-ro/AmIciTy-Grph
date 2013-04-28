@@ -16,13 +16,13 @@ package testing.nihal;
 
 
    /*
-2    * Copyright (c) 2003, the JUNG Project and the Regents of the University of
-3    * California All rights reserved.
-4    * 
-5    * This software is open-source under the BSD license; see either "license.txt"
-6    * or http://jung.sourceforge.net/license.txt for a description.
-7    * 
-8    */
+    * Copyright (c) 2003, the JUNG Project and the Regents of the University of
+    * California All rights reserved.
+    * 
+    * This software is open-source under the BSD license; see either "license.txt"
+    * or http://jung.sourceforge.net/license.txt for a description.
+    * 
+    */ 	
   // package edu.uci.ics.jung.samples;
   
   import java.awt.BorderLayout;

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (C)  Andrei Olaru and contributors (see AUTHORS).
+ * Copyright (C)  Nihal Ablachim and contributors (see AUTHORS).
  * 
  * This file is part of Visualization of Context Graphs.
  * 
@@ -19,8 +19,8 @@ import java.awt.Shape;
 
 import org.apache.commons.collections15.Transformer;
 
-import testing.nihal.util.graph.Edge;
-import testing.nihal.util.graph.Node;
+import util.graph.Edge;
+import util.graph.Node;
 import edu.uci.ics.jung.algorithms.layout.CircleLayout;
 import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.graph.Graph;
@@ -30,6 +30,10 @@ import edu.uci.ics.jung.visualization.BasicVisualizationServer;
 import edu.uci.ics.jung.visualization.decorators.ToStringLabeller;
 import edu.uci.ics.jung.visualization.renderers.Renderer.VertexLabel.Position;
 
+/**
+ * @author 'Nihal Ablachim'
+ * Displays a context graph using JUNG features.
+ */
 public class MyGraph {
 	
 	private Graph<Node,Edge> g=new SparseMultigraph<Node,Edge>();
@@ -64,10 +68,10 @@ public class MyGraph {
 		g.addEdge(e1,n1, n3, EdgeType.DIRECTED); 
 		g.addEdge(e2,n2, n3, EdgeType.DIRECTED);
 		g.addEdge(e3, n1, n2, EdgeType.DIRECTED);
-		g.addEdge(e4, n1, n4, EdgeType.DIRECTED); // or we can use
-		g.addEdge(e5, n1, n5,EdgeType.DIRECTED); // In a directed graph the
-		g.addEdge(e6, n7, n4,EdgeType.DIRECTED); // first node is the source
-		g.addEdge(e7, n7, n6,EdgeType.DIRECTED);// and the second
+		g.addEdge(e4, n1, n4, EdgeType.DIRECTED); 
+		g.addEdge(e5, n1, n5,EdgeType.DIRECTED); 
+		g.addEdge(e6, n7, n4,EdgeType.DIRECTED); 
+		g.addEdge(e7, n7, n6,EdgeType.DIRECTED);
 		g.addEdge(e8, n6, n10, EdgeType.DIRECTED); 
 		g.addEdge(e9, n8, n10,EdgeType.DIRECTED); 
 		g.addEdge(e10, n8, n9,EdgeType.DIRECTED);

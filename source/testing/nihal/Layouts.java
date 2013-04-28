@@ -1,5 +1,5 @@
 /*******************************************************************************
-\ * Copyright (C)  Andrei Olaru and contributors (see AUTHORS).
+\ * Copyright (C)  Nihal Ablachim and contributors (see AUTHORS).
  * 
  * This file is part of Visualization of Context Graphs.
  * 
@@ -19,7 +19,12 @@ import edu.uci.ics.jung.graph.Forest;
 import edu.uci.ics.jung.visualization.BasicVisualizationServer;
 
 
-public class layouts {
+/**
+ * @author 'Nihal Ablachim'
+ * This class was meant to display a graph using different types of layouts provided by JUNG.
+ * Attention: Tried with a forest layout, didn't work, give up!
+ */
+public class Layouts {
 	private Forest<Integer, String> g = new DelegateForest<Integer, String>();
 	//private Layout<Integer, String> layout = new CircleLayout(g);
 	//private Layout<Integer, String> layout = new SpringLayout(g);
