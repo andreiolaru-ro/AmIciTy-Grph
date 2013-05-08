@@ -13,6 +13,9 @@ package util.logging;
 
 import java.io.OutputStream;
 
+import org.apache.log4j.PatternLayout;
+import org.apache.log4j.WriterAppender;
+
 import core.interfaces.Logger;
 
 
