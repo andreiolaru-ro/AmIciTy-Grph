@@ -27,8 +27,8 @@ import edu.uci.ics.jung.visualization.BasicVisualizationServer;
  */
 public class JungGraphDisplay implements GraphDisplay {
 	private Graph graph;
-	private Layout<Node, Edge> springLayout = (Layout<Node, Edge>) new SpringLayout(graph);
-	BasicVisualizationServer<Node, Edge> bvs =new BasicVisualizationServer<Node, Edge>(springLayout);
+	//private Layout<Node, Edge> springLayout = (Layout<Node, Edge>) new SpringLayout(graph);
+	//BasicVisualizationServer<Node, Edge> bvs =new BasicVisualizationServer<Node, Edge>(springLayout);
 	
 	/**
 	 * Constructs a new object of type JungGraphDisplay
