@@ -19,15 +19,15 @@ import java.util.List;
 import java.util.Queue;
 import java.util.Set;
 
-import util.graph.Graph;
+import util.graph.ContextGraph;
 import util.graph.Node;
 import util.graph.GraphPattern.NodeP;
 
 /**
- * Class that allows the representation of a {@link Graph} structure. Also can be written as GrapheR
+ * Class that allows the representation of a {@link ContextGraph} structure. Also can be written as GrapheR
  * 
  * <p>
- * An instance remains associated with the same {@link Graph} instance for all of its lifecycle.
+ * An instance remains associated with the same {@link ContextGraph} instance for all of its lifecycle.
  * 
  * @author Andrei Olaru
  * 
@@ -109,7 +109,7 @@ public abstract class LinearGraphRepresentation extends GraphRepresentation
 	{
 		boolean	isBackwards	= false;
 		
-		public GraphConfig(Graph thegraph)
+		public GraphConfig(ContextGraph thegraph)
 		{
 			super(thegraph);
 		}

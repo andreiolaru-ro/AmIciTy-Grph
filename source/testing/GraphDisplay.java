@@ -15,12 +15,15 @@ import java.awt.Color;
 
 import util.graph.Edge;
 import util.graph.Node;
-import edu.uci.ics.jung.graph.Graph;
 
 /**
  * @author 'Nihal Ablachim'
  * An interface consisting of a set of methods which will help to display a context graph regardless of the 
      software library used for visualization of graphs.
+ */
+/**
+ * @author 'Nihal Ablachim'
+ *
  */
 public interface GraphDisplay {
 	 
@@ -28,7 +31,7 @@ public interface GraphDisplay {
 	 * Sets the reference to the context graph given as parameter.
 	 * @param graph : the context graph to set for display
 	 */
-	void setGraph(Graph graph); 
+	void setGraph(util.graph.ContextGraph graph); 
 	
 	 /**
 	 * Adds dynamically a node to the context graph and displays the node.
@@ -36,6 +39,17 @@ public interface GraphDisplay {
 	 * 
 	 */
 	void addNode(Node node);
+	
+	/**
+	* Removes the specified node from the graph. 
+	* @param node : the node to be removed from the context graph
+	*/
+	void remove(Node node);
+	 /**
+	 * Removes the specified edge from the graph. 
+	 * @param edge : the edge to be removed from the context graph
+	 */
+	void remove(Edge edge);
 	
 	 /**
 	 * Adds dynamically the specified edge between specified nodes to the context graph and displays the edge. 
@@ -82,14 +96,15 @@ public interface GraphDisplay {
 	 * @return the color of the node given as parameter
 	 */
 	Color getNodeColor(Node node);
+	
 	 // sets the specified label to the specified node
 	 //void setNodeLabel(Node node,String nodeLabel);
 	// sets the specified label to the specified edge
 	 //void setEdgeLabel(Edge edge,String edgeLabel);
 	// sets the specified color to the specified edge
-	 //void setEdgeColor(Edge edge,Color color);
+	 //void setEdgesColor(Color color);
 	// sets the specified color to the specified node
-	 //void setNodeColor(Node node,Color color);
+	 //void setNodesColor(Color color);
 	// sets the specified shape to the specified node
 	 //void setNodeShape(Node node,Shape shape);
 	// sets the specified shape to the specified edge

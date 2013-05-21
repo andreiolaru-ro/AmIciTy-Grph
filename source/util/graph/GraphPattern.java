@@ -11,7 +11,7 @@
  ******************************************************************************/
 package util.graph;
 
-public class GraphPattern extends Graph
+public class GraphPattern extends ContextGraph
 {
 	public static class NodeP extends Node
 	{

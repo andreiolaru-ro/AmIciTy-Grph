@@ -22,7 +22,7 @@ import core.interfaces.Logger;
 
 import util.ContentHolder;
 import util.graph.Edge;
-import util.graph.Graph;
+import util.graph.ContextGraph;
 import util.graph.Node;
 import util.graph.GraphPattern.NodeP;
 import util.graph.representation.TextRepresentationElement.Symbol;
@@ -38,7 +38,7 @@ public class TextGraphRepresentation extends LinearGraphRepresentation
 		protected String	indentIncrement	= "";
 		protected int		incrementLimit	= -1;
 		
-		public GraphConfig(Graph g)
+		public GraphConfig(ContextGraph g)
 		{
 			super(g);
 		}
@@ -197,19 +197,19 @@ public class TextGraphRepresentation extends LinearGraphRepresentation
 		return ((TextRepresentationElement)theRepresentation).toString(((GraphConfig)config).indent, ((GraphConfig)config).indentIncrement, ((GraphConfig)config).incrementLimit);
 	}
 	
-	public static Graph readRepresentation(String rawInput)
+	public static ContextGraph readRepresentation(String rawInput)
 	{
 		return readRepresentation(rawInput, null, null);
 	}
 	
-	public static Graph readRepresentation(String rawInput, UnitConfigData graphUnitConfig, UnitConfigData thisUnitConfig)
+	public static ContextGraph readRepresentation(String rawInput, UnitConfigData graphUnitConfig, UnitConfigData thisUnitConfig)
 	{
 		Unit thisUnit = new Unit(thisUnitConfig);
 		Logger log = thisUnit.getLog();
 		
 		log.info("reading graph");
 		ContentHolder<String> input = new ContentHolder<String>(rawInput);
-		Graph g = new Graph(graphUnitConfig);
+		ContextGraph g = new ContextGraph(graphUnitConfig);
 		
 		boolean isBackwards = input.get().indexOf(Symbol.EDGE_ENDING_BACKWARD.toString()) >= 0;
 		TextGraphRepresentation repr = new TextGraphRepresentation((GraphConfig)new TextGraphRepresentation.GraphConfig(g).setBackwards(isBackwards));

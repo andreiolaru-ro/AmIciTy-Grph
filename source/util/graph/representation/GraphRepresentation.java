@@ -11,12 +11,12 @@
  ******************************************************************************/
 package util.graph.representation;
 
-import util.graph.Graph;
+import util.graph.ContextGraph;
 import util.graph.GraphComponent;
 import util.logging.Unit;
 
 /**
- * Abstract class for all classes that produce a representation (graphical, textual, etc) for a {@link Graph} instance.
+ * Abstract class for all classes that produce a representation (graphical, textual, etc) for a {@link ContextGraph} instance.
  * 
  * <p>
  * It is possible that a {@link GraphRepresentation} class uses other, "sub-" {@link GraphRepresentation} instances for the representation, forming a tree that is defined by its root representation (the one called from the exterior).
@@ -30,18 +30,18 @@ import util.logging.Unit;
 public abstract class GraphRepresentation extends Unit
 {
 	/**
-	 * Configures the graph representation with the {@link Graph} to represent, the root of the representation hierarchy (if any), and an indication whether to process the graph immediately or not.
+	 * Configures the graph representation with the {@link ContextGraph} to represent, the root of the representation hierarchy (if any), and an indication whether to process the graph immediately or not.
 	 * 
 	 * @author Andrei Olaru
 	 * 
 	 */
 	public static class GraphConfig extends UnitConfigData
 	{
-		Graph				graph				= null;
+		ContextGraph				graph				= null;
 		GraphRepresentation	rootRepresentation	= null;
 		boolean				doProcess			= true;
 		
-		public GraphConfig(Graph thegraph)
+		public GraphConfig(ContextGraph thegraph)
 		{
 			super();
 			if(thegraph == null)
@@ -69,7 +69,7 @@ public abstract class GraphRepresentation extends Unit
 		}
 	}
 	
-	Graph					theGraph			= null;
+	ContextGraph					theGraph			= null;
 	GraphConfig				config				= null;
 	RepresentationElement	theRepresentation	= null;
 	

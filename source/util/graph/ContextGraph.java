@@ -50,7 +50,7 @@ import util.logging.Unit;
  * @author Andrei Olaru
  * 
  */
-public class Graph extends Unit
+public class ContextGraph extends Unit
 {
 	protected Set<Node>	nodes	= null;
 	protected Set<Edge>	edges	= null;
@@ -58,19 +58,19 @@ public class Graph extends Unit
 	/**
 	 * Generates an empty graph.
 	 */
-	public Graph()
+	public ContextGraph()
 	{
 		this(null);
 	}
 	
-	public Graph(UnitConfigData unitConfig)
+	public ContextGraph(UnitConfigData unitConfig)
 	{
 		super(unitConfig);
 		nodes = new HashSet<Node>();
 		edges = new HashSet<Edge>();
 	}
 	
-	public Graph addNode(Node node)
+	public ContextGraph addNode(Node node)
 	{
 		if(node == null)
 			throw new IllegalArgumentException("null nodes not allowed");
@@ -86,7 +86,7 @@ public class Graph extends Unit
 	 *            : the edge to add
 	 * @return the updated graph
 	 */
-	public Graph addEdge(Edge edge)
+	public ContextGraph addEdge(Edge edge)
 	{
 		if(edge == null)
 			throw new IllegalArgumentException("null edges not allowed");
@@ -95,14 +95,14 @@ public class Graph extends Unit
 		return this;
 	}
 	
-	public Graph removeNode(Node node)
+	public ContextGraph removeNode(Node node)
 	{
 		if(!nodes.remove(node))
 			log.warn("node[" + node + "] not contained");
 		return this;
 	}
 	
-	public Graph removeEdge(Edge edge)
+	public ContextGraph removeEdge(Edge edge)
 	{
 		if(!edges.remove(edge))
 			log.warn("edge [" + edge + "] not contained");
@@ -254,14 +254,14 @@ public class Graph extends Unit
 		return ret;
 	}
 
-	public static Graph readFrom(InputStream input)
+	public static ContextGraph readFrom(InputStream input)
 	{
 		return readFrom(input, null);
 	}
 	
-	public static Graph readFrom(InputStream input, UnitConfigData unitConfig)
+	public static ContextGraph readFrom(InputStream input, UnitConfigData unitConfig)
 	{
-		Graph g = new Graph(unitConfig);
+		ContextGraph g = new ContextGraph(unitConfig);
 		Logger log = g.log;
 		Scanner scan = new Scanner(input);
 		while(scan.hasNextLine())
@@ -339,4 +339,5 @@ public class Graph extends Unit
 		
 		return g;
 	}
+
 }
