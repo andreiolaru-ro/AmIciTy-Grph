@@ -32,11 +32,15 @@ import org.apache.commons.collections15.Transformer;
 import org.apache.commons.collections15.functors.MapTransformer;
 import org.apache.commons.collections15.map.LazyMap;
 
+import util.graph.Edge;
 import util.graph.Node;
 import edu.uci.ics.jung.algorithms.layout.AbstractLayout;
+import edu.uci.ics.jung.algorithms.layout.CircleLayout;
+import edu.uci.ics.jung.algorithms.layout.FRLayout;
 import edu.uci.ics.jung.algorithms.layout.StaticLayout;
 import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.graph.SparseMultigraph;
+import edu.uci.ics.jung.graph.util.Graphs;
 import edu.uci.ics.jung.visualization.GraphZoomScrollPane;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 import edu.uci.ics.jung.visualization.annotations.AnnotationControls;
@@ -61,55 +65,6 @@ public class GraphView extends JPanel {
     AbstractLayout<String,String> layout;
     VisualizationViewer<String,String> vv;
     
-    String instructions =
-        "<html>"+
-        "<h3>All Modes:</h3>"+
-        "<ul>"+
-        "<li>Right-click an empty area for <b>Create Vertex</b> popup"+
-        "<li>Right-click on a Vertex for <b>Delete Vertex</b> popup"+
-        "<li>Right-click on a Vertex for <b>Add Edge</b> menus <br>(if there are selected Vertices)"+
-        "<li>Right-click on an Edge for <b>Delete Edge</b> popup"+
-        "<li>Mousewheel scales with a crossover value of 1.0.<p>"+
-        "     - scales the graph layout when the combined scale is greater than 1<p>"+
-        "     - scales the graph view when the combined scale is less than 1"+
-
-        "</ul>"+
-        "<h3>Editing Mode:</h3>"+
-        "<ul>"+
-        "<li>Left-click an empty area to create a new Vertex"+
-        "<li>Left-click on a Vertex and drag to another Vertex to create an Undirected Edge"+
-        "<li>Shift+Left-click on a Vertex and drag to another Vertex to create a Directed Edge"+
-        "</ul>"+
-        "<h3>Picking Mode:</h3>"+
-        "<ul>"+
-        "<li>Mouse1 on a Vertex selects the vertex"+
-        "<li>Mouse1 elsewhere unselects all Vertices"+
-        "<li>Mouse1+Shift on a Vertex adds/removes Vertex selection"+
-        "<li>Mouse1+drag on a Vertex moves all selected Vertices"+
-        "<li>Mouse1+drag elsewhere selects Vertices in a region"+
-        "<li>Mouse1+Shift+drag adds selection of Vertices in a new region"+
-        "<li>Mouse1+CTRL on a Vertex selects the vertex and centers the display on it"+
-        "<li>Mouse1 double-click on a vertex or edge allows you to edit the label"+
-        "</ul>"+
-        "<h3>Transforming Mode:</h3>"+
-        "<ul>"+
-        "<li>Mouse1+drag pans the graph"+
-        "<li>Mouse1+Shift+drag rotates the graph"+
-        "<li>Mouse1+CTRL(or Command)+drag shears the graph"+
-        "<li>Mouse1 double-click on a vertex or edge allows you to edit the label"+
-        "</ul>"+
-        "<h3>Annotation Mode:</h3>"+
-        "<ul>"+
-        "<li>Mouse1 begins drawing of a Rectangle"+
-        "<li>Mouse1+drag defines the Rectangle shape"+
-        "<li>Mouse1 release adds the Rectangle as an annotation"+
-        "<li>Mouse1+Shift begins drawing of an Ellipse"+
-        "<li>Mouse1+Shift+drag defines the Ellipse shape"+
-        "<li>Mouse1+Shift release adds the Ellipse as an annotation"+
-        "<li>Mouse3 shows a popup to input text, which will become"+
-        "<li>a text annotation on the graph at the mouse location"+
-        "</ul>"+
-        "</html>";
     
     /**
      * create an instance of a simple graph with popup controls to
@@ -119,7 +74,7 @@ public class GraphView extends JPanel {
     public GraphView() {
         
         // create a simple graph for the demo
-        graph = new SparseMultigraph<String,String>();
+        graph = Graphs.<String,String>synchronizedGraph(new SparseMultigraph<String,String>());
 
         this.layout = new StaticLayout<String,String>(graph, 
         	new Dimension(400,400));
@@ -188,6 +143,16 @@ public class GraphView extends JPanel {
             }
         });
         
+        JButton circleLayout = new JButton("perform layout");
+        circleLayout.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	layout = new CircleLayout<String,String>(graph);
+            	//layout = new FRLayout<String,String>(graph, new Dimension(600, 600));
+                vv.getModel().setGraphLayout(layout, new Dimension(600, 600));
+            }
+        });
+     
+        
         JButton help = new JButton("Help");
         help.addActionListener(new ActionListener() {
 
@@ -195,15 +160,13 @@ public class GraphView extends JPanel {
                 JOptionPane.showMessageDialog(vv, instructions);
             }});
 
-        AnnotationControls<String,String> annotationControls = 
-        	new AnnotationControls<String,String>(graphMouse.getAnnotatingPlugin());
+
         JPanel controls = new JPanel();
         controls.add(plus);
         controls.add(minus);
+        controls.add(circleLayout);
         JComboBox modeBox = graphMouse.getModeComboBox();
         controls.add(modeBox);
-        controls.add(annotationControls.getAnnotationsToolBar());
-        controls.add(help);
         add(controls, BorderLayout.SOUTH);
     }
     
@@ -214,7 +177,7 @@ public class GraphView extends JPanel {
 
 		public String create() {
 			String vertexName = JOptionPane.showInputDialog(vv,"Vertex Name:");
-			if (vertexName.length() == 0)
+			if (vertexName == null || vertexName.length() == 0)
 				return "" + i++;
 			return vertexName;
 		}
@@ -226,7 +189,7 @@ public class GraphView extends JPanel {
     	
 		public String create() {
 			String edgeName = JOptionPane.showInputDialog(vv,"Edge Name: ");
-			if (edgeName.length() == 0)
+			if (edgeName == null || edgeName.length() == 0)
 				return "" + i++;
 			return edgeName;
 		}
