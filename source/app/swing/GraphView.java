@@ -153,12 +153,6 @@ public class GraphView extends JPanel {
         });
      
         
-        JButton help = new JButton("Help");
-        help.addActionListener(new ActionListener() {
-
-            public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(vv, instructions);
-            }});
 
 
         JPanel controls = new JPanel();
