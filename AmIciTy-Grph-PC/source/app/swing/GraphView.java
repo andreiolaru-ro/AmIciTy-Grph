@@ -122,7 +122,6 @@ public class GraphView extends JPanel {
         // the EditingGraphMouse will pass mouse event coordinates to the
         // vertexLocations function to set the locations of the vertices as
         // they are created
-//        graphMouse.setVertexLocations(vertexLocations);
         vv.setGraphMouse(graphMouse);
         vv.addKeyListener(graphMouse.getModeKeyListener());
 
