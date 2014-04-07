@@ -32,12 +32,12 @@ import org.apache.commons.collections15.Transformer;
 import org.apache.commons.collections15.functors.MapTransformer;
 import org.apache.commons.collections15.map.LazyMap;
 
-import util.graph.Edge;
-import util.graph.Node;
+
 import edu.uci.ics.jung.algorithms.layout.AbstractLayout;
 import edu.uci.ics.jung.algorithms.layout.CircleLayout;
 import edu.uci.ics.jung.algorithms.layout.FRLayout;
 import edu.uci.ics.jung.algorithms.layout.StaticLayout;
+import edu.uci.ics.jung.graph.DirectedSparseMultigraph;
 import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.graph.SparseMultigraph;
 import edu.uci.ics.jung.graph.util.Graphs;
@@ -74,7 +74,7 @@ public class GraphView extends JPanel {
     public GraphView() {
         
         // create a simple graph for the demo
-        graph = Graphs.<String,String>synchronizedGraph(new SparseMultigraph<String,String>());
+        graph = Graphs.<String,String>synchronizedDirectedGraph(new DirectedSparseMultigraph<String,String>());
 
         this.layout = new StaticLayout<String,String>(graph, 
         	new Dimension(400,400));
