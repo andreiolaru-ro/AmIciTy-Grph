@@ -5,7 +5,7 @@
  * should not be modified by hand.
  */
 
-package com.example.amicity_android;
+package amicity.graphs.amicity_android;
 
 public final class R {
     public static final class attr {

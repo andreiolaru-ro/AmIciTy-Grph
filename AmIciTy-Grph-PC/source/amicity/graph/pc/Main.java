@@ -1,4 +1,4 @@
-package app.swing;
+package amicity.graph.pc;
 
 
 import javax.swing.JFrame;

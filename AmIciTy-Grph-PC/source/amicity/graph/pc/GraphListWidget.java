@@ -1,4 +1,4 @@
-package app.swing;
+package amicity.graph.pc;
 
 public class GraphListWidget {
 

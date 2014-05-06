@@ -6,7 +6,7 @@
  * or http://jung.sourceforge.net/license.txt for a description.
  * 
  */
-package app.swing;
+package amicity.graph.pc;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

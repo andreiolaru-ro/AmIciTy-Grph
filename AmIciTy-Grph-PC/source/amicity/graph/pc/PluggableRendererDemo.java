@@ -8,7 +8,7 @@
  *
  * Created on Nov 7, 2004
  */
-package app.swing;
+package amicity.graph.pc;
 
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;

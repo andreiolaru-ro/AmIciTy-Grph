@@ -1,4 +1,4 @@
-package app.swing;
+package amicity.graph.pc;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;

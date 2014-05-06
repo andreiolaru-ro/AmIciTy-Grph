@@ -14,7 +14,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.example.amicity_android.MainActivity"
+            android:name="amicity.graphs.android.MainActivity"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
             <intent-filter>

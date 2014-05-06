@@ -1,7 +1,6 @@
-package com.example.amicity_android;
+package amicity.graphs.android;
 
 import android.content.Context;
-import android.graphics.Canvas;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.SurfaceView;

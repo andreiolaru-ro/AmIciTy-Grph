@@ -1,22 +1,22 @@
-package com.example.amicity_android;
+package amicity.graphs.android;
 
 
 
-import edu.uci.ics.jung.graph.DirectedSparseMultigraph;
-import edu.uci.ics.jung.graph.util.Graphs;
 import net.xqhs.graphs.graph.Edge;
 import net.xqhs.graphs.graph.Graph;
 import net.xqhs.graphs.graph.Node;
 import net.xqhs.graphs.graph.SimpleEdge;
 import net.xqhs.graphs.graph.SimpleGraph;
 import net.xqhs.graphs.graph.SimpleNode;
+import amicity.graphs.amicity_android.R;
+import amicity.graphs.android.common.Dimension;
+import amicity.graphs.android.common.FRLayout;
+import amicity.graphs.android.common.Point2D;
 import android.app.Activity;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.RectF;
 import android.os.Bundle;
-import android.view.ScaleGestureDetector;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
@@ -37,6 +37,7 @@ public class MainActivity extends Activity implements Runnable {
 	private static final int baseSpeed = 1;
 	private int speed = 0;
 	Graph graph;
+	FRLayout layout;
 
 	GraphSurfaceView graphSurface;
 
@@ -45,16 +46,31 @@ public class MainActivity extends Activity implements Runnable {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		graph = new SimpleGraph();
-		graph.addNode(new SimpleNode("gigel"));
-		graph.addNode(new SimpleNode("andrei"));
-		graph.addEdge(new SimpleEdge(new SimpleNode("Ionut"), new SimpleNode("Andreea"), "test"));
 		
-		/*
-		edu.uci.ics.jung.graph.Graph<Node, Edge> jungGraph = new DirectedSparseMultigraph<Node,Edge>();
-		for (Edge edge : graph.getEdges()) {
-			jungGraph.addEdge(edge, edge.getFrom(), edge.getTo());
-		}
-		*/
+		Node v1 = new SimpleNode("v1");
+		Node v2 = new SimpleNode("v2");
+		graph.addNode(v1); graph.addNode(v2);
+		graph.addEdge(new SimpleEdge(v1, v2, "12"));
+		Node v3 = new SimpleNode("v3");
+		graph.addNode(v3);
+		graph.addEdge(new SimpleEdge(v2, v3, "23"));
+		v1 = new SimpleNode("v4");
+		graph.addNode(v1);
+		graph.addEdge(new SimpleEdge(v3, v1, "34"));
+		v1 = new SimpleNode("v5");
+		graph.addNode(v1);
+		graph.addEdge(new SimpleEdge(v3, v1, "35"));
+		v1 = new SimpleNode("v6");
+		graph.addNode(v1);
+		graph.addEdge(new SimpleEdge(v3, v1, "36"));
+		
+		layout = new FRLayout(graph, new Dimension(400, 400));
+		
+		while (layout.done() == false)
+			layout.step();
+		for (int i = 0; i< 10; i++)
+			layout.step();
+
 		
 		swapBtn = (Button) findViewById(R.id.buttonswap);
 
@@ -86,7 +102,7 @@ public class MainActivity extends Activity implements Runnable {
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		while(locker){
+		while(locker) {
 			//checks if the lockCanvas() method will be success,and if not, will check this statement again
 			if(!holder.getSurface().isValid()) {
 				continue;
@@ -117,13 +133,21 @@ public class MainActivity extends Activity implements Runnable {
 
 		
 		calculateRadiuses();
+		
 		//paint left circle(black)
 		paint.setColor(getResources().getColor(android.R.color.black));
-		canvas.drawCircle(canvas.getWidth()/4, canvas.getHeight()/2, radiusBlack, paint);
-
-		//paint right circle(white)
-		paint.setColor(getResources().getColor(android.R.color.holo_blue_dark));
-		canvas.drawCircle(canvas.getWidth()/4*3, canvas.getHeight()/2, radiusWhite, paint);
+		for (Edge edge : graph.getEdges()) {
+			Point2D p1 = layout.transform(edge.getFrom());
+			Point2D p2 = layout.transform(edge.getTo());
+			canvas.drawLine((float)p1.getX(), (float)p1.getY(), (float)p2.getX(), (float)p2.getY(), paint);
+			canvas.drawCircle((float)p1.getX(), (float)p1.getY(), 20, paint);
+			canvas.drawCircle((float)p2.getX(), (float)p2.getY(), 20, paint);
+		}
+		paint.setColor(getResources().getColor(android.R.color.holo_orange_dark));
+		for (Node node : graph.getNodes()) {
+			Point2D position = layout.transform(node);
+			canvas.drawCircle((float)position.getX(), (float)position.getY(), 20, paint);
+		}
 	}
 
 	private void calculateRadiuses() {
@@ -146,10 +170,10 @@ public class MainActivity extends Activity implements Runnable {
 	 */
 	private void updateSpeed(int radius) {
 		// TODO Auto-generated method stub
-		if(radius>=maxRadius){
+		if(radius>=maxRadius) {
 			speed = -baseSpeed;
 		}
-		else if (radius<=baseRadius){
+		else if (radius<=baseRadius) {
 			speed = baseSpeed;
 		}
 
