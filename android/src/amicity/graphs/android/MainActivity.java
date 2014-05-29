@@ -12,6 +12,7 @@ import amicity.graphs.amicity_android.R;
 import amicity.graphs.android.common.Dimension;
 import amicity.graphs.android.common.FRLayout;
 import amicity.graphs.android.common.Point2D;
+import amicity.graphs.graph_samples.GraphSampler;
 import android.app.Activity;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -30,24 +31,17 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 public class MainActivity extends Activity implements Runnable {
-	private Button swapBtn;
 	private SurfaceHolder holder;
 	private boolean locker=true;
 	private Thread thread;
-	private int radiusBlack, radiusWhite;
-	private boolean left = true;
-	//physics
-	private static final int baseRadius = 10;
-	private static final int maxRadius = 50;
-	private static final int baseSpeed = 1;
-	private int speed = 0;
-	Graph graph;
-	FRLayout layout;
+
+
 	private DrawerLayout drawerLayout;
 	private ActionBarDrawerToggle drawerToggle;
 	private ListView drawerList;
 
 	GraphSurfaceView graphSurface;
+	GraphView currentGraphView;
 	
 	
 	private void selectItem(int position) {
@@ -65,34 +59,9 @@ public class MainActivity extends Activity implements Runnable {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		graph = new SimpleGraph();
 		
-		Node v1 = new SimpleNode("v1");
-		Node v2 = new SimpleNode("v2");
-		graph.addNode(v1); graph.addNode(v2);
-		graph.addEdge(new SimpleEdge(v1, v2, "12"));
-		Node v3 = new SimpleNode("v3");
-		graph.addNode(v3);
-		graph.addEdge(new SimpleEdge(v2, v3, "23"));
-		v1 = new SimpleNode("v4");
-		graph.addNode(v1);
-		graph.addEdge(new SimpleEdge(v3, v1, "34"));
-		v1 = new SimpleNode("v5");
-		graph.addNode(v1);
-		graph.addEdge(new SimpleEdge(v3, v1, "35"));
-		v1 = new SimpleNode("v6");
-		graph.addNode(v1);
-		graph.addEdge(new SimpleEdge(v3, v1, "36"));
-		
-		layout = new FRLayout(graph, new Dimension(400, 400));
-		
-		while (layout.done() == false)
-			layout.step();
-		for (int i = 0; i< 10; i++)
-			layout.step();
+		currentGraphView = GraphSampler.sample1(new Dimension(400, 400));
 
-		
-		swapBtn = (Button) findViewById(R.id.buttonswap);
 		
 		drawerLayout = (DrawerLayout) findViewById(R.id.main_drawer);
 		drawerList = (ListView) findViewById(R.id.left_drawer);
@@ -135,17 +104,6 @@ public class MainActivity extends Activity implements Runnable {
 		layoutParams.addRule(RelativeLayout.BELOW, R.id.buttonswap);
 		parent.addView(graphSurface, index, layoutParams);
 		holder = graphSurface.getHolder();
-
-
-		thread = new Thread(this);
-		thread.start();
-		swapBtn.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View arg0) {
-				left = !left;
-			}
-		});
 	}
 
 
@@ -163,7 +121,7 @@ public class MainActivity extends Activity implements Runnable {
 			//ALL PAINT-JOB MAKE IN draw(canvas); method.
 			float scaleFactor = graphSurface.getScaleFactor();
 
-			
+			currentGraphView.doLayout();
 			canvas.drawColor(Color.WHITE);
 			canvas.save();
 			canvas.scale(scaleFactor, scaleFactor);
@@ -176,56 +134,7 @@ public class MainActivity extends Activity implements Runnable {
 	}
 	/**This method deals with paint-works. Also will paint something in background*/
 	private void draw(Canvas canvas) {
-
-
-		Paint paint = new Paint();    
-
-
-		
-		calculateRadiuses();
-		
-		//paint left circle(black)
-		paint.setColor(getResources().getColor(android.R.color.black));
-		for (Edge edge : graph.getEdges()) {
-			Point2D p1 = layout.transform(edge.getFrom());
-			Point2D p2 = layout.transform(edge.getTo());
-			canvas.drawLine((float)p1.getX(), (float)p1.getY(), (float)p2.getX(), (float)p2.getY(), paint);
-			canvas.drawCircle((float)p1.getX(), (float)p1.getY(), 20, paint);
-			canvas.drawCircle((float)p2.getX(), (float)p2.getY(), 20, paint);
-		}
-		paint.setColor(getResources().getColor(android.R.color.holo_orange_dark));
-		for (Node node : graph.getNodes()) {
-			Point2D position = layout.transform(node);
-			canvas.drawCircle((float)position.getX(), (float)position.getY(), 20, paint);
-		}
-	}
-
-	private void calculateRadiuses() {
-		// TODO Auto-generated method stub
-		if(left){
-			updateSpeed(radiusBlack);
-			radiusBlack += speed;
-			radiusWhite = baseRadius;
-		}
-		else{
-			updateSpeed(radiusWhite);
-			radiusWhite += speed;
-			radiusBlack = baseRadius;
-		}
-	}
-	/**Change speed according to current radius size.
-	 * if, radius is bigger than maxRad the speed became negative otherwise 
-	 * if radius is smaller then baseRad speed will positive.
-	 * @param radius
-	 */
-	private void updateSpeed(int radius) {
-		// TODO Auto-generated method stub
-		if(radius>=maxRadius) {
-			speed = -baseSpeed;
-		}
-		else if (radius<=baseRadius) {
-			speed = baseSpeed;
-		}
+		currentGraphView.draw(canvas, getResources());
 
 	}
 
