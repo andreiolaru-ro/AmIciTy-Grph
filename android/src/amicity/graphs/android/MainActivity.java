@@ -2,31 +2,20 @@ package amicity.graphs.android;
 
 
 
-import net.xqhs.graphs.graph.Edge;
-import net.xqhs.graphs.graph.Graph;
-import net.xqhs.graphs.graph.Node;
-import net.xqhs.graphs.graph.SimpleEdge;
-import net.xqhs.graphs.graph.SimpleGraph;
-import net.xqhs.graphs.graph.SimpleNode;
 import amicity.graphs.amicity_android.R;
 import amicity.graphs.android.common.Dimension;
-import amicity.graphs.android.common.FRLayout;
-import amicity.graphs.android.common.Point2D;
 import amicity.graphs.graph_samples.GraphSampler;
 import android.app.Activity;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
@@ -59,8 +48,7 @@ public class MainActivity extends Activity implements Runnable {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
-		currentGraphView = GraphSampler.sample1(new Dimension(400, 400));
+
 
 		
 		drawerLayout = (DrawerLayout) findViewById(R.id.main_drawer);
@@ -104,6 +92,8 @@ public class MainActivity extends Activity implements Runnable {
 		layoutParams.addRule(RelativeLayout.BELOW, R.id.buttonswap);
 		parent.addView(graphSurface, index, layoutParams);
 		holder = graphSurface.getHolder();
+		
+		currentGraphView = GraphSampler.sample1(new Dimension(400, 400));
 	}
 
 
@@ -118,15 +108,11 @@ public class MainActivity extends Activity implements Runnable {
 			/** Start editing pixels in this surface.*/
 			Canvas canvas = holder.lockCanvas();
 
-			//ALL PAINT-JOB MAKE IN draw(canvas); method.
-			float scaleFactor = graphSurface.getScaleFactor();
-
+			currentGraphView.resize(new Dimension(graphSurface.getWidth(), graphSurface.getHeight()));
 			currentGraphView.doLayout();
-			canvas.drawColor(Color.WHITE);
-			canvas.save();
-			canvas.scale(scaleFactor, scaleFactor);
+			
 			draw(canvas);
-			canvas.restore();
+
 
 			// End of painting to canvas. system will paint with this canvas,to the surface.
 			holder.unlockCanvasAndPost(canvas);
@@ -134,8 +120,13 @@ public class MainActivity extends Activity implements Runnable {
 	}
 	/**This method deals with paint-works. Also will paint something in background*/
 	private void draw(Canvas canvas) {
+		float scaleFactor = graphSurface.getScaleFactor();
+		
+		canvas.drawColor(Color.WHITE);
+		canvas.save();
+		canvas.scale(scaleFactor, scaleFactor);
 		currentGraphView.draw(canvas, getResources());
-
+		canvas.restore();
 	}
 
 	@Override

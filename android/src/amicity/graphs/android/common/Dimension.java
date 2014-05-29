@@ -13,4 +13,14 @@ public class Dimension {
 	public int getHeight() {
 		return height;
 	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof Dimension) {
+			Dimension other = (Dimension) o;
+			return (width == other.width) && (height == other.height);
+		}
+		
+		return false;
+	}
 }

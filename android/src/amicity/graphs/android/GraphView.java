@@ -12,12 +12,11 @@ import net.xqhs.graphs.graph.Node;
 
 public class GraphView {
 	private Graph graph;
-	private Dimension size;
+
 	private FRLayout layout;
 	
 	public GraphView(Graph graph, Dimension size) {
 		this.graph = graph;
-		this.size = size;
 		layout = new FRLayout(graph, size);
 	}
 	
@@ -44,7 +43,10 @@ public class GraphView {
 	}
 	
 	public void resize(Dimension newSize) {
-		this.size = newSize;
+		if (!newSize.equals(layout.getSize())) {
+			layout.setSize(newSize);
+			layout.reset();
+		}
 	}
 	
 }
