@@ -17,11 +17,16 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.widget.DrawerLayout;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 public class MainActivity extends Activity implements Runnable {
@@ -38,8 +43,23 @@ public class MainActivity extends Activity implements Runnable {
 	private int speed = 0;
 	Graph graph;
 	FRLayout layout;
+	private DrawerLayout drawerLayout;
+	private ActionBarDrawerToggle drawerToggle;
+	private ListView drawerList;
 
 	GraphSurfaceView graphSurface;
+	
+	
+	private void selectItem(int position) {
+
+	}
+	
+	private class DrawerItemClickListener implements ListView.OnItemClickListener {
+	    @Override
+	    public void onItemClick(AdapterView parent, View view, int position, long id) {
+	        selectItem(position);
+	    }
+	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -73,6 +93,36 @@ public class MainActivity extends Activity implements Runnable {
 
 		
 		swapBtn = (Button) findViewById(R.id.buttonswap);
+		
+		drawerLayout = (DrawerLayout) findViewById(R.id.main_drawer);
+		drawerList = (ListView) findViewById(R.id.left_drawer);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setHomeButtonEnabled(true);
+		String entries[] = { "first", "second", "third" };
+		drawerList.setAdapter(new ArrayAdapter<String>(this,
+                R.layout.drawer_list_item, entries));
+		drawerList.setOnItemClickListener(new DrawerItemClickListener());
+		drawerToggle = new ActionBarDrawerToggle(this, drawerLayout,
+                R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close) {
+
+ 
+            public void onDrawerClosed(View view) {
+                super.onDrawerClosed(view);
+                //getActionBar().setTitle(mTitle);
+                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            }
+
+
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                //getActionBar().setTitle(mDrawerTitle);
+                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            }
+        };
+
+        // Set the drawer toggle as the DrawerListener
+		drawerLayout.setDrawerListener(drawerToggle);
+		
 
 		View surface = (SurfaceView) findViewById(R.id.mysurface);
 		RelativeLayout parent = (RelativeLayout) surface.getParent();
