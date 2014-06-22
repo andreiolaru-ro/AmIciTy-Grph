@@ -13,7 +13,6 @@ public class CustomEditingPopupGraphMousePlugin<V, E> extends EditingPopupGraphM
 	public CustomEditingPopupGraphMousePlugin(Factory<V> vertexFactory,
 			Factory<E> edgeFactory) {
 		super(vertexFactory, edgeFactory);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

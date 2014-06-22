@@ -22,6 +22,11 @@ import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import net.xqhs.graphs.graph.Edge;
+import net.xqhs.graphs.graph.Node;
+import net.xqhs.graphs.graph.SimpleEdge;
+import net.xqhs.graphs.graph.SimpleNode;
+
 import org.apache.commons.collections15.Factory;
 import org.apache.commons.collections15.Transformer;
 import org.apache.commons.collections15.functors.MapTransformer;
@@ -52,48 +57,36 @@ import edu.uci.ics.jung.visualization.renderers.Renderer.VertexLabel.Position;
 public class GraphView extends JPanel {
 	private static final long serialVersionUID = -2023243689258876709L;
 
-    Graph<String,String> graph;
+    Graph<Node,Edge> graph;
     
-    AbstractLayout<String,String> layout;
-    VisualizationViewer<String,String> vv;
+    AbstractLayout<Node,Edge> layout;
+    VisualizationViewer<Node,Edge> vv;
     
     
-    /**
-     * create an instance of a simple graph with popup controls to
-     * create a graph.
-     * 
-     */
     public GraphView() {
-        
-        // create a simple graph for the demo
-        graph = Graphs.<String,String>synchronizedDirectedGraph(new DirectedSparseMultigraph<String,String>());
+        graph = Graphs.<Node,Edge>synchronizedDirectedGraph(new DirectedSparseMultigraph<Node, Edge>());
 
-        this.layout = new StaticLayout<String,String>(graph, 
+        this.layout = new StaticLayout<Node,Edge>(graph, 
         	new Dimension(400,400));
         
         this.setLayout(new BorderLayout());
         
 
-        vv =  new VisualizationViewer<String,String>(layout);
+        vv =  new VisualizationViewer<Node,Edge>(layout);
         vv.setBackground(Color.lightGray);
 
-        vv.getRenderContext().setVertexLabelTransformer(MapTransformer.<String,String>getInstance(
-        		LazyMap.<String,String>decorate(new HashMap<String,String>(), new ToStringLabeller<String>())));
         
-        vv.getRenderContext().setEdgeLabelTransformer(MapTransformer.<String,String>getInstance(
-        		LazyMap.<String,String>decorate(new HashMap<String,String>(), new ToStringLabeller<String>())));
-
-        vv.setVertexToolTipTransformer(vv.getRenderContext().getVertexLabelTransformer());
+        vv.getRenderContext().setVertexLabelTransformer(new NodeTransformer());
+        vv.getRenderContext().setEdgeLabelTransformer(new EdgeTransformer());
         
-        vv.getRenderContext().setVertexLabelTransformer(new ToStringLabeller());
 		vv.getRenderContext().setEdgeLabelRenderer(new DefaultEdgeLabelRenderer(Color.YELLOW));
 		vv.getRenderer().getVertexLabelRenderer().setPosition(Position.CNTR);
 
 
-		Transformer<String,Shape> vertexSize = new Transformer<String,Shape>(){
-            public Shape transform(String i){
+		Transformer<Node,Shape> vertexSize = new Transformer<Node,Shape>(){
+            public Shape transform(Node i){
                 //Ellipse2D circle = new Ellipse2D.Double(-15,-15,40, 20);
-                return new Rectangle(-20,-10,i.length()*10,30);
+                return new Rectangle(-20,-10,i.getLabel().length()*10,30);
                 //if(i==1) return AffineTransform.getScaleInstance(3, 3).createTransformedShape(circle);
                 //else if(i==2) return circle;
                 //else return new Rectangle(-20, -10, 40, 20);
@@ -104,11 +97,12 @@ public class GraphView extends JPanel {
         final GraphZoomScrollPane panel = new GraphZoomScrollPane(vv);
         panel.setPreferredSize(new Dimension(400, 400));
         add(panel, BorderLayout.CENTER);
-        Factory<String> vertexFactory = new VertexFactory();
-        Factory<String> edgeFactory = new EdgeFactory();
         
-        final EditingModalGraphMouse<String,String> graphMouse = 
-        	new CustomEditingModalGraphMouse<String, String>(vv.getRenderContext(), vertexFactory, edgeFactory);
+        Factory<Node> vertexFactory = new NodeFactory();
+        Factory<Edge> edgeFactory = new EdgeFactory();
+        
+        final EditingModalGraphMouse<Node,Edge> graphMouse = 
+        	new CustomEditingModalGraphMouse<Node, Edge>(vv.getRenderContext(), vertexFactory, edgeFactory);
 
         
         // the EditingGraphMouse will pass mouse event coordinates to the
@@ -137,7 +131,7 @@ public class GraphView extends JPanel {
         JButton circleLayout = new JButton("perform layout");
         circleLayout.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-            	layout = new CircleLayout<String,String>(graph);
+            	layout = new CircleLayout<Node,Edge>(graph);
             	//layout = new FRLayout<String,String>(graph, new Dimension(600, 600));
                 vv.getModel().setGraphLayout(layout, new Dimension(600, 600));
             }
@@ -156,28 +150,21 @@ public class GraphView extends JPanel {
     }
     
   
-    class VertexFactory implements Factory<String> {
+    class NodeFactory implements Factory<Node> {
 
-    	int i=0;
-
-		public String create() {
-			String vertexName = JOptionPane.showInputDialog(vv,"Vertex Name:");
-			if (vertexName == null || vertexName.length() == 0)
-				return "" + i++;
-			return vertexName;
+		@Override
+		public Node create() {
+			return new SimpleNode("vertex");
 		}
+
     }
     
-    class EdgeFactory implements Factory<String> {
-
-    	int i=0;
-    	
-		public String create() {
-			String edgeName = JOptionPane.showInputDialog(vv,"Edge Name: ");
-			if (edgeName == null || edgeName.length() == 0)
-				return "" + i++;
-			return edgeName;
+    class EdgeFactory implements Factory<Edge> {
+		@Override
+		public Edge create() {
+			return new SimpleEdge(null, null, "edge");
 		}
+    	
     }
 
 
