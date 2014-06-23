@@ -1,6 +1,8 @@
 package amicity.graph.pc;
 
 import java.awt.event.InputEvent;
+import java.awt.event.MouseEvent;
+import java.lang.reflect.Modifier;
 
 import org.apache.commons.collections15.Factory;
 
@@ -36,7 +38,8 @@ public class CustomEditingModalGraphMouse<V, E> extends EditingModalGraphMouse<V
             shearingPlugin = new ShearingGraphMousePlugin();
             editingPlugin = new EditingGraphMousePlugin<V, E>(vertexFactory,
                             edgeFactory);
-            labelEditingPlugin = new LabelEditingGraphMousePlugin<V, E>();
+            labelEditingPlugin = new CustomLabelEditingPlugin<V, E>(24);
+            
             annotatingPlugin = new AnnotatingGraphMousePlugin<V, E>(rc);
             popupEditingPlugin = new CustomEditingPopupGraphMousePlugin<V, E>(
                             vertexFactory, edgeFactory);

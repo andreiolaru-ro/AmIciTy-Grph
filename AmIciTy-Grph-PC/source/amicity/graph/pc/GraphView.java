@@ -19,7 +19,6 @@ import java.util.HashMap;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import net.xqhs.graphs.graph.Edge;
@@ -37,7 +36,6 @@ import edu.uci.ics.jung.algorithms.layout.CircleLayout;
 import edu.uci.ics.jung.algorithms.layout.StaticLayout;
 import edu.uci.ics.jung.graph.DirectedSparseMultigraph;
 import edu.uci.ics.jung.graph.Graph;
-import edu.uci.ics.jung.graph.SparseMultigraph;
 import edu.uci.ics.jung.graph.util.Graphs;
 import edu.uci.ics.jung.visualization.GraphZoomScrollPane;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
@@ -45,7 +43,6 @@ import edu.uci.ics.jung.visualization.control.CrossoverScalingControl;
 import edu.uci.ics.jung.visualization.control.EditingModalGraphMouse;
 import edu.uci.ics.jung.visualization.control.ModalGraphMouse;
 import edu.uci.ics.jung.visualization.control.ScalingControl;
-import edu.uci.ics.jung.visualization.decorators.ToStringLabeller;
 import edu.uci.ics.jung.visualization.renderers.DefaultEdgeLabelRenderer;
 import edu.uci.ics.jung.visualization.renderers.Renderer.VertexLabel.Position;
 
@@ -76,8 +73,18 @@ public class GraphView extends JPanel {
         vv.setBackground(Color.lightGray);
 
         
+        
+        
         vv.getRenderContext().setVertexLabelTransformer(new NodeTransformer());
         vv.getRenderContext().setEdgeLabelTransformer(new EdgeTransformer());
+        
+       /* vv.getRenderContext().setVertexLabelTransformer(MapTransformer.<Node,String>getInstance(
+        		LazyMap.<Node,String>decorate(new HashMap<Node,String>(), new NodeTransformer())));
+        
+        vv.getRenderContext().setEdgeLabelTransformer(MapTransformer.<Edge,String>getInstance(
+        		LazyMap.<Edge,String>decorate(new HashMap<Edge,String>(), new EdgeTransformer())));
+        */
+        
         
 		vv.getRenderContext().setEdgeLabelRenderer(new DefaultEdgeLabelRenderer(Color.YELLOW));
 		vv.getRenderer().getVertexLabelRenderer().setPosition(Position.CNTR);
@@ -110,8 +117,6 @@ public class GraphView extends JPanel {
         // they are created
         vv.setGraphMouse(graphMouse);
         vv.addKeyListener(graphMouse.getModeKeyListener());
-
-        graphMouse.setMode(ModalGraphMouse.Mode.EDITING);
         
         final ScalingControl scaler = new CrossoverScalingControl();
         JButton plus = new JButton("+");
