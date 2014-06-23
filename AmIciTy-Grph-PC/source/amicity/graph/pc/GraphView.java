@@ -74,16 +74,13 @@ public class GraphView extends JPanel {
 
         
         
-        
-        vv.getRenderContext().setVertexLabelTransformer(new NodeTransformer());
-        vv.getRenderContext().setEdgeLabelTransformer(new EdgeTransformer());
-        
-       /* vv.getRenderContext().setVertexLabelTransformer(MapTransformer.<Node,String>getInstance(
+        // TODO(catalinb): can't edit node's label from the interface so we use
+        // this overly complicated map to change node labels.
+       vv.getRenderContext().setVertexLabelTransformer(MapTransformer.<Node,String>getInstance(
         		LazyMap.<Node,String>decorate(new HashMap<Node,String>(), new NodeTransformer())));
         
         vv.getRenderContext().setEdgeLabelTransformer(MapTransformer.<Edge,String>getInstance(
         		LazyMap.<Edge,String>decorate(new HashMap<Edge,String>(), new EdgeTransformer())));
-        */
         
         
 		vv.getRenderContext().setEdgeLabelRenderer(new DefaultEdgeLabelRenderer(Color.YELLOW));

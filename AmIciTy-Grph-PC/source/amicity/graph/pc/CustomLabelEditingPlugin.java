@@ -21,9 +21,6 @@ import java.util.Map;
 
 import javax.swing.JOptionPane;
 
-import net.xqhs.graphs.graph.Edge;
-import net.xqhs.graphs.graph.Node;
-
 import org.apache.commons.collections15.Transformer;
 import org.apache.commons.collections15.functors.MapTransformer;
 
@@ -38,18 +35,18 @@ import edu.uci.ics.jung.visualization.control.LabelEditingGraphMousePlugin;
  * 
  * @author Tom Nelson
  */
-public class CustomLabelEditingPlugin extends LabelEditingGraphMousePlugin<Node, Edge>
+public class CustomLabelEditingPlugin<V, E> extends LabelEditingGraphMousePlugin<V, E>
     implements MouseListener {
 
 	/**
 	 * the picked Vertex, if any
 	 */
-    protected Node vertex;
+    protected V vertex;
     
     /**
      * the picked Edge, if any
      */
-    protected Edge edge;
+    protected E edge;
     
     /**
 	 * create an instance with default settings
@@ -90,25 +87,29 @@ public class CustomLabelEditingPlugin extends LabelEditingGraphMousePlugin<Node,
     	System.out.println("Modifiers: " + modifiers + " event: " + e.getModifiers());
     	System.out.println("Click count: " +e.getClickCount());
     	if(e.getModifiers() == modifiers && e.getClickCount() == 2) {
-    		VisualizationViewer<Node, Edge> vv = (VisualizationViewer)e.getSource();
-    		GraphElementAccessor<Node, Edge> pickSupport = vv.getPickSupport();
+    		VisualizationViewer<V,E> vv = (VisualizationViewer)e.getSource();
+    		GraphElementAccessor<V,E> pickSupport = vv.getPickSupport();
     		if(pickSupport != null) {
     			System.out.println("Shot!");
-    			Transformer<Node, String> vs = vv.getRenderContext().getVertexLabelTransformer();
-				Layout<Node,Edge> layout = vv.getGraphLayout();
-				// p is the screen point for the mouse event
-				Point2D p = e.getPoint();
+    			Transformer<V,String> vs = vv.getRenderContext().getVertexLabelTransformer();
+    			if(vs instanceof MapTransformer) {
+    				System.out.println("Hit!");
+    				Map<V,String> map = ((MapTransformer)vs).getMap();
+    				Layout<V,E> layout = vv.getGraphLayout();
+    				// p is the screen point for the mouse event
+    				Point2D p = e.getPoint();
 
-				V vertex = pickSupport.getVertex(layout, p.getX(), p.getY());
-				if(vertex != null) {
-					String newLabel = vs.transform(vertex);
-					newLabel = JOptionPane.showInputDialog("New Vertex Label for "+vertex);
-					if(newLabel != null) {
-						map.put(vertex, newLabel);
-						vv.repaint();
-					}
-					return;
-				}
+    				V vertex = pickSupport.getVertex(layout, p.getX(), p.getY());
+    				if(vertex != null) {
+    					String newLabel = vs.transform(vertex);
+    					newLabel = JOptionPane.showInputDialog("New Vertex Label for "+vertex);
+    					if(newLabel != null) {
+    						map.put(vertex, newLabel);
+    						vv.repaint();
+    					}
+    					return;
+    				}
+    			}
     			Transformer<E,String> es = vv.getRenderContext().getEdgeLabelTransformer();
     			if(es instanceof MapTransformer) {
     				Map<E,String> map = ((MapTransformer)es).getMap();
