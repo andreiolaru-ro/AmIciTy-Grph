@@ -86,7 +86,8 @@ public class CustomLabelEditingPlugin<V, E> extends LabelEditingGraphMousePlugin
     public void mouseClicked(MouseEvent e) {
     	System.out.println("Modifiers: " + modifiers + " event: " + e.getModifiers());
     	System.out.println("Click count: " +e.getClickCount());
-    	if(e.getModifiers() == modifiers && e.getClickCount() == 2) {
+    	if(e.getModifiers() == modifiers) {
+    		e.consume();
     		VisualizationViewer<V,E> vv = (VisualizationViewer)e.getSource();
     		GraphElementAccessor<V,E> pickSupport = vv.getPickSupport();
     		if(pickSupport != null) {
@@ -129,7 +130,6 @@ public class CustomLabelEditingPlugin<V, E> extends LabelEditingGraphMousePlugin
     				}
     			}
     		}
-     		e.consume();
      	}
     }
 
