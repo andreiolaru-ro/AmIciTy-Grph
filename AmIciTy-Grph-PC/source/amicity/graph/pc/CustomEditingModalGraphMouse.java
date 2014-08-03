@@ -38,27 +38,37 @@ public class CustomEditingModalGraphMouse<V, E> extends EditingModalGraphMouse<V
 		super(rc, vertexFactory, edgeFactory);
 	}
 	
+
+	final int SHIFT_MASK = 17;
+	final int CTRL_MASK = 18;
+	final int ALT_MASK = 24;
+	
     @Override
     protected void loadPlugins() {
             pickingPlugin = new PickingGraphMousePlugin<V, E>();
             animatedPickingPlugin = new AnimatedPickingGraphMousePlugin<V, E>();
+            // Drag translate
             translatingPlugin = new TranslatingGraphMousePlugin(
                             InputEvent.BUTTON1_MASK);
+            // zoom in/out
             scalingPlugin = new ScalingGraphMousePlugin(
                             new CrossoverScalingControl(), 0, in, out);
-            rotatingPlugin = new RotatingGraphMousePlugin();
-            shearingPlugin = new ShearingGraphMousePlugin();
-            editingPlugin = new CustomEditingGraphMousePlugin<V, E>(18, vertexFactory,
+            //rotatingPlugin = new RotatingGraphMousePlugin();
+            //shearingPlugin = new ShearingGraphMousePlugin();
+            editingPlugin = new CustomEditingGraphMousePlugin<V, E>(CTRL_MASK, vertexFactory,
                             edgeFactory);
-            labelEditingPlugin = new CustomLabelEditingPlugin<V, E>(24);
+            //labelEditingPlugin = new CustomLabelEditingPlugin<V, E>(24);
             
             annotatingPlugin = new AnnotatingGraphMousePlugin<V, E>(rc);
             
             popupEditingPlugin = new CustomEditingPopupGraphMousePlugin<V, E>(
                             vertexFactory, edgeFactory);
+            
+            
             add(scalingPlugin);
             add(pickingPlugin);
-            add(labelEditingPlugin);
+            add(translatingPlugin);
+            //add(labelEditingPlugin);
             add(editingPlugin);
 
             //setMode(Mode.TRANSFORMING);
