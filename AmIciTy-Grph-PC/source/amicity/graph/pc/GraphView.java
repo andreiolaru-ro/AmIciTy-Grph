@@ -113,7 +113,7 @@ public class GraphView extends JPanel {
         // vertexLocations function to set the locations of the vertices as
         // they are created
         vv.setGraphMouse(graphMouse);
-        //vv.addKeyListener(graphMouse.getModeKeyListener());
+        vv.addKeyListener(graphMouse.getModeKeyListener());
         
         final ScalingControl scaler = new CrossoverScalingControl();
         JButton plus = new JButton("+");

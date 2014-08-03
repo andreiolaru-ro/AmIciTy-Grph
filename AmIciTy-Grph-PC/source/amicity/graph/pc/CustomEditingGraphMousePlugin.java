@@ -1,5 +1,6 @@
 package amicity.graph.pc;
 
+import java.awt.Cursor;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
@@ -15,17 +16,11 @@ import edu.uci.ics.jung.graph.util.EdgeType;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 import edu.uci.ics.jung.visualization.control.EditingGraphMousePlugin;
 
-public class CustomEditingGraphMousePlugin<V, E> extends EditingGraphMousePlugin<V, E> {
-
-	public CustomEditingGraphMousePlugin(Factory<V> vertexFactory,
-			Factory<E> edgeFactory) {
-		super(vertexFactory, edgeFactory);
-		// TODO Auto-generated constructor stub
-	}
-	
+public class CustomEditingGraphMousePlugin<V, E> extends EditingGraphMousePlugin<V, E> {	
 	public CustomEditingGraphMousePlugin(int i, Factory<V> vertexFactory,
 			Factory<E> edgeFactory) {
 		super(i, vertexFactory, edgeFactory);
+		this.cursor = Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR);
 	}
 
 	@SuppressWarnings("unchecked")

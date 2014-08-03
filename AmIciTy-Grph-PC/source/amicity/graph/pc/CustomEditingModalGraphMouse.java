@@ -1,6 +1,9 @@
 package amicity.graph.pc;
 
+import java.awt.Cursor;
 import java.awt.event.InputEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.lang.reflect.Modifier;
 
@@ -36,16 +39,30 @@ public class CustomEditingModalGraphMouse<V, E> extends EditingModalGraphMouse<V
 	public CustomEditingModalGraphMouse(RenderContext<V, E> rc,
 			Factory<V> vertexFactory, Factory<E> edgeFactory) {
 		super(rc, vertexFactory, edgeFactory);
+		setModeKeyListener(new ModeKeyAdapter());
+
 	}
 	
-
 	final int SHIFT_MASK = 17;
 	final int CTRL_MASK = 18;
 	final int ALT_MASK = 24;
 	
+	public static class ModeKeyAdapter extends KeyAdapter {
+		@Override
+	    public void keyTyped(KeyEvent event) {
+			char keyChar = event.getKeyChar();
+			System.out.println("Key typed: " + keyChar);
+		}
+		
+		@Override
+		public void keyPressed(KeyEvent e) {
+			System.out.println("key pressed: " + e.getKeyCode());
+		}
+	}
+
     @Override
     protected void loadPlugins() {
-            pickingPlugin = new PickingGraphMousePlugin<V, E>();
+            pickingPlugin = new CustomPickingGraphMousePlugin<V, E>();
             animatedPickingPlugin = new AnimatedPickingGraphMousePlugin<V, E>();
             // Drag translate
             translatingPlugin = new TranslatingGraphMousePlugin(
