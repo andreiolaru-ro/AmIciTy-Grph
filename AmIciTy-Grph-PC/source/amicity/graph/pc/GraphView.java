@@ -138,8 +138,6 @@ public class GraphView extends JPanel {
                 vv.getModel().setGraphLayout(layout, new Dimension(600, 600));
             }
         });
-     
-        
 
 
         JPanel controls = new JPanel();

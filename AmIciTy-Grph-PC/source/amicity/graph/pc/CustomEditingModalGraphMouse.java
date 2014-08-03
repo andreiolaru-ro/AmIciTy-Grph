@@ -48,11 +48,12 @@ public class CustomEditingModalGraphMouse<V, E> extends EditingModalGraphMouse<V
                             new CrossoverScalingControl(), 0, in, out);
             rotatingPlugin = new RotatingGraphMousePlugin();
             shearingPlugin = new ShearingGraphMousePlugin();
-            editingPlugin = new EditingGraphMousePlugin<V, E>(18, vertexFactory,
+            editingPlugin = new CustomEditingGraphMousePlugin<V, E>(18, vertexFactory,
                             edgeFactory);
             labelEditingPlugin = new CustomLabelEditingPlugin<V, E>(24);
             
             annotatingPlugin = new AnnotatingGraphMousePlugin<V, E>(rc);
+            
             popupEditingPlugin = new CustomEditingPopupGraphMousePlugin<V, E>(
                             vertexFactory, edgeFactory);
             add(scalingPlugin);
