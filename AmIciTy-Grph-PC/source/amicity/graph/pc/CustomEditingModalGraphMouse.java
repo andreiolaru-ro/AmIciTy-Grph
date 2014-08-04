@@ -6,10 +6,17 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.lang.reflect.Modifier;
+import java.util.Map;
+import java.util.Set;
+
+import javax.swing.JOptionPane;
 
 import org.apache.commons.collections15.Factory;
+import org.apache.commons.collections15.Transformer;
+import org.apache.commons.collections15.functors.MapTransformer;
 
 import edu.uci.ics.jung.visualization.RenderContext;
+import edu.uci.ics.jung.visualization.VisualizationViewer;
 import edu.uci.ics.jung.visualization.annotations.AnnotatingGraphMousePlugin;
 import edu.uci.ics.jung.visualization.control.AnimatedPickingGraphMousePlugin;
 import edu.uci.ics.jung.visualization.control.CrossoverScalingControl;
@@ -40,14 +47,13 @@ public class CustomEditingModalGraphMouse<V, E> extends EditingModalGraphMouse<V
 			Factory<V> vertexFactory, Factory<E> edgeFactory) {
 		super(rc, vertexFactory, edgeFactory);
 		setModeKeyListener(new ModeKeyAdapter());
-
 	}
 	
 	final int SHIFT_MASK = 17;
 	final int CTRL_MASK = 18;
 	final int ALT_MASK = 24;
 	
-	public static class ModeKeyAdapter extends KeyAdapter {
+	public class ModeKeyAdapter extends KeyAdapter {
 		@Override
 	    public void keyTyped(KeyEvent event) {
 			char keyChar = event.getKeyChar();
@@ -57,8 +63,13 @@ public class CustomEditingModalGraphMouse<V, E> extends EditingModalGraphMouse<V
 		@Override
 		public void keyPressed(KeyEvent e) {
 			System.out.println("key pressed: " + e.getKeyCode());
+			switch(e.getKeyCode()) {
+			case 10:
+				openEditPopup(e.getSource());
+			}
 		}
 	}
+	
 
     @Override
     protected void loadPlugins() {
@@ -103,5 +114,36 @@ public class CustomEditingModalGraphMouse<V, E> extends EditingModalGraphMouse<V
     void remove(GraphMousePlugin plugin) {
     	System.out.println("remove " + plugin.toString());
     	super.remove(plugin);
+    }
+    
+    private
+    void openEditPopup(Object source) {
+    	final VisualizationViewer<V,E> vv =
+                (VisualizationViewer<V,E>)source;
+    	
+    	Transformer<V,String> vs = vv.getRenderContext().getVertexLabelTransformer();
+    	Map<V,String> nodeTransformer = ((MapTransformer)vs).getMap();
+    	Transformer<E, String> es = vv.getRenderContext().getEdgeLabelTransformer();
+    	Map<E, String> edgeTransformer = ((MapTransformer)es).getMap();
+    	
+    	Set<V> pickedNodes = vv.getPickedVertexState().getPicked();
+    	for (V node : pickedNodes) {
+    		String newLabel = JOptionPane.showInputDialog("New Vertex Label for "+ nodeTransformer.get(node));
+    		if (newLabel != null && newLabel.length() != 0)
+    			nodeTransformer.put(node, newLabel);
+    		vv.repaint();
+    	}
+
+    	Set<E> pickedEdges = vv.getPickedEdgeState().getPicked();
+    	if (pickedEdges.size() == 0)
+    		return;
+    	String newLabel = JOptionPane.showInputDialog("New Edge Label:");
+    	if (newLabel != null && newLabel.length() != 0) {
+    		for (E edge : pickedEdges) {
+    			edgeTransformer.put(edge,  newLabel);
+    		}
+    		vv.repaint();
+    	}
+    	
     }
 }
