@@ -16,6 +16,7 @@ public class Main {
 		frame.setSize(800, 800);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
+		frame.setJMenuBar(new EditorMenu());
 	}
 
 
