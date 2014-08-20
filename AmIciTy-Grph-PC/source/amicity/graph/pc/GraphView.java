@@ -31,6 +31,7 @@ import org.apache.commons.collections15.Transformer;
 import org.apache.commons.collections15.functors.MapTransformer;
 import org.apache.commons.collections15.map.LazyMap;
 
+import amicity.graph.pc.jung.JungGraph;
 import edu.uci.ics.jung.algorithms.layout.AbstractLayout;
 import edu.uci.ics.jung.algorithms.layout.CircleLayout;
 import edu.uci.ics.jung.algorithms.layout.StaticLayout;
@@ -54,15 +55,14 @@ import edu.uci.ics.jung.visualization.renderers.Renderer.VertexLabel.Position;
 public class GraphView extends JPanel {
 	private static final long serialVersionUID = -2023243689258876709L;
 
-    Graph<Node,Edge> graph;
+    JungGraph graph;
     
     AbstractLayout<Node,Edge> layout;
     VisualizationViewer<Node,Edge> vv;
     
     
     public GraphView() {
-        graph = Graphs.<Node,Edge>synchronizedDirectedGraph(new DirectedSparseMultigraph<Node, Edge>());
-
+        graph = JungGraph.createJungGraph();
         this.layout = new StaticLayout<Node,Edge>(graph, 
         	new Dimension(400,400));
         

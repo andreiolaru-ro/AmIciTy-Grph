@@ -36,11 +36,9 @@ public class CustomEditingGraphMousePlugin<V, E> extends EditingGraphMousePlugin
             if(pickSupport != null) {
             	Graph<V,E> graph = vv.getModel().getGraphLayout().getGraph();
             	// set default edge type
-            	if(graph instanceof DirectedGraph) {
-            		edgeIsDirected = EdgeType.DIRECTED;
-            	} else {
-            		edgeIsDirected = EdgeType.UNDIRECTED;
-            	}
+            	
+            	edgeIsDirected = EdgeType.DIRECTED;
+
             	
                 final V vertex = pickSupport.getVertex(vv.getModel().getGraphLayout(), p.getX(), p.getY());
                 if(vertex != null) { // get ready to make an edge
