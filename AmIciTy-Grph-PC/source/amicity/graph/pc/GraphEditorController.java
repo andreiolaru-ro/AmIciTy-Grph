@@ -1,15 +1,15 @@
 package amicity.graph.pc;
 
-import java.awt.Cursor;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.lang.reflect.Modifier;
 import java.util.Map;
 import java.util.Set;
 
 import javax.swing.JOptionPane;
+
+import net.xqhs.graphs.graph.Edge;
+import net.xqhs.graphs.graph.Node;
 
 import org.apache.commons.collections15.Factory;
 import org.apache.commons.collections15.Transformer;
@@ -20,14 +20,9 @@ import edu.uci.ics.jung.visualization.VisualizationViewer;
 import edu.uci.ics.jung.visualization.annotations.AnnotatingGraphMousePlugin;
 import edu.uci.ics.jung.visualization.control.AnimatedPickingGraphMousePlugin;
 import edu.uci.ics.jung.visualization.control.CrossoverScalingControl;
-import edu.uci.ics.jung.visualization.control.EditingGraphMousePlugin;
 import edu.uci.ics.jung.visualization.control.EditingModalGraphMouse;
 import edu.uci.ics.jung.visualization.control.GraphMousePlugin;
-import edu.uci.ics.jung.visualization.control.LabelEditingGraphMousePlugin;
-import edu.uci.ics.jung.visualization.control.PickingGraphMousePlugin;
-import edu.uci.ics.jung.visualization.control.RotatingGraphMousePlugin;
 import edu.uci.ics.jung.visualization.control.ScalingGraphMousePlugin;
-import edu.uci.ics.jung.visualization.control.ShearingGraphMousePlugin;
 import edu.uci.ics.jung.visualization.control.TranslatingGraphMousePlugin;
 
 
@@ -41,10 +36,10 @@ import edu.uci.ics.jung.visualization.control.TranslatingGraphMousePlugin;
  * @param <V>
  * @param <E>
  */
-public class CustomEditingModalGraphMouse<V, E> extends EditingModalGraphMouse<V,E> {
+public class GraphEditorController extends EditingModalGraphMouse<Node, Edge> {
 
-	public CustomEditingModalGraphMouse(RenderContext<V, E> rc,
-			Factory<V> vertexFactory, Factory<E> edgeFactory) {
+	public GraphEditorController(RenderContext<Node, Edge> rc,
+			Factory<Node> vertexFactory, Factory<Edge> edgeFactory) {
 		super(rc, vertexFactory, edgeFactory);
 		setModeKeyListener(new ModeKeyAdapter());
 	}
@@ -73,8 +68,8 @@ public class CustomEditingModalGraphMouse<V, E> extends EditingModalGraphMouse<V
 
     @Override
     protected void loadPlugins() {
-            pickingPlugin = new CustomPickingGraphMousePlugin<V, E>();
-            animatedPickingPlugin = new AnimatedPickingGraphMousePlugin<V, E>();
+            pickingPlugin = new CustomPickingGraphMousePlugin<Node, Edge>();
+            animatedPickingPlugin = new AnimatedPickingGraphMousePlugin<Node, Edge>();
             // Drag translate
             translatingPlugin = new TranslatingGraphMousePlugin(
                             InputEvent.BUTTON1_MASK);
@@ -83,13 +78,13 @@ public class CustomEditingModalGraphMouse<V, E> extends EditingModalGraphMouse<V
                             new CrossoverScalingControl(), 0, in, out);
             //rotatingPlugin = new RotatingGraphMousePlugin();
             //shearingPlugin = new ShearingGraphMousePlugin();
-            editingPlugin = new CustomEditingGraphMousePlugin<V, E>(CTRL_MASK, vertexFactory,
+            editingPlugin = new CustomEditingGraphMousePlugin<Node, Edge>(CTRL_MASK, vertexFactory,
                             edgeFactory);
             //labelEditingPlugin = new CustomLabelEditingPlugin<V, E>(24);
             
-            annotatingPlugin = new AnnotatingGraphMousePlugin<V, E>(rc);
+            annotatingPlugin = new AnnotatingGraphMousePlugin<Node, Edge>(rc);
             
-            popupEditingPlugin = new CustomEditingPopupGraphMousePlugin<V, E>(
+            popupEditingPlugin = new CustomEditingPopupGraphMousePlugin<Node, Edge>(
                             vertexFactory, edgeFactory);
             
             
@@ -118,29 +113,24 @@ public class CustomEditingModalGraphMouse<V, E> extends EditingModalGraphMouse<V
     
     private
     void openEditPopup(Object source) {
-    	final VisualizationViewer<V,E> vv =
-                (VisualizationViewer<V,E>)source;
-    	
-    	Transformer<V,String> vs = vv.getRenderContext().getVertexLabelTransformer();
-    	Map<V,String> nodeTransformer = ((MapTransformer)vs).getMap();
-    	Transformer<E, String> es = vv.getRenderContext().getEdgeLabelTransformer();
-    	Map<E, String> edgeTransformer = ((MapTransformer)es).getMap();
-    	
-    	Set<V> pickedNodes = vv.getPickedVertexState().getPicked();
-    	for (V node : pickedNodes) {
-    		String newLabel = JOptionPane.showInputDialog("New Vertex Label for "+ nodeTransformer.get(node));
+    	final VisualizationViewer<Node,Edge> vv =
+                (VisualizationViewer<Node, Edge>)source;
+    	    	
+    	Set<Node> pickedNodes = vv.getPickedVertexState().getPicked();
+    	for (Node node : pickedNodes) {
+    		String newLabel = JOptionPane.showInputDialog("New Vertex Label for "+ node.getLabel());
     		if (newLabel != null && newLabel.length() != 0)
-    			nodeTransformer.put(node, newLabel);
+    			node.setLabel(newLabel);
     		vv.repaint();
     	}
 
-    	Set<E> pickedEdges = vv.getPickedEdgeState().getPicked();
+    	Set<Edge> pickedEdges = vv.getPickedEdgeState().getPicked();
     	if (pickedEdges.size() == 0)
     		return;
     	String newLabel = JOptionPane.showInputDialog("New Edge Label:");
     	if (newLabel != null && newLabel.length() != 0) {
-    		for (E edge : pickedEdges) {
-    			edgeTransformer.put(edge,  newLabel);
+    		for (Edge edge : pickedEdges) {
+    			edge.setLabel(newLabel);
     		}
     		vv.repaint();
     	}

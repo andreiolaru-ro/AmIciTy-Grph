@@ -15,10 +15,8 @@ import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.HashMap;
 
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
 import net.xqhs.graphs.graph.Edge;
@@ -28,21 +26,14 @@ import net.xqhs.graphs.graph.SimpleNode;
 
 import org.apache.commons.collections15.Factory;
 import org.apache.commons.collections15.Transformer;
-import org.apache.commons.collections15.functors.MapTransformer;
-import org.apache.commons.collections15.map.LazyMap;
 
 import amicity.graph.pc.jung.JungGraph;
 import edu.uci.ics.jung.algorithms.layout.AbstractLayout;
 import edu.uci.ics.jung.algorithms.layout.CircleLayout;
 import edu.uci.ics.jung.algorithms.layout.StaticLayout;
-import edu.uci.ics.jung.graph.DirectedSparseMultigraph;
-import edu.uci.ics.jung.graph.Graph;
-import edu.uci.ics.jung.graph.util.Graphs;
 import edu.uci.ics.jung.visualization.GraphZoomScrollPane;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 import edu.uci.ics.jung.visualization.control.CrossoverScalingControl;
-import edu.uci.ics.jung.visualization.control.EditingModalGraphMouse;
-import edu.uci.ics.jung.visualization.control.ModalGraphMouse;
 import edu.uci.ics.jung.visualization.control.ScalingControl;
 import edu.uci.ics.jung.visualization.renderers.DefaultEdgeLabelRenderer;
 import edu.uci.ics.jung.visualization.renderers.Renderer.VertexLabel.Position;
@@ -72,16 +63,9 @@ public class GraphView extends JPanel {
         vv =  new VisualizationViewer<Node,Edge>(layout);
         vv.setBackground(Color.lightGray);
 
-        
-        
-        // TODO(catalinb): can't edit node's label from the interface so we use
-        // this overly complicated map to change node labels.
-       vv.getRenderContext().setVertexLabelTransformer(MapTransformer.<Node,String>getInstance(
-        		LazyMap.<Node,String>decorate(new HashMap<Node,String>(), new NodeTransformer())));
-        
-        vv.getRenderContext().setEdgeLabelTransformer(MapTransformer.<Edge,String>getInstance(
-        		LazyMap.<Edge,String>decorate(new HashMap<Edge,String>(), new EdgeTransformer())));
-        
+
+       vv.getRenderContext().setVertexLabelTransformer(new NodeTransformer());
+       vv.getRenderContext().setEdgeLabelTransformer(new EdgeTransformer());
         
 		vv.getRenderContext().setEdgeLabelRenderer(new DefaultEdgeLabelRenderer(Color.YELLOW));
 		vv.getRenderer().getVertexLabelRenderer().setPosition(Position.CNTR);
@@ -105,8 +89,8 @@ public class GraphView extends JPanel {
         Factory<Node> vertexFactory = new NodeFactory();
         Factory<Edge> edgeFactory = new EdgeFactory();
         
-        final EditingModalGraphMouse<Node,Edge> graphMouse = 
-        	new CustomEditingModalGraphMouse<Node, Edge>(vv.getRenderContext(), vertexFactory, edgeFactory);
+        final GraphEditorController graphMouse = 
+        	new GraphEditorController(vv.getRenderContext(), vertexFactory, edgeFactory);
 
         
         // the EditingGraphMouse will pass mouse event coordinates to the
