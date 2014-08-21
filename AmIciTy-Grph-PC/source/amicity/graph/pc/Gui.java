@@ -9,7 +9,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 public class Gui extends JPanel {
-	private GraphView graph = new GraphView();
+	private GraphEditor graphEditor;
 	
 	private static Object[] columnNames = {
 		"Name",
@@ -19,9 +19,11 @@ public class Gui extends JPanel {
 	private DefaultTableModel graphList;
 	JScrollPane graphListPane;
 
-	public Gui() {
+	public Gui(MainController controller) {
 		setLayout(new BorderLayout());
-		this.add(graph, BorderLayout.CENTER);
+		
+		graphEditor = new GraphEditor(controller);
+		this.add(graphEditor, BorderLayout.CENTER);
 		
 		// graph list
 		graphList = new DefaultTableModel(null, columnNames);

@@ -7,11 +7,11 @@ import net.xqhs.graphs.graph.Graph;
  * components.
  */
 public class MainController {
-	GraphView graphView;
+	GraphEditor graphEditor;
 
-	public void registerGraphView(GraphView graphView) {
-		if (graphView == null) {
-			this.graphView = graphView;
+	public void registerGraphEditor(GraphEditor graphEditor) {
+		if (graphEditor == null) {
+			this.graphEditor = graphEditor;
 		}
 	}
 }

@@ -4,6 +4,9 @@ import java.util.Collection;
 
 import net.xqhs.graphs.graph.Edge;
 import net.xqhs.graphs.graph.Node;
+import net.xqhs.graphs.graph.SimpleGraph;
+import edu.uci.ics.jung.algorithms.layout.Layout;
+import edu.uci.ics.jung.algorithms.layout.StaticLayout;
 import edu.uci.ics.jung.graph.DirectedSparseMultigraph;
 import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.graph.util.EdgeType;
@@ -13,12 +16,33 @@ import edu.uci.ics.jung.graph.util.Pair;
 public class JungGraph implements Graph<Node, Edge> {
 	// fix name conflict with net.xqhs.Graph
 	Graph<Node, Edge> graph;
+	Layout<Node, Edge> layout;
 
 	public static JungGraph createJungGraph() {
 		return new JungGraph(Graphs.<Node,Edge>synchronizedDirectedGraph(new DirectedSparseMultigraph<Node, Edge>()));
 	}
+	
 	public JungGraph(Graph<Node, Edge> graph) {
 		this.graph = graph;
+		layout = new StaticLayout<Node, Edge>(graph);
+	}
+	
+	public net.xqhs.graphs.graph.Graph asSimpleGraph() {
+		SimpleGraph simpleGraph = new SimpleGraph();
+		for (Node node : graph.getVertices()) {
+			simpleGraph.addNode(node);
+		}
+		for (Edge edge : graph.getEdges()) {
+			simpleGraph.addEdge(edge);
+		}
+		return simpleGraph;
+	}
+	
+	public Layout<Node, Edge> getLayout() {
+		return layout;
+	}
+	public void setLayout(Layout<Node, Edge> layout) {
+		this.layout = layout;
 	}
 
 	@Override

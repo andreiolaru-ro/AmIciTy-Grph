@@ -36,9 +36,9 @@ import edu.uci.ics.jung.visualization.control.TranslatingGraphMousePlugin;
  * @param <V>
  * @param <E>
  */
-public class GraphEditorController extends EditingModalGraphMouse<Node, Edge> {
+public class GraphEditorEventHandler extends EditingModalGraphMouse<Node, Edge> {
 
-	public GraphEditorController(RenderContext<Node, Edge> rc,
+	public GraphEditorEventHandler(RenderContext<Node, Edge> rc,
 			Factory<Node> vertexFactory, Factory<Edge> edgeFactory) {
 		super(rc, vertexFactory, edgeFactory);
 		setModeKeyListener(new ModeKeyAdapter());
