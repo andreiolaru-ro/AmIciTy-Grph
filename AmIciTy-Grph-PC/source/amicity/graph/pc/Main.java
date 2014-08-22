@@ -13,7 +13,7 @@ public class Main {
 		JFrame frame = new JFrame("Graph Editor");
 		frame.setContentPane(new Gui(controller));
 		
-		frame.setSize(800, 800);
+		frame.setSize(1000, 800);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 		frame.setJMenuBar(new EditorMenu(controller));
@@ -26,6 +26,7 @@ public class Main {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				buildGUI(mainController);
+				mainController.init();
 			}
 		});
 	}

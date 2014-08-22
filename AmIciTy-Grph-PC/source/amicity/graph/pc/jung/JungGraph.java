@@ -15,6 +15,9 @@ import edu.uci.ics.jung.graph.util.Pair;
 
 public class JungGraph implements Graph<Node, Edge> {
 	// fix name conflict with net.xqhs.Graph
+	private String name;
+	private String description;
+
 	Graph<Node, Edge> graph;
 	Layout<Node, Edge> layout;
 
@@ -23,6 +26,7 @@ public class JungGraph implements Graph<Node, Edge> {
 	}
 	
 	public JungGraph(Graph<Node, Edge> graph) {
+		this.setName("Untitled");
 		this.graph = graph;
 		layout = new StaticLayout<Node, Edge>(graph);
 	}
@@ -259,5 +263,21 @@ public class JungGraph implements Graph<Node, Edge> {
 	@Override
 	public int outDegree(Node vertex) {
 		return graph.outDegree(vertex);
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 }

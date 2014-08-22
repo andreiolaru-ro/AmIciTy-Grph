@@ -31,12 +31,15 @@ import org.apache.commons.collections15.Transformer;
 
 import amicity.graph.pc.jung.JungGraph;
 import edu.uci.ics.jung.algorithms.layout.FRLayout;
+import edu.uci.ics.jung.algorithms.layout.StaticLayout;
 import edu.uci.ics.jung.visualization.GraphZoomScrollPane;
+import edu.uci.ics.jung.visualization.Layer;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 import edu.uci.ics.jung.visualization.control.CrossoverScalingControl;
 import edu.uci.ics.jung.visualization.control.ScalingControl;
 import edu.uci.ics.jung.visualization.renderers.DefaultEdgeLabelRenderer;
 import edu.uci.ics.jung.visualization.renderers.Renderer.VertexLabel.Position;
+import edu.uci.ics.jung.visualization.transform.MutableTransformer;
 
 /**
  * @author Badea Catalin
@@ -52,6 +55,7 @@ public class GraphEditor extends JPanel {
     public GraphEditor(MainController controller) {
     	controller.registerGraphEditor(this);
         graph = JungGraph.createJungGraph();
+        controller.registerGraphEditor(this);
  
         this.setLayout(new BorderLayout());
         
@@ -114,9 +118,9 @@ public class GraphEditor extends JPanel {
         layoutButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             	//layout = new CircleLayout<Node,Edge>(graph);
-            	graph.setLayout(new FRLayout<Node,Edge>(graph, new Dimension(600, 600)));
             	FRLayout<Node, Edge> layout = new FRLayout<Node, Edge>(graph);
-                vv.getModel().setGraphLayout(graph.getLayout(), new Dimension(600, 600));
+            	graph.setLayout(new StaticLayout<Node, Edge>(graph, layout));
+                vv.getModel().setGraphLayout(layout);
             }
         });
 
@@ -130,6 +134,10 @@ public class GraphEditor extends JPanel {
     public void loadGraph(JungGraph jungGraph) {
     	this.graph = jungGraph;
     	vv.getModel().setGraphLayout(jungGraph.getLayout());
+    	MutableTransformer modelTransformer = vv.getRenderContext().getMultiLayerTransformer().getTransformer(Layer.LAYOUT);
+    	double x = -modelTransformer.getTranslateX();
+    	double y = -modelTransformer.getTranslateY();
+    	modelTransformer.translate(x, y);
     }
     
     public JungGraph getGraph() {

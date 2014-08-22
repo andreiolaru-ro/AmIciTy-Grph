@@ -1,5 +1,6 @@
 package amicity.graph.pc;
 
+import amicity.graph.pc.jung.JungGraph;
 import net.xqhs.graphs.graph.Graph;
 
 /*
@@ -8,10 +9,29 @@ import net.xqhs.graphs.graph.Graph;
  */
 public class MainController {
 	GraphEditor graphEditor;
+	GraphList graphList;
 
 	public void registerGraphEditor(GraphEditor graphEditor) {
-		if (graphEditor == null) {
 			this.graphEditor = graphEditor;
+	}
+	
+	public void registerGraphList(GraphList graphList) {
+		this.graphList = graphList;
+	}
+	
+	public void init() {
+		if (graphList.getCount() == 0) {
+			graphEditor.loadGraph(graphList.createNewGraph());
 		}
+	}
+	
+	public void createNewGraph() {
+		graphEditor.loadGraph(graphList.createNewGraph());
+	}
+	
+	public void loadGraph(JungGraph graph) {
+		if (graph == graphEditor.getGraph())
+			return;
+		graphEditor.loadGraph(graph);
 	}
 }

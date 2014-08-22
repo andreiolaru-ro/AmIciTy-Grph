@@ -73,6 +73,7 @@ public class GraphEditorEventHandler extends EditingModalGraphMouse<Node, Edge> 
             // Drag translate
             translatingPlugin = new TranslatingGraphMousePlugin(
                             InputEvent.BUTTON1_MASK);
+
             // zoom in/out
             scalingPlugin = new ScalingGraphMousePlugin(
                             new CrossoverScalingControl(), 0, in, out);
