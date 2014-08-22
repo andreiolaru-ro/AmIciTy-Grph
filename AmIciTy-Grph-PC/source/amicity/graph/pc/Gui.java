@@ -11,6 +11,7 @@ import javax.swing.table.DefaultTableModel;
 public class Gui extends JPanel {
 	private GraphEditor graphEditor;
 	private GraphList graphList;
+	private GraphExplorer graphExplorer;
 
 
 	public Gui(MainController controller) {
@@ -23,5 +24,9 @@ public class Gui extends JPanel {
 		// graph list
 		graphList = new GraphList(controller);
 		this.add(graphList, BorderLayout.WEST);
+		
+		//graph explorer
+		graphExplorer = new GraphExplorer(controller);
+		this.add(graphExplorer, BorderLayout.WEST);
 	}
 }
