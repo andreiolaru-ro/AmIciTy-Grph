@@ -71,10 +71,10 @@ public class GraphEditor extends JPanel {
 
 		Transformer<Node,Shape> vertexSize = new Transformer<Node,Shape>(){
             public Shape transform(Node i){
-                Ellipse2D circle = new Ellipse2D.Double(-15,-15,20, 20);
+                //Ellipse2D circle = new Ellipse2D.Double(-15,-15,20, 20);
 
-               // return new Rectangle(-20,-10,i.getLabel().length()*10,30);
-               return AffineTransform.getScaleInstance(2, 2).createTransformedShape(circle);
+               return new Rectangle(-20,-10,i.getLabel().length()*10,30);
+               //return AffineTransform.getScaleInstance(2, 2).createTransformedShape(circle);
                 //else if(i==2) return circle;
                 //else return new Rectangle(-20, -10, 40, 20);
                 
@@ -139,6 +139,15 @@ public class GraphEditor extends JPanel {
     	double y = -modelTransformer.getTranslateY();
     	modelTransformer.translate(x, y);
     }
+    
+
+	public void loadGraph(JungGraph graph, boolean needsLayout) {
+		loadGraph(graph);
+		FRLayout<Node, Edge> layout = new FRLayout<Node, Edge>(graph);
+    	graph.setLayout(new StaticLayout<Node, Edge>(graph, layout));
+        vv.getModel().setGraphLayout(layout);
+	}
+
     
     public JungGraph getGraph() {
     	return graph;

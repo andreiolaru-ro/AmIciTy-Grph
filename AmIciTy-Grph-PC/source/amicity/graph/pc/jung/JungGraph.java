@@ -17,6 +17,7 @@ public class JungGraph implements Graph<Node, Edge> {
 	// fix name conflict with net.xqhs.Graph
 	private String name;
 	private String description;
+	private boolean isPattern = false;
 
 	Graph<Node, Edge> graph;
 	Layout<Node, Edge> layout;
@@ -31,6 +32,23 @@ public class JungGraph implements Graph<Node, Edge> {
 		layout = new StaticLayout<Node, Edge>(graph);
 	}
 	
+	public JungGraph(SimpleGraph simpleGraph, String name, boolean isPattern) {
+		this.setName(name);
+		this.graph = Graphs.<Node,Edge>synchronizedDirectedGraph(new DirectedSparseMultigraph<Node, Edge>());
+		layout = new StaticLayout<Node, Edge>(graph);
+		this.isPattern = isPattern;
+		
+		// copy the graph
+		for (Node node : simpleGraph.getNodes()) {
+			System.out.println("Node: " + node.getLabel());
+			graph.addVertex(node);
+		}
+		
+		for (Edge edge : simpleGraph.getEdges()) {
+			graph.addEdge(edge, edge.getFrom(), edge.getTo());
+		}
+	}
+
 	public net.xqhs.graphs.graph.Graph asSimpleGraph() {
 		SimpleGraph simpleGraph = new SimpleGraph();
 		for (Node node : graph.getVertices()) {

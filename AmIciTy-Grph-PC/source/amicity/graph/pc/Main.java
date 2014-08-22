@@ -22,6 +22,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		final MainController mainController = new MainController();
+		FileManager fileManager = new FileManager(mainController);
 	
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {

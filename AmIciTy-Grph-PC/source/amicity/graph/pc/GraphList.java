@@ -123,6 +123,14 @@ public class GraphList extends JPanel {
 		return graph;
 	}
 	
+	public void addGraph(JungGraph graph, boolean select) {
+		int last = getCount();
+		graphList.addGraph(graph);
+		if (select) {
+			graphListView.setRowSelectionInterval(last, last);
+		}
+	}
+	
 	public JungGraph getSelectedGraph() {
 		int selectedRow = graphListView.getSelectedRow();
 		if (selectedRow == -1)

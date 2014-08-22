@@ -1,5 +1,7 @@
 package amicity.graph.pc;
 
+import java.io.File;
+
 import amicity.graph.pc.jung.JungGraph;
 import net.xqhs.graphs.graph.Graph;
 
@@ -10,6 +12,7 @@ import net.xqhs.graphs.graph.Graph;
 public class MainController {
 	GraphEditor graphEditor;
 	GraphList graphList;
+	private FileManager fileManager;
 
 	public void registerGraphEditor(GraphEditor graphEditor) {
 			this.graphEditor = graphEditor;
@@ -33,5 +36,16 @@ public class MainController {
 		if (graph == graphEditor.getGraph())
 			return;
 		graphEditor.loadGraph(graph);
+	}
+
+	public void registerFileManager(FileManager fileManager) {
+		// TODO Auto-generated method stub
+		this.fileManager = fileManager;
+	}
+	
+	public void loadBareGraph(File file) {
+		JungGraph graph = fileManager.loadBareGraph(file, false);
+		graphEditor.loadGraph(graph, true);
+		graphList.addGraph(graph, true);
 	}
 }
