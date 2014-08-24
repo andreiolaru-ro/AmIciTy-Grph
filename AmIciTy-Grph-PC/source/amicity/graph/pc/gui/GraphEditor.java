@@ -6,7 +6,7 @@
  * or http://jung.sourceforge.net/license.txt for a description.
  * 
  */
-package amicity.graph.pc;
+package amicity.graph.pc.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -29,6 +29,11 @@ import net.xqhs.graphs.graph.SimpleNode;
 import org.apache.commons.collections15.Factory;
 import org.apache.commons.collections15.Transformer;
 
+import amicity.graph.pc.MainController;
+import amicity.graph.pc.gui.edit.EdgeTransformer;
+import amicity.graph.pc.gui.edit.GraphEditorEventHandler;
+import amicity.graph.pc.gui.edit.NodeStrokeTransformer;
+import amicity.graph.pc.gui.edit.NodeTransformer;
 import amicity.graph.pc.jung.JungGraph;
 import edu.uci.ics.jung.algorithms.layout.FRLayout;
 import edu.uci.ics.jung.algorithms.layout.StaticLayout;

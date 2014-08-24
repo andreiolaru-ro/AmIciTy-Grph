@@ -1,4 +1,4 @@
-package amicity.graph.pc;
+package amicity.graph.pc.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -28,6 +28,7 @@ import javax.swing.tree.TreeCellEditor;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
+import amicity.graph.pc.MainController;
 import amicity.graph.pc.jung.JungGraph;
 
 public class GraphExplorer extends JPanel implements TreeSelectionListener {

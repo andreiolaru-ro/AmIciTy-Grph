@@ -1,4 +1,4 @@
-package amicity.graph.pc;
+package amicity.graph.pc.gui.edit;
 
 /*
  * Copyright (c) 2005, the JUNG Project and the Regents of the University 

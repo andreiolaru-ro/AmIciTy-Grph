@@ -1,4 +1,4 @@
-package amicity.graph.pc;
+package amicity.graph.pc.gui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,6 +8,8 @@ import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+
+import amicity.graph.pc.MainController;
 
 public class EditorMenu extends JMenuBar implements ActionListener {
 	private static final long serialVersionUID = -7316178038249679850L;

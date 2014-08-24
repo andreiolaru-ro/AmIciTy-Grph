@@ -5,6 +5,9 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 
+import amicity.graph.pc.gui.EditorMenu;
+import amicity.graph.pc.gui.Gui;
+
 
 
 public class Main {

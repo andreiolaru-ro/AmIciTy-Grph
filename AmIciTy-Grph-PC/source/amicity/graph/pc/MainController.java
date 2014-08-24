@@ -2,6 +2,9 @@ package amicity.graph.pc;
 
 import java.io.File;
 
+import amicity.graph.pc.gui.GraphEditor;
+import amicity.graph.pc.gui.GraphExplorer;
+import amicity.graph.pc.gui.GraphList;
 import amicity.graph.pc.jung.JungGraph;
 import net.xqhs.graphs.graph.Graph;
 

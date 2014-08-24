@@ -1,4 +1,4 @@
-package amicity.graph.pc;
+package amicity.graph.pc.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -18,6 +18,7 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
+import amicity.graph.pc.MainController;
 import amicity.graph.pc.jung.JungGraph;
 
 public class GraphList extends JPanel {

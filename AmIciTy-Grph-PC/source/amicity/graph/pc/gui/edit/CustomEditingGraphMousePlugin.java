@@ -1,4 +1,4 @@
-package amicity.graph.pc;
+package amicity.graph.pc.gui.edit;
 
 import java.awt.Cursor;
 import java.awt.event.MouseEvent;

@@ -1,4 +1,4 @@
-package amicity.graph.pc;
+package amicity.graph.pc.gui;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
