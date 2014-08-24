@@ -9,14 +9,17 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
-public class EditorMenu extends JMenuBar {
+public class EditorMenu extends JMenuBar implements ActionListener {
 	private static final long serialVersionUID = -7316178038249679850L;
-	//MainController controller;
+	MainController controller;
+	JMenu loadItem;
+	JMenuItem loadGraphItem;
+	JMenuItem loadPatternItem;
 	
 	final JFileChooser fc = new JFileChooser();
 	
 	public EditorMenu(final MainController controller) {
-		//this.controller = aController;
+		this.controller = controller;
 		JMenu menu = new JMenu("File");
 		JMenuItem newItem = new JMenuItem("New graph");
 		newItem.addActionListener(new ActionListener() {
@@ -27,20 +30,15 @@ public class EditorMenu extends JMenuBar {
 		});
 		menu.add(newItem);
 		
-		JMenuItem loadItem = new JMenuItem("Load graph");
-		loadItem.addActionListener(new ActionListener() {
+		loadItem = new JMenu("Load..");
+		loadGraphItem = new JMenuItem("Load context graph");
+		loadGraphItem.addActionListener(this);
+		loadPatternItem = new JMenuItem("Load pattern");
+		loadPatternItem.addActionListener(this);
+		loadItem.add(loadGraphItem);
+		loadItem.add(loadPatternItem);
+		
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				int returnVal = fc.showOpenDialog(null);
-
-		        if (returnVal == JFileChooser.APPROVE_OPTION) {
-		            File file = fc.getSelectedFile();
-		            controller.loadBareGraph(file);
-		        }
-			}
-		});
 		menu.add(loadItem);
 		
 		JMenuItem saveItem = new JMenuItem("Save");
@@ -51,5 +49,25 @@ public class EditorMenu extends JMenuBar {
 		
 		menu = new JMenu("Edit");
 		add(menu);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == loadGraphItem) {
+			int returnVal = fc.showOpenDialog(null);
+	
+			if (returnVal == JFileChooser.APPROVE_OPTION) {
+				File file = fc.getSelectedFile();
+				controller.loadBareGraph(file, false);
+			}
+		}
+		if (e.getSource() == loadPatternItem) {
+			int returnVal = fc.showOpenDialog(null);
+	
+			if (returnVal == JFileChooser.APPROVE_OPTION) {
+				File file = fc.getSelectedFile();
+				controller.loadBareGraph(file, true);
+			}
+		}
 	}
 }

@@ -298,4 +298,8 @@ public class JungGraph implements Graph<Node, Edge> {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	
+	public String toString() {
+		return getName();
+	}
 }

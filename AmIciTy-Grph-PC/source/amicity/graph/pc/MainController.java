@@ -13,6 +13,7 @@ public class MainController {
 	GraphEditor graphEditor;
 	GraphList graphList;
 	private FileManager fileManager;
+	private GraphExplorer graphExplorer;
 
 	public void registerGraphEditor(GraphEditor graphEditor) {
 			this.graphEditor = graphEditor;
@@ -23,13 +24,15 @@ public class MainController {
 	}
 	
 	public void init() {
-		if (graphList.getCount() == 0) {
-			graphEditor.loadGraph(graphList.createNewGraph());
-		}
+		JungGraph graph = JungGraph.createJungGraph();
+		graphEditor.loadGraph(graph);
+		graphExplorer.addGraph(graph, false);
 	}
 	
 	public void createNewGraph() {
-		graphEditor.loadGraph(graphList.createNewGraph());
+		JungGraph graph = JungGraph.createJungGraph();
+		graphEditor.loadGraph(graph);
+		graphExplorer.addGraph(graph, false);
 	}
 	
 	public void loadGraph(JungGraph graph) {
@@ -39,13 +42,17 @@ public class MainController {
 	}
 
 	public void registerFileManager(FileManager fileManager) {
-		// TODO Auto-generated method stub
 		this.fileManager = fileManager;
 	}
 	
-	public void loadBareGraph(File file) {
-		JungGraph graph = fileManager.loadBareGraph(file, false);
+	public void loadBareGraph(File file, boolean isPattern) {
+		JungGraph graph = fileManager.loadBareGraph(file, isPattern);
 		graphEditor.loadGraph(graph, true);
-		graphList.addGraph(graph, true);
+		graphExplorer.addGraph(graph, isPattern);
+	}
+
+	public void registerGraphExplorer(GraphExplorer graphExplorer) {
+		this.graphExplorer = graphExplorer;
+		
 	}
 }
