@@ -75,6 +75,7 @@ public class GraphExplorer extends JPanel implements TreeSelectionListener {
 	            TreePath path = tree.getPathForLocation(mouseEvent.getX(), mouseEvent.getY());  
 	            return path.getLastPathComponent() instanceof TreeLeaf;  
 	        } 
+
 			return false;
 		}
 	}
@@ -122,7 +123,6 @@ public class GraphExplorer extends JPanel implements TreeSelectionListener {
 		tree.expandRow(0);
 		tree.expandRow(1);
 		tree.setEditable(true);
-		//tree.addMouseListener(new MouseHandler());
 		tree.setCellEditor(new TreeEditor(tree, new DefaultTreeCellRenderer()));
 		
 		setLayout(new BorderLayout());
@@ -146,5 +146,23 @@ public class GraphExplorer extends JPanel implements TreeSelectionListener {
 			return;
 		JungGraph graph = (JungGraph) selectedNode.getUserObject();
 		controller.loadGraph(graph);
+	}
+	
+	public List<JungGraph> getPatterns() {
+		ArrayList<JungGraph> list = new ArrayList<JungGraph>();
+		for (int i = 0; i < patternNode.getChildCount(); i++) {
+			DefaultMutableTreeNode node = (DefaultMutableTreeNode) patternNode.getChildAt(i);
+			list.add((JungGraph)node.getUserObject());
+		}
+		return list;
+	}
+	
+	public List<JungGraph> getGraphs() {
+		ArrayList<JungGraph> list = new ArrayList<JungGraph>();
+		for (int i = 0; i < contextGraphNode.getChildCount(); i++) {
+			DefaultMutableTreeNode node = (DefaultMutableTreeNode) contextGraphNode.getChildAt(i);
+			list.add((JungGraph)node.getUserObject());
+		}
+		return list;
 	}
 }

@@ -17,27 +17,21 @@ public class JungGraph implements Graph<Node, Edge> {
 	// fix name conflict with net.xqhs.Graph
 	private String name;
 	private String description;
-	private boolean isPattern = false;
+	private boolean isPattern;
 
-	Graph<Node, Edge> graph;
-	Layout<Node, Edge> layout;
-
-	public static JungGraph createJungGraph() {
-		return new JungGraph(Graphs.<Node,Edge>synchronizedDirectedGraph(new DirectedSparseMultigraph<Node, Edge>()));
-	}
+	protected Graph<Node, Edge> graph;
+	protected Layout<Node, Edge> layout;
 	
-	public JungGraph(Graph<Node, Edge> graph) {
-		this.setName("Untitled");
-		this.graph = graph;
-		layout = new StaticLayout<Node, Edge>(graph);
-	}
-	
-	public JungGraph(SimpleGraph simpleGraph, String name, boolean isPattern) {
+	public JungGraph(String name, boolean isPattern) {
 		this.setName(name);
 		this.graph = Graphs.<Node,Edge>synchronizedDirectedGraph(new DirectedSparseMultigraph<Node, Edge>());
 		layout = new StaticLayout<Node, Edge>(graph);
 		this.isPattern = isPattern;
-		
+	}
+	
+	public JungGraph(SimpleGraph simpleGraph, String name, boolean isPattern) {
+		this(name, isPattern);
+
 		// copy the graph
 		for (Node node : simpleGraph.getNodes()) {
 			System.out.println("Node: " + node.getLabel());

@@ -1,9 +1,8 @@
 package amicity.graph.pc;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.*;
 
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 import amicity.graph.pc.jung.JungGraph;
@@ -23,7 +22,8 @@ public class FileManager {
 		SimpleGraph simpleGraph = new SimpleGraph();
 		try {
 			simpleGraph.readFrom(new FileInputStream(file));
-			return new JungGraph(simpleGraph, file.getName(), isPattern);
+			// pass null filepath since we don't want to overwrite the file.
+			return new CachedJungGraph(simpleGraph, null, file.getName(), isPattern);
 		
 		} catch (FileNotFoundException e) {
 			JOptionPane.showMessageDialog(null,
@@ -33,4 +33,54 @@ public class FileManager {
 			return null;
 		}
 	}
+	
+	public JungGraph loadGraph(File file, boolean isPattern) {
+		FileInputStream in;
+		try {
+			in = new FileInputStream(file);
+			ObjectInputStream input = new ObjectInputStream(in);
+			PackedGraph packedGraph = (PackedGraph) input.readObject();
+			return new CachedJungGraph(packedGraph);
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null,
+				    "Unable to read from file.",
+				    "I/O Error",
+				    JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			JOptionPane.showMessageDialog(null,
+				    "Something is wrong.",
+				    "Internal Error",
+				    JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
+	public void saveGraph(CachedJungGraph graph) {
+		if (graph.getFilepath() == null) {
+			JFileChooser fileChooser = new JFileChooser();
+			if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+			  graph.setFilepath(fileChooser.getSelectedFile());
+			} else {
+				return;
+			}
+		}
+		try {
+			FileOutputStream of = new FileOutputStream(graph.getFilepath());
+			ObjectOutputStream output = new ObjectOutputStream(of);
+			output.writeObject(graph.pack());
+			
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null,
+				    "Unable to write to file.",
+				    "I/O Error",
+				    JOptionPane.WARNING_MESSAGE);
+			e.printStackTrace();
+			return;
+		}
+	}
+
+
 }

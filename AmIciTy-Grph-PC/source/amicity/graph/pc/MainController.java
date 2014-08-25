@@ -4,7 +4,7 @@ import java.io.File;
 
 import amicity.graph.pc.gui.GraphEditor;
 import amicity.graph.pc.gui.GraphExplorer;
-import amicity.graph.pc.gui.GraphList;
+import amicity.graph.pc.gui.ToolBar;
 import amicity.graph.pc.jung.JungGraph;
 import net.xqhs.graphs.graph.Graph;
 
@@ -14,26 +14,26 @@ import net.xqhs.graphs.graph.Graph;
  */
 public class MainController {
 	GraphEditor graphEditor;
-	GraphList graphList;
 	private FileManager fileManager;
 	private GraphExplorer graphExplorer;
+	private Object toolBar;
 
 	public void registerGraphEditor(GraphEditor graphEditor) {
 			this.graphEditor = graphEditor;
 	}
 	
-	public void registerGraphList(GraphList graphList) {
-		this.graphList = graphList;
+	public void registerGraphExplorer(GraphExplorer graphExplorer) {
+		this.graphExplorer = graphExplorer;
 	}
 	
 	public void init() {
-		JungGraph graph = JungGraph.createJungGraph();
+		JungGraph graph = new CachedJungGraph("untitled", false);
 		graphEditor.loadGraph(graph);
 		graphExplorer.addGraph(graph, false);
 	}
 	
 	public void createNewGraph() {
-		JungGraph graph = JungGraph.createJungGraph();
+		JungGraph graph = new CachedJungGraph("untitled", false);
 		graphEditor.loadGraph(graph);
 		graphExplorer.addGraph(graph, false);
 	}
@@ -48,14 +48,27 @@ public class MainController {
 		this.fileManager = fileManager;
 	}
 	
-	public void loadBareGraph(File file, boolean isPattern) {
+	public void loadBareGraphFromFile(File file, boolean isPattern) {
 		JungGraph graph = fileManager.loadBareGraph(file, isPattern);
 		graphEditor.loadGraph(graph, true);
 		graphExplorer.addGraph(graph, isPattern);
 	}
+	
+	public void loadGraphFromFile(File file, boolean isPattern) {
+		JungGraph graph = fileManager.loadGraph(file, isPattern);
+		graphEditor.loadGraph(graph, true);
+		graphExplorer.addGraph(graph, isPattern);
+	}
+	
+	public void saveCurrentGraph() {
+		fileManager.saveGraph((CachedJungGraph) graphEditor.getGraph());
+	}
 
-	public void registerGraphExplorer(GraphExplorer graphExplorer) {
-		this.graphExplorer = graphExplorer;
-		
+	public void registerToolBar(ToolBar toolBar) {
+		this.toolBar = toolBar;		
+	}
+	
+	public GraphExplorer getGraphExplorer() {
+		return graphExplorer;
 	}
 }

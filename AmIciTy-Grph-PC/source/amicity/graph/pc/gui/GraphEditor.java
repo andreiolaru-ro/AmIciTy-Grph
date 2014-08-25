@@ -59,7 +59,7 @@ public class GraphEditor extends JPanel {
     
     public GraphEditor(MainController controller) {
     	controller.registerGraphEditor(this);
-        graph = JungGraph.createJungGraph();
+        graph = new JungGraph("untitled", false);
         controller.registerGraphEditor(this);
  
         this.setLayout(new BorderLayout());

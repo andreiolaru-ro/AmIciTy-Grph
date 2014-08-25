@@ -14,9 +14,11 @@ import amicity.graph.pc.MainController;
 public class EditorMenu extends JMenuBar implements ActionListener {
 	private static final long serialVersionUID = -7316178038249679850L;
 	MainController controller;
-	JMenu loadItem;
+	JMenuItem loadItem;
+	JMenu importItem;
 	JMenuItem loadGraphItem;
 	JMenuItem loadPatternItem;
+	JMenuItem saveItem;
 	
 	final JFileChooser fc = new JFileChooser();
 	
@@ -32,18 +34,23 @@ public class EditorMenu extends JMenuBar implements ActionListener {
 		});
 		menu.add(newItem);
 		
-		loadItem = new JMenu("Load..");
-		loadGraphItem = new JMenuItem("Load context graph");
-		loadGraphItem.addActionListener(this);
-		loadPatternItem = new JMenuItem("Load pattern");
-		loadPatternItem.addActionListener(this);
-		loadItem.add(loadGraphItem);
-		loadItem.add(loadPatternItem);
-		
-
+		loadItem = new JMenuItem("Load");
+		loadItem.addActionListener(this);
 		menu.add(loadItem);
 		
-		JMenuItem saveItem = new JMenuItem("Save");
+		importItem = new JMenu("Import..");
+		loadGraphItem = new JMenuItem("Import context graph");
+		loadGraphItem.addActionListener(this);
+		loadPatternItem = new JMenuItem("Import pattern");
+		loadPatternItem.addActionListener(this);
+		importItem.add(loadGraphItem);
+		importItem.add(loadPatternItem);
+		
+
+		menu.add(importItem);
+		
+		saveItem = new JMenuItem("Save");
+		saveItem.addActionListener(this);
 		menu.add(saveItem);
 		JMenuItem quitItem = new JMenuItem("Quit");
 		menu.add(quitItem);
@@ -55,12 +62,22 @@ public class EditorMenu extends JMenuBar implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		
+		if (e.getSource() == loadItem) {
+			int returnVal = fc.showOpenDialog(null);
+			
+			if (returnVal == JFileChooser.APPROVE_OPTION) {
+				File file = fc.getSelectedFile();
+				controller.loadGraphFromFile(file, false);
+			}
+		}
+		
 		if (e.getSource() == loadGraphItem) {
 			int returnVal = fc.showOpenDialog(null);
 	
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				File file = fc.getSelectedFile();
-				controller.loadBareGraph(file, false);
+				controller.loadBareGraphFromFile(file, false);
 			}
 		}
 		if (e.getSource() == loadPatternItem) {
@@ -68,8 +85,13 @@ public class EditorMenu extends JMenuBar implements ActionListener {
 	
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				File file = fc.getSelectedFile();
-				controller.loadBareGraph(file, true);
+				controller.loadBareGraphFromFile(file, true);
 			}
+		}
+		
+		if (e.getSource() == saveItem) {
+			System.out.println("save!");
+			controller.saveCurrentGraph();
 		}
 	}
 }
