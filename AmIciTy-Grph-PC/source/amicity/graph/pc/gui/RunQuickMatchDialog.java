@@ -23,6 +23,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListModel;
 
+import amicity.graph.pc.MainController;
 import amicity.graph.pc.jung.JungGraph;
 
 public class RunQuickMatchDialog extends JDialog
@@ -32,6 +33,9 @@ public class RunQuickMatchDialog extends JDialog
 
 	private JOptionPane options;
 	private String[] buttons = {"Cancel", "Run"};
+
+	private MainController controller;
+	private DialogBody body;
 	
 	private class DialogBody extends JPanel {
 		JList<JungGraph> graphs;
@@ -81,13 +85,22 @@ public class RunQuickMatchDialog extends JDialog
 			add(right);
 			pack();
 		}
+	
+		public JungGraph getGraph() {
+			return graphs.getSelectedValue();
+		}
+		
+		public JungGraph getPattern() {
+			return patterns.getSelectedValue();
+		}
 	}
 	
-	public RunQuickMatchDialog(Frame aFrame, List<JungGraph> graphs, List<JungGraph> patterns) {
-		super(aFrame, true);
+	public RunQuickMatchDialog(MainController controller, List<JungGraph> graphs, List<JungGraph> patterns) {
+		super((Frame)null, true);
+		this.controller = controller;
 		setAlwaysOnTop(true);
 		
-		DialogBody body = new DialogBody(graphs, patterns);
+		body = new DialogBody(graphs, patterns);
 		options = new JOptionPane(body, JOptionPane.DEFAULT_OPTION, JOptionPane.YES_NO_OPTION, null, buttons, buttons[1]);
 		setContentPane(options);
 		pack();
@@ -128,6 +141,7 @@ public class RunQuickMatchDialog extends JDialog
 	}
 	
 	private void doRun() {
+		controller.runQuickMatch(body.getGraph(), body.getPattern());
 		close();
 	}
 }

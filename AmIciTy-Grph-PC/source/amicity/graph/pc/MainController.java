@@ -71,4 +71,10 @@ public class MainController {
 	public GraphExplorer getGraphExplorer() {
 		return graphExplorer;
 	}
+	
+	public void runQuickMatch(JungGraph graph, JungGraph pattern) {
+		System.out.println("Running!!");
+		QuickMatchWorker worker = new QuickMatchWorker(graph.asSimpleGraph(), pattern.asGraphPattern());
+		worker.execute();
+	}
 }

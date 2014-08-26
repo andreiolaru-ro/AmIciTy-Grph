@@ -5,6 +5,7 @@ import java.util.Collection;
 import net.xqhs.graphs.graph.Edge;
 import net.xqhs.graphs.graph.Node;
 import net.xqhs.graphs.graph.SimpleGraph;
+import net.xqhs.graphs.pattern.GraphPattern;
 import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.algorithms.layout.StaticLayout;
 import edu.uci.ics.jung.graph.DirectedSparseMultigraph;
@@ -44,7 +45,7 @@ public class JungGraph implements Graph<Node, Edge> {
 	}
 
 	public net.xqhs.graphs.graph.Graph asSimpleGraph() {
-		SimpleGraph simpleGraph = new SimpleGraph();
+		SimpleGraph simpleGraph = (SimpleGraph) new SimpleGraph().setUnitName(getName());
 		for (Node node : graph.getVertices()) {
 			simpleGraph.addNode(node);
 		}
@@ -52,6 +53,18 @@ public class JungGraph implements Graph<Node, Edge> {
 			simpleGraph.addEdge(edge);
 		}
 		return simpleGraph;
+	}
+	
+	public GraphPattern asGraphPattern() {
+		GraphPattern graphPattern = (GraphPattern) new GraphPattern().setUnitName(getName());
+		for (Node node : graph.getVertices()) {
+			graphPattern.addNode(node);
+		}
+		for (Edge edge : graph.getEdges()) {
+			graphPattern.addEdge(edge);
+		}
+
+		return graphPattern;
 	}
 	
 	public Layout<Node, Edge> getLayout() {

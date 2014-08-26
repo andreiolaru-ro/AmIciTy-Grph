@@ -39,7 +39,7 @@ public class ToolBar extends JToolBar implements ActionListener {
 		List<JungGraph> graphs = controller.getGraphExplorer().getGraphs();
 		List<JungGraph> patterns = controller.getGraphExplorer().getPatterns();
 		
-		JDialog dialog = new RunQuickMatchDialog(null, graphs, patterns);
+		JDialog dialog = new RunQuickMatchDialog(controller, graphs, patterns);
 		dialog.setVisible(true);
 	}
 }
