@@ -26,7 +26,7 @@ public class JungGraph implements Graph<Node, Edge> {
 	public JungGraph(String name, boolean isPattern) {
 		this.setName(name);
 		this.graph = Graphs.<Node,Edge>synchronizedDirectedGraph(new DirectedSparseMultigraph<Node, Edge>());
-		layout = new StaticLayout<Node, Edge>(graph);
+		layout = new StaticLayout<Node, Edge>(this);
 		this.isPattern = isPattern;
 	}
 	

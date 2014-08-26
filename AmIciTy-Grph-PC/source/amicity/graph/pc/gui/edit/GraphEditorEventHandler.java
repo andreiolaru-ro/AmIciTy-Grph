@@ -15,6 +15,7 @@ import org.apache.commons.collections15.Factory;
 import org.apache.commons.collections15.Transformer;
 import org.apache.commons.collections15.functors.MapTransformer;
 
+import amicity.graph.pc.jung.JungGraph;
 import edu.uci.ics.jung.visualization.RenderContext;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 import edu.uci.ics.jung.visualization.annotations.AnnotatingGraphMousePlugin;
@@ -61,6 +62,8 @@ public class GraphEditorEventHandler extends EditingModalGraphMouse<Node, Edge> 
 			switch(e.getKeyCode()) {
 			case 10:
 				openEditPopup(e.getSource());
+			case 8:
+				delete(e.getSource());
 			}
 		}
 	}
@@ -135,6 +138,26 @@ public class GraphEditorEventHandler extends EditingModalGraphMouse<Node, Edge> 
     		}
     		vv.repaint();
     	}
+    }
+    
+    private void delete(Object source) {
+    	final VisualizationViewer<Node,Edge> vv =
+                (VisualizationViewer<Node, Edge>)source;
+    	    	
+    	Set<Node> pickedNodes = vv.getPickedVertexState().getPicked();
+    	JungGraph graph = (JungGraph) vv.getModel().getGraphLayout().getGraph();
+    	for (Node node : pickedNodes) {
+    		graph.removeVertex(node);
+    		vv.repaint();
+    	}
+
+    	Set<Edge> pickedEdges = vv.getPickedEdgeState().getPicked();
+    	if (pickedEdges.size() == 0)
+    		return;
     	
+    	for (Edge edge : pickedEdges) {
+    		graph.removeEdge(edge);
+    	}
+    	vv.repaint();
     }
 }
