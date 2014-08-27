@@ -20,6 +20,11 @@ public class EditorMenu extends JMenuBar implements ActionListener {
 	JMenuItem loadPatternItem;
 	JMenuItem saveItem;
 	
+	
+	// Edit
+	JMenuItem undoItem;
+	JMenuItem redoItem;
+	
 	final JFileChooser fc = new JFileChooser();
 	
 	public EditorMenu(final MainController controller) {
@@ -57,6 +62,12 @@ public class EditorMenu extends JMenuBar implements ActionListener {
 		add(menu);
 		
 		menu = new JMenu("Edit");
+		undoItem = new JMenuItem("Undo");
+		menu.add(undoItem);
+		undoItem.addActionListener(this);
+		redoItem = new JMenuItem("Redo");
+		menu.add(redoItem);
+		redoItem.addActionListener(this);
 		add(menu);
 	}
 
@@ -92,6 +103,14 @@ public class EditorMenu extends JMenuBar implements ActionListener {
 		if (e.getSource() == saveItem) {
 			System.out.println("save!");
 			controller.saveCurrentGraph();
+		}
+		
+		if (e.getSource() == undoItem) {
+			controller.getGraphEditor().undo();
+		}
+		
+		if (e.getSource() == redoItem) {
+			controller.getGraphEditor().redo();
 		}
 	}
 }

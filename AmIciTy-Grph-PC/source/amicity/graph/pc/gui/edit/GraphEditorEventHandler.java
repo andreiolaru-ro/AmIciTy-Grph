@@ -62,8 +62,10 @@ public class GraphEditorEventHandler extends EditingModalGraphMouse<Node, Edge> 
 			switch(e.getKeyCode()) {
 			case 10:
 				openEditPopup(e.getSource());
+				break;
 			case 8:
 				delete(e.getSource());
+				break;
 			}
 		}
 	}
@@ -82,7 +84,7 @@ public class GraphEditorEventHandler extends EditingModalGraphMouse<Node, Edge> 
                             new CrossoverScalingControl(), 0, in, out);
             //rotatingPlugin = new RotatingGraphMousePlugin();
             //shearingPlugin = new ShearingGraphMousePlugin();
-            editingPlugin = new CustomEditingGraphMousePlugin<Node, Edge>(CTRL_MASK, vertexFactory,
+            editingPlugin = new EditingPlugin(CTRL_MASK, vertexFactory,
                             edgeFactory);
             //labelEditingPlugin = new CustomLabelEditingPlugin<V, E>(24);
             
@@ -147,7 +149,7 @@ public class GraphEditorEventHandler extends EditingModalGraphMouse<Node, Edge> 
     	Set<Node> pickedNodes = vv.getPickedVertexState().getPicked();
     	JungGraph graph = (JungGraph) vv.getModel().getGraphLayout().getGraph();
     	for (Node node : pickedNodes) {
-    		graph.removeVertex(node);
+    		graph.removeVertexWithHistory(node);
     		vv.repaint();
     	}
 

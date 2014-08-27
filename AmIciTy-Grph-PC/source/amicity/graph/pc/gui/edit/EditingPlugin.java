@@ -5,8 +5,12 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
+import net.xqhs.graphs.graph.Edge;
+import net.xqhs.graphs.graph.Node;
+
 import org.apache.commons.collections15.Factory;
 
+import amicity.graph.pc.jung.JungGraph;
 import edu.uci.ics.jung.algorithms.layout.GraphElementAccessor;
 import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.graph.DirectedGraph;
@@ -16,9 +20,9 @@ import edu.uci.ics.jung.graph.util.EdgeType;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 import edu.uci.ics.jung.visualization.control.EditingGraphMousePlugin;
 
-public class CustomEditingGraphMousePlugin<V, E> extends EditingGraphMousePlugin<V, E> {	
-	public CustomEditingGraphMousePlugin(int i, Factory<V> vertexFactory,
-			Factory<E> edgeFactory) {
+public class EditingPlugin extends EditingGraphMousePlugin<Node, Edge> {	
+	public EditingPlugin(int i, Factory<Node> vertexFactory,
+			Factory<Edge> edgeFactory) {
 		super(i, vertexFactory, edgeFactory);
 		this.cursor = Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR);
 	}
@@ -29,18 +33,18 @@ public class CustomEditingGraphMousePlugin<V, E> extends EditingGraphMousePlugin
 			System.out.println("Modifiers: " + modifiers);
 		    System.out.println("CustomEditingGraphMousePlugin::mousePressed> modifier= " + e.getModifiers());
 
-            final VisualizationViewer<V,E> vv =
-                (VisualizationViewer<V,E>)e.getSource();
+            final VisualizationViewer<Node,Edge> vv =
+                (VisualizationViewer<Node,Edge>)e.getSource();
             final Point2D p = e.getPoint();
-            GraphElementAccessor<V,E> pickSupport = vv.getPickSupport();
+            GraphElementAccessor<Node,Edge> pickSupport = vv.getPickSupport();
             if(pickSupport != null) {
-            	Graph<V,E> graph = vv.getModel().getGraphLayout().getGraph();
+            	JungGraph graph = (JungGraph) vv.getModel().getGraphLayout().getGraph();
             	// set default edge type
             	
             	edgeIsDirected = EdgeType.DIRECTED;
 
             	
-                final V vertex = pickSupport.getVertex(vv.getModel().getGraphLayout(), p.getX(), p.getY());
+                final Node vertex = pickSupport.getVertex(vv.getModel().getGraphLayout(), p.getX(), p.getY());
                 if(vertex != null) { // get ready to make an edge
                     startVertex = vertex;
                     down = e.getPoint();
@@ -56,9 +60,9 @@ public class CustomEditingGraphMousePlugin<V, E> extends EditingGraphMousePlugin
                     }
                 } else { // make a new vertex
 
-                    V newVertex = vertexFactory.create();
-                    Layout<V,E> layout = vv.getModel().getGraphLayout();
-                    graph.addVertex(newVertex);
+                    Node newVertex = vertexFactory.create();
+                    Layout<Node,Edge> layout = vv.getModel().getGraphLayout();
+                    graph.addVertexWithHistory(newVertex);
                     layout.setLocation(newVertex, vv.getRenderContext().getMultiLayerTransformer().inverseTransform(e.getPoint()));
                 }
             }

@@ -144,7 +144,6 @@ public class GraphEditor extends JPanel {
     	double y = -modelTransformer.getTranslateY();
     	modelTransformer.translate(x, y);
     }
-    
 
 	public void loadGraph(JungGraph graph, boolean needsLayout) {
 		loadGraph(graph);
@@ -156,6 +155,16 @@ public class GraphEditor extends JPanel {
     
     public JungGraph getGraph() {
     	return graph;
+    }
+    
+    public void undo() {
+    	graph.undo();
+    	vv.repaint();
+    }
+    
+    public void redo() {
+    	graph.redo();
+    	vv.repaint();
     }
     
     class NodeFactory implements Factory<Node> {

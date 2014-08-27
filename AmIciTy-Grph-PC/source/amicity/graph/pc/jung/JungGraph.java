@@ -2,6 +2,8 @@ package amicity.graph.pc.jung;
 
 import java.util.Collection;
 
+import amicity.graph.pc.common.Command;
+import amicity.graph.pc.common.UndoManager;
 import net.xqhs.graphs.graph.Edge;
 import net.xqhs.graphs.graph.Node;
 import net.xqhs.graphs.graph.SimpleGraph;
@@ -23,11 +25,14 @@ public class JungGraph implements Graph<Node, Edge> {
 	protected Graph<Node, Edge> graph;
 	protected Layout<Node, Edge> layout;
 	
+	protected UndoManager undoManager;
+	
 	public JungGraph(String name, boolean isPattern) {
 		this.setName(name);
 		this.graph = Graphs.<Node,Edge>synchronizedDirectedGraph(new DirectedSparseMultigraph<Node, Edge>());
 		layout = new StaticLayout<Node, Edge>(this);
 		this.isPattern = isPattern;
+		undoManager = new UndoManager();
 	}
 	
 	public JungGraph(SimpleGraph simpleGraph, String name, boolean isPattern) {
@@ -73,6 +78,58 @@ public class JungGraph implements Graph<Node, Edge> {
 	public void setLayout(Layout<Node, Edge> layout) {
 		this.layout = layout;
 	}
+	
+	public void undo() {
+		undoManager.Undo();
+	}
+	
+	public void redo() {
+		undoManager.Redo();
+	}
+	
+	public boolean addVertexWithHistory(Node node) {
+		Command command = new AddRemoveCommand<Node>(this, node, AddRemoveCommand.Type.Add);
+		
+		if (graph.addVertex(node)) {
+			undoManager.addCommand(command);
+			return true;
+		}
+
+		return false;
+	}
+	
+	public boolean removeVertexWithHistory(Node node) {
+		Command command = new AddRemoveCommand<Node>(this, node, AddRemoveCommand.Type.Remove);
+		
+		if (graph.removeVertex(node)) {
+			undoManager.addCommand(command);
+			return true;
+		}
+		
+		return false;
+	}
+
+	public boolean addEdgeWithHistory(Edge edge) {
+		Command command = new AddRemoveCommand<Edge>(this, edge, AddRemoveCommand.Type.Add);
+		
+		if (graph.addEdge(edge, edge.getFrom(), edge.getTo())) {
+			undoManager.addCommand(command);
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public boolean removeEdgeWithHistory(Edge edge) {
+		Command command = new AddRemoveCommand<Edge>(this, edge, AddRemoveCommand.Type.Remove);
+		
+		if (graph.removeEdge(edge)) {
+			undoManager.addCommand(command);
+			return true;
+		}
+		
+		return false;
+	}
 
 	@Override
 	public boolean addEdge(Edge arg0, Collection<? extends Node> arg1) {
@@ -86,9 +143,10 @@ public class JungGraph implements Graph<Node, Edge> {
 	}
 
 	@Override
-	public boolean addVertex(Node arg0) {
-		return graph.addVertex(arg0);
+	public boolean addVertex(Node node) {
+		return graph.addVertex(node);
 	}
+
 
 	@Override
 	public boolean containsEdge(Edge arg0) {
