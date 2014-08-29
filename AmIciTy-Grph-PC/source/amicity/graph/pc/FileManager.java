@@ -40,7 +40,9 @@ public class FileManager {
 			in = new FileInputStream(file);
 			ObjectInputStream input = new ObjectInputStream(in);
 			PackedGraph packedGraph = (PackedGraph) input.readObject();
-			return new CachedJungGraph(packedGraph);
+			CachedJungGraph graph = new CachedJungGraph(packedGraph);
+			graph.setFilepath(file);
+			return graph;
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null,
 				    "Unable to read from file.",
