@@ -107,7 +107,7 @@ public class GraphExplorer extends JPanel implements TreeSelectionListener {
 	
 	public GraphExplorer(MainController controller) {
 		this.controller = controller;
-		controller.registerGraphExplorer(this);
+		controller.register(this);
 		
 		root.add(contextGraphNode);
 		root.add(patternNode);
@@ -142,10 +142,10 @@ public class GraphExplorer extends JPanel implements TreeSelectionListener {
 	@Override
 	public void valueChanged(TreeSelectionEvent e) {
 		DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
-		if (!selectedNode.isLeaf())
+		if (selectedNode == null || !selectedNode.isLeaf())
 			return;
 		JungGraph graph = (JungGraph) selectedNode.getUserObject();
-		controller.loadGraph(graph);
+		controller.getGraphEditor().openGraph(graph);
 	}
 	
 	public List<JungGraph> getPatterns() {

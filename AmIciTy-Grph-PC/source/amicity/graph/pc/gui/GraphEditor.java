@@ -57,11 +57,9 @@ public class GraphEditor extends JPanel {
     private JungGraph graph;
     private VisualizationViewer<Node,Edge> vv;
     
-    public GraphEditor(MainController controller) {
-    	controller.registerGraphEditor(this);
-        graph = new JungGraph("untitled", false);
-        controller.registerGraphEditor(this);
- 
+    public GraphEditor(JungGraph aGraph) {
+    	this.graph = aGraph;
+
         this.setLayout(new BorderLayout());
         
         vv =  new VisualizationViewer<Node,Edge>(graph.getLayout());
@@ -134,19 +132,10 @@ public class GraphEditor extends JPanel {
         controls.add(minus);
         controls.add(layoutButton);;
         add(controls, BorderLayout.SOUTH);
+ 
     }
     
-    public void loadGraph(JungGraph jungGraph) {
-    	this.graph = jungGraph;
-    	vv.getModel().setGraphLayout(jungGraph.getLayout());
-    	MutableTransformer modelTransformer = vv.getRenderContext().getMultiLayerTransformer().getTransformer(Layer.LAYOUT);
-    	double x = -modelTransformer.getTranslateX();
-    	double y = -modelTransformer.getTranslateY();
-    	modelTransformer.translate(x, y);
-    }
-
-	public void loadGraph(JungGraph graph, boolean needsLayout) {
-		loadGraph(graph);
+	public void doGraphLayout() {
 		FRLayout<Node, Edge> layout = new FRLayout<Node, Edge>(graph);
     	graph.setLayout(new StaticLayout<Node, Edge>(graph, layout));
         vv.getModel().setGraphLayout(layout);

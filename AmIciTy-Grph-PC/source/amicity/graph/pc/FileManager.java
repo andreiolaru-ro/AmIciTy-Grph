@@ -12,7 +12,7 @@ public class FileManager {
 	MainController controller;
 	FileManager(MainController controller) {
 		this.controller = controller;
-		controller.registerFileManager(this);
+		controller.register(this);
 	}
 
 	public void loadJungGraph(File file) {

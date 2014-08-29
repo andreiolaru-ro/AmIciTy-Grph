@@ -14,24 +14,32 @@ import amicity.graph.pc.MainController;
 import amicity.graph.pc.jung.JungGraph;
 
 public class ToolBar extends JToolBar implements ActionListener {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private MainController controller;
+	
+	private JButton newB;
+	private JButton saveB;
+	private JButton runB;
+	private JButton undoB;
+	private JButton redoB;
 
 	public ToolBar(MainController controller) {
-		controller.registerToolBar(this);
+		controller.register(this);
 		this.controller = controller;
 		
-		JButton newB = new JButton("New");
+		newB = new JButton("New");
 		this.add(newB);
-		JButton saveB = new JButton("Save");
+		saveB = new JButton("Save");
 		this.add(saveB);
 		this.addSeparator();
-		JButton run = new JButton("Run");
-		this.add(run);
-		run.addActionListener(this);
+		undoB = new JButton("Undo");
+		this.add(undoB);
+		redoB = new JButton("Redo");
+		this.add(redoB);
+		this.addSeparator();
+		JButton runB = new JButton("Run");
+		this.add(runB);
+		runB.addActionListener(this);
 	}
 
 	@Override

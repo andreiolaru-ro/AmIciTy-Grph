@@ -1,8 +1,10 @@
 package amicity.graph.pc.jung;
 
 import java.util.Collection;
+import java.util.Observable;
 
 import amicity.graph.pc.common.Command;
+import amicity.graph.pc.common.GraphUpdateEvent;
 import amicity.graph.pc.common.UndoManager;
 import net.xqhs.graphs.graph.Edge;
 import net.xqhs.graphs.graph.Node;
@@ -16,7 +18,7 @@ import edu.uci.ics.jung.graph.util.EdgeType;
 import edu.uci.ics.jung.graph.util.Graphs;
 import edu.uci.ics.jung.graph.util.Pair;
 
-public class JungGraph implements Graph<Node, Edge> {
+public class JungGraph extends Observable implements Graph<Node, Edge> {
 	// fix name conflict with net.xqhs.Graph
 	private String name;
 	private String description;
@@ -75,16 +77,23 @@ public class JungGraph implements Graph<Node, Edge> {
 	public Layout<Node, Edge> getLayout() {
 		return layout;
 	}
+
 	public void setLayout(Layout<Node, Edge> layout) {
 		this.layout = layout;
 	}
 	
 	public void undo() {
-		undoManager.Undo();
+		if (undoManager.Undo()) {
+			setChanged();
+			notifyObservers(new GraphUpdateEvent(GraphUpdateEvent.Type.GraphStructure, null));
+		}
 	}
 	
 	public void redo() {
-		undoManager.Redo();
+		if (undoManager.Redo()) {
+			setChanged();
+			notifyObservers(new GraphUpdateEvent(GraphUpdateEvent.Type.GraphStructure, null));
+		}
 	}
 	
 	public boolean addVertexWithHistory(Node node) {
@@ -92,6 +101,8 @@ public class JungGraph implements Graph<Node, Edge> {
 		
 		if (graph.addVertex(node)) {
 			undoManager.addCommand(command);
+			setChanged();
+			notifyObservers(new GraphUpdateEvent(GraphUpdateEvent.Type.GraphStructure, null));
 			return true;
 		}
 
@@ -103,6 +114,8 @@ public class JungGraph implements Graph<Node, Edge> {
 		
 		if (graph.removeVertex(node)) {
 			undoManager.addCommand(command);
+			setChanged();
+			notifyObservers(new GraphUpdateEvent(GraphUpdateEvent.Type.GraphStructure, null));
 			return true;
 		}
 		
@@ -114,6 +127,8 @@ public class JungGraph implements Graph<Node, Edge> {
 		
 		if (graph.addEdge(edge, edge.getFrom(), edge.getTo())) {
 			undoManager.addCommand(command);
+			setChanged();
+			notifyObservers(new GraphUpdateEvent(GraphUpdateEvent.Type.GraphStructure, null));
 			return true;
 		}
 		
@@ -125,6 +140,8 @@ public class JungGraph implements Graph<Node, Edge> {
 		
 		if (graph.removeEdge(edge)) {
 			undoManager.addCommand(command);
+			setChanged();
+			notifyObservers(new GraphUpdateEvent(GraphUpdateEvent.Type.GraphStructure, null));
 			return true;
 		}
 		
@@ -353,6 +370,10 @@ public class JungGraph implements Graph<Node, Edge> {
 	}
 
 	public void setName(String name) {
+		if (!name.equals(this.name)) {
+			setChanged();
+			notifyObservers(new GraphUpdateEvent(GraphUpdateEvent.Type.Name, null));
+		}
 		this.name = name;
 	}
 
@@ -366,5 +387,9 @@ public class JungGraph implements Graph<Node, Edge> {
 	
 	public String toString() {
 		return getName();
+	}
+	
+	public boolean isPattern() {
+		return isPattern;
 	}
 }

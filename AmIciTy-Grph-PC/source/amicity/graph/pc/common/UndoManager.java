@@ -2,7 +2,7 @@ package amicity.graph.pc.common;
 
 import java.util.Stack;
 
-public class UndoManager implements Command {
+public class UndoManager {
 	private Stack<Command> past;
 	private Stack<Command> future;
 
@@ -16,26 +16,35 @@ public class UndoManager implements Command {
 		clearFuture();
 	}
 
-	@Override
-	public void Undo() {
+	public boolean Undo() {
 		if (past.empty()) {
-			return;
+			return false;
 		}
 		
 		Command command = past.pop();
 		command.Undo();
 		future.add(command);
+		return true;
 	}
 
-	@Override
-	public void Redo() {
+
+	public boolean Redo() {
 		if (future.empty()) {
-			return;
+			return false;
 		}
 
 		Command command = future.pop();
 		command.Redo();
 		past.add(command);
+		return true;
+	}
+	
+	public boolean canUndo() {
+		return !past.isEmpty();
+	}
+	
+	public boolean canRedo() {
+		return !future.isEmpty();
 	}
 	
 	public void clearFuture() {
