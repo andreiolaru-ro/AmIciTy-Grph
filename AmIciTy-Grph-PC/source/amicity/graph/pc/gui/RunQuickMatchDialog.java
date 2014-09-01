@@ -48,10 +48,12 @@ public class RunQuickMatchDialog extends JDialog
 			for (JungGraph g : graphs) {
 				graphModel.addElement(g);
 			}
+
 			
 			for (JungGraph p : patterns) {
 				patternModel.addElement(p);
 			}
+
 					
 			setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 			
@@ -61,17 +63,24 @@ public class RunQuickMatchDialog extends JDialog
 			right.setLayout(new BoxLayout(right, BoxLayout.Y_AXIS));
 
 			this.graphs = new JList<JungGraph>(graphModel);
+			if (graphModel.size() > 0) {
+				this.graphs.setSelectedIndex(0);
+			}
 			JLabel graphLabel = new JLabel("Graph:");
 			graphLabel.setLabelFor(this.graphs);
 			graphLabel.setAlignmentX(LEFT_ALIGNMENT);
 			left.add(graphLabel);
+			
 			left.add(Box.createRigidArea(new Dimension(0, 5)));
 			JScrollPane leftScroller = new JScrollPane(this.graphs);
 			leftScroller.setAlignmentX(LEFT_ALIGNMENT);
 			left.add(leftScroller);
 			
 			// patterns
-			this.patterns = new JList<JungGraph>(patternModel);
+			this.patterns = new JList<JungGraph>(patternModel);			
+			if (patternModel.size() > 0) {
+				this.patterns.setSelectedIndex(0);
+			}
 			JLabel patternLabel = new JLabel("Pattern:");
 			graphLabel.setLabelFor(this.patterns);
 			graphLabel.setAlignmentX(LEFT_ALIGNMENT);

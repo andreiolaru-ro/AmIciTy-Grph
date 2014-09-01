@@ -1,3 +1,4 @@
+
 /*
  * Copyright (c) 2003, the JUNG Project and the Regents of the University of
  * California All rights reserved.
@@ -25,6 +26,7 @@ import net.xqhs.graphs.graph.Edge;
 import net.xqhs.graphs.graph.Node;
 import net.xqhs.graphs.graph.SimpleEdge;
 import net.xqhs.graphs.graph.SimpleNode;
+import net.xqhs.graphs.matcher.Match;
 
 import org.apache.commons.collections15.Factory;
 import org.apache.commons.collections15.Transformer;
@@ -44,20 +46,19 @@ import edu.uci.ics.jung.visualization.control.CrossoverScalingControl;
 import edu.uci.ics.jung.visualization.control.ScalingControl;
 import edu.uci.ics.jung.visualization.renderers.DefaultEdgeLabelRenderer;
 import edu.uci.ics.jung.visualization.renderers.Renderer.VertexLabel.Position;
-import edu.uci.ics.jung.visualization.transform.MutableTransformer;
 
 /**
  * @author Badea Catalin
  * @author Tom Nelson
  * 
  */
-public class GraphEditor extends JPanel {
+public class MatchViewer extends JPanel {
 	private static final long serialVersionUID = -2023243689258876709L;
 
 	private JungGraph graph;
 	private VisualizationViewer<Node, Edge> vv;
 
-	public GraphEditor(JungGraph aGraph) {
+	public MatchViewer(JungGraph aGraph) {
 		this.graph = aGraph;
 
 		this.setLayout(new BorderLayout());
@@ -143,6 +144,28 @@ public class GraphEditor extends JPanel {
 		FRLayout<Node, Edge> layout = new FRLayout<Node, Edge>(graph);
 		graph.setLayout(new StaticLayout<Node, Edge>(graph, layout));
 		vv.getModel().setGraphLayout(layout);
+	}
+	
+	public void setMatch(Match match) {
+		System.out.println("CALLED");
+		JungGraph graph = new JungGraph("match", false);
+		
+		for (Node node : match.getMatchedGraph().getNodes()) {
+			graph.addVertex(node);
+		}
+		for (Edge edge : match.getMatchedGraph().getEdges()) {
+			graph.addEdge(edge, edge.getFrom(), edge.getTo());
+		}
+		
+		for (Node node : match.getSolvedPart().getNodes()) {
+			graph.addVertex(node);
+		}
+		for (Edge edge : match.getSolvedPart().getEdges()) {
+			graph.addEdge(edge, edge.getFrom(), edge.getTo());
+		}
+		
+		this.graph = graph;
+		doGraphLayout();
 	}
 
 	public JungGraph getGraph() {

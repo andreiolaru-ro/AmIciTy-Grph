@@ -7,6 +7,7 @@ import javax.swing.JOptionPane;
 
 import amicity.graph.pc.jung.JungGraph;
 import net.xqhs.graphs.graph.SimpleGraph;
+import net.xqhs.graphs.pattern.GraphPattern;
 
 public class FileManager {
 	MainController controller;
@@ -19,7 +20,7 @@ public class FileManager {
 	}
 
 	public JungGraph loadBareGraph(File file, boolean isPattern) {
-		SimpleGraph simpleGraph = new SimpleGraph();
+		GraphPattern simpleGraph = new GraphPattern();
 		try {
 			simpleGraph.readFrom(new FileInputStream(file));
 			// pass null filepath since we don't want to overwrite the file.

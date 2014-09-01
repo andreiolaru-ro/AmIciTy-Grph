@@ -34,7 +34,7 @@ public class EditorMenu extends JMenuBar implements ActionListener {
 		newItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				controller.createNewGraph();
+				controller.createNewGraph(false);
 			}	
 		});
 		menu.add(newItem);

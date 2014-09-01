@@ -13,10 +13,13 @@ import java.util.List;
 import java.util.regex.PatternSyntaxException;
 
 import javax.swing.DefaultCellEditor;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTree;
+import javax.swing.SwingUtilities;
 import javax.swing.event.CellEditorListener;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
@@ -33,6 +36,32 @@ import amicity.graph.pc.jung.JungGraph;
 
 public class GraphExplorer extends JPanel implements TreeSelectionListener {
 	private static final long serialVersionUID = 9187558802298268027L;
+	
+	class TreeLeafPopup extends JPopupMenu implements ActionListener {
+		JMenuItem rename;
+		JMenuItem close;
+		TreePath path;
+		
+		public TreeLeafPopup(TreePath path) {
+			this.path = path;
+			rename = new JMenuItem("rename");
+			rename.addActionListener(this);
+			close = new JMenuItem("close");
+			close.addActionListener(this);
+			add(rename);
+			add(close);
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (e.getSource() == rename) {
+				GraphExplorer.this.tree.startEditingAtPath(path);
+			}
+			if (e.getSource() == close) {
+				System.out.println("close");
+			}
+		}
+	}
 	
 	class TreeNode extends DefaultMutableTreeNode {
 		private static final long serialVersionUID = 6140024292002772756L;
@@ -60,19 +89,34 @@ public class GraphExplorer extends JPanel implements TreeSelectionListener {
 	
 	class TreeEditor extends DefaultTreeCellEditor {
 
+		public Component getTreeCellEditorComponent(JTree tree,
+			    Object value, boolean isSelected, boolean expanded,
+			    boolean leaf, int row)
+		{
+			System.out.println(value.getClass());
+			return super.getTreeCellEditorComponent(tree, value, isSelected, expanded, leaf, row);
+			
+		}
+		
 		public TreeEditor(JTree tree, DefaultTreeCellRenderer renderer) {
 			super(tree, renderer);
 		}
 		
 		public boolean isCellEditable(EventObject event) {
-			if (!super.isCellEditable(event)) {  
-	            return false;  
-	        }  
-	        
+			System.out.println("called by: " + event);
+			if (event == null) {
+				return true;
+			}
+			
+			if (!super.isCellEditable(event)) {
+				return false;
+			}
+			
 			if (event != null && event.getSource() instanceof JTree && event instanceof MouseEvent) {  
 	            MouseEvent mouseEvent = (MouseEvent)event;  
 	            JTree tree = (JTree)event.getSource();  
 	            TreePath path = tree.getPathForLocation(mouseEvent.getX(), mouseEvent.getY());  
+	            System.out.println(path.getLastPathComponent() instanceof TreeLeaf);
 	            return path.getLastPathComponent() instanceof TreeLeaf;  
 	        } 
 
@@ -82,7 +126,7 @@ public class GraphExplorer extends JPanel implements TreeSelectionListener {
 	
 	class MouseHandler extends MouseAdapter {
 		public void mousePressed(MouseEvent e) {
-	         int selRow = tree.getRowForLocation(e.getX(), e.getY());
+	        /* int selRow = tree.getRowForLocation(e.getX(), e.getY());
 	         TreePath selPath = tree.getPathForLocation(e.getX(), e.getY());
 	         if(selRow != -1) {
 	             if(e.getClickCount() == 2) {
@@ -91,7 +135,24 @@ public class GraphExplorer extends JPanel implements TreeSelectionListener {
 	            	System.out.println("LOLLOL");
 	             }
 	         }
+	         */
 	     }
+
+		public void mouseClicked(MouseEvent e) {
+	         if (SwingUtilities.isRightMouseButton(e)) {
+
+	             int row = tree.getClosestRowForLocation(e.getX(), e.getY());
+	             //tree.setSelectionRow(row);
+	             TreePath path = tree.getPathForLocation(e.getX(), e.getY());
+	             tree.setSelectionPath(path);
+
+	             //TreePath path = tree.getSelectionPath();
+	             if (path != null && path.getLastPathComponent() instanceof TreeLeaf) {
+	            	 TreeLeafPopup popup = new TreeLeafPopup(path);
+	            	 popup.show(e.getComponent(), e.getX(), e.getY());
+	             }
+	         }
+		}
 	}
 	
 	JTree tree;
@@ -128,6 +189,7 @@ public class GraphExplorer extends JPanel implements TreeSelectionListener {
 		setLayout(new BorderLayout());
 		treeViewPane.setPreferredSize(new Dimension(160, 160));
 		this.add(treeViewPane,BorderLayout.CENTER);
+		tree.addMouseListener(new MouseHandler());
 	}
 		
 	public void addGraph(JungGraph graph, boolean isPattern) {

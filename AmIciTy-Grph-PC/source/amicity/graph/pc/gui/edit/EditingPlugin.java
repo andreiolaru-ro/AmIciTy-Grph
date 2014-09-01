@@ -7,6 +7,7 @@ import java.awt.geom.Point2D;
 
 import net.xqhs.graphs.graph.Edge;
 import net.xqhs.graphs.graph.Node;
+import net.xqhs.graphs.graph.SimpleEdge;
 
 import org.apache.commons.collections15.Factory;
 
@@ -67,6 +68,31 @@ public class EditingPlugin extends EditingGraphMousePlugin<Node, Edge> {
                 }
             }
             vv.repaint();
+        }
+    }
+	
+	public void mouseReleased(MouseEvent e) {
+        if(checkModifiers(e)) {
+            final VisualizationViewer<Node,Edge> vv =
+                (VisualizationViewer<Node,Edge>)e.getSource();
+            final Point2D p = e.getPoint();
+            Layout<Node, Edge> layout = vv.getModel().getGraphLayout();
+            GraphElementAccessor<Node,Edge> pickSupport = vv.getPickSupport();
+            if(pickSupport != null) {
+                final Node vertex = pickSupport.getVertex(layout, p.getX(), p.getY());
+                if(vertex != null && startVertex != null) {
+                    JungGraph graph = 
+                    	(JungGraph) vv.getGraphLayout().getGraph();
+                    	Edge newEdge = new SimpleEdge(startVertex, vertex, "edge");
+                    	graph.addEdgeWithHistory(newEdge);
+                    vv.repaint();
+                }
+            }
+            startVertex = null;
+            down = null;
+            edgeIsDirected = EdgeType.UNDIRECTED;
+            vv.removePostRenderPaintable(edgePaintable);
+            vv.removePostRenderPaintable(arrowPaintable);
         }
     }
 	

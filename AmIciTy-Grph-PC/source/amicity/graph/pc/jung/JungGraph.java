@@ -57,7 +57,15 @@ public class JungGraph extends Observable implements Graph<Node, Edge> {
 			simpleGraph.addNode(node);
 		}
 		for (Edge edge : graph.getEdges()) {
-			simpleGraph.addEdge(edge);
+			try {
+				simpleGraph.addEdge(edge);
+			} catch (Exception e) {
+				System.out.println(edge.getFrom());
+				System.out.println(edge.getLabel());
+				System.out.println(edge.getTo());
+				System.out.println(edge.getClass());
+				e.printStackTrace();
+			}
 		}
 		return simpleGraph;
 	}
@@ -372,7 +380,7 @@ public class JungGraph extends Observable implements Graph<Node, Edge> {
 	public void setName(String name) {
 		if (!name.equals(this.name)) {
 			setChanged();
-			notifyObservers(new GraphUpdateEvent(GraphUpdateEvent.Type.Name, null));
+			notifyObservers(new GraphUpdateEvent(GraphUpdateEvent.Type.Name, name));
 		}
 		this.name = name;
 	}

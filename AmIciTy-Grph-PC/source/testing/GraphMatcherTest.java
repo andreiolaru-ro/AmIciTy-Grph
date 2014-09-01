@@ -39,26 +39,22 @@ import net.xqhs.util.logging.UnitComponent;
 public class GraphMatcherTest extends Tester {
 	public SimpleGraph mGraph;
 	public GraphPattern mPattern;
-	/**
-	 * @param args
-	 *            : arguments
-	 */
-	@SuppressWarnings("unused")
-	public static void main(String[] args) {
-		new GraphMatcherTest();
+	
+	public GraphMatcherTest(SimpleGraph graph, GraphPattern pattern) {
+		log = (UnitComponent) new UnitComponent().setUnitName(unitName).setLogLevel(Level.ALL);
+		mGraph = graph;
+		mPattern = pattern;
+		doTesting();
+		
+		log.doExit();
 	}
 
 	@Override
 	protected void doTesting() {
 		super.doTesting();
 
-		String filename = "conf/conf";
 		boolean visual = false;
 
-		Map<String, Graph> testPack = loadTestGraphPattern(filename, null,
-				Level.INFO);
-
-		printTestPack(testPack, true, "\n", "\t", 2, log);
 		System.out.println("printTestPackEND");
 		GCanvas canvas = null;
 		if (visual) {
@@ -81,7 +77,7 @@ public class GraphMatcherTest extends Tester {
 			monitoring.setVisual(new MatchingVisualizer().setCanvas(canvas)
 					.setTopLeft(new Point(-400, 0)));
 
-		testMatchingProcess(testPack, monitoring);
+		testMatchingProcess(mGraph, mPattern, monitoring);
 	}
 
 	/**
@@ -91,18 +87,9 @@ public class GraphMatcherTest extends Tester {
 	 * @param monitoring
 	 * @param log
 	 */
-	protected void testMatchingProcess(Map<String, Graph> testPack,
+	protected void testMatchingProcess(Graph G, GraphPattern GP,
 			MonitorPack monitoring) {
-		Graph G = testPack.get(NAME_GRAPH);
-		JungGraph jungGraph = new JungGraph((SimpleGraph) G, "conf", false);
-		G = jungGraph.asSimpleGraph();
-		
-		GraphPattern GP = (GraphPattern) testPack.get(NAME_PATTERN);
-		JungGraph jungGraphPattern = new JungGraph(GP, "confP", true);
-		GP = jungGraphPattern.asGraphPattern();
-		
-		mGraph = (SimpleGraph) G;
-		mPattern = GP;
+
 
 		GraphMatchingProcess GMQ = GraphMatcherQuick.getMatcher(G, GP,
 				monitoring);

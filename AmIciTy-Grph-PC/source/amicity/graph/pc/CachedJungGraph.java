@@ -47,9 +47,6 @@ public class CachedJungGraph extends JungGraph {
 	public File getFilepath() {
 		return filepath;
 	}
-	public String toString() {
-		return "<html><b>" + super.toString() + "</b></html>";
-	}
 	
 	public PackedGraph pack() {
 		return new PackedGraph(this);

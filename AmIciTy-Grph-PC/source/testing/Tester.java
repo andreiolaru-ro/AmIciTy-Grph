@@ -69,11 +69,11 @@ public class Tester
 	 */
 	public Tester()
 	{
-		log = (UnitComponent) new UnitComponent().setUnitName(unitName).setLogLevel(Level.ALL);
+		//log = (UnitComponent) new UnitComponent().setUnitName(unitName).setLogLevel(Level.ALL);
 		
-		doTesting();
+		//doTesting();
 		
-		log.doExit();
+		//log.doExit();
 	}
 	
 	/**

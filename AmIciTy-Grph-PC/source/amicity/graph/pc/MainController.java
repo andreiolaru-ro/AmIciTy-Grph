@@ -2,8 +2,11 @@ package amicity.graph.pc;
 
 import java.io.File;
 
+import javax.swing.JFrame;
+
 import amicity.graph.pc.gui.GraphEditor;
 import amicity.graph.pc.gui.GraphExplorer;
+import amicity.graph.pc.gui.QuickMatchFrame;
 import amicity.graph.pc.gui.TabbedGraphEditor;
 import amicity.graph.pc.gui.ToolBar;
 import amicity.graph.pc.jung.JungGraph;
@@ -46,19 +49,20 @@ public class MainController {
 	
 	public void init() {
 		JungGraph graph = new CachedJungGraph("untitled", false);
-		graphEditor.openGraph(graph);
+		//graphEditor.openGraph(graph);
 	}
 	
-	public void createNewGraph() {
-		JungGraph graph = new CachedJungGraph("untitled", false);
+	public void createNewGraph(boolean isPattern) {
+		JungGraph graph = new CachedJungGraph("untitled", isPattern);
 		graphEditor.openGraph(graph);
-		graphExplorer.addGraph(graph, false);
+		graphExplorer.addGraph(graph, isPattern);
 	}
 	
 	public void loadBareGraphFromFile(File file, boolean isPattern) {
 		JungGraph graph = fileManager.loadBareGraph(file, isPattern);
 		graphEditor.openGraph(graph);
 		graphEditor.getCurrentEditor().doGraphLayout();
+		graphExplorer.addGraph(graph, isPattern);
 	}
 	
 	public void loadGraphFromFile(File file, boolean isPattern) {
@@ -75,7 +79,7 @@ public class MainController {
 	
 	public void runQuickMatch(JungGraph graph, JungGraph pattern) {
 		System.out.println("Running!!");
-		QuickMatchWorker worker = new QuickMatchWorker(graph.asSimpleGraph(), pattern.asGraphPattern());
-		worker.execute();
+		JFrame results = new QuickMatchFrame(graph.asSimpleGraph(), pattern.asGraphPattern());
+		results.setVisible(true);
 	}
 }

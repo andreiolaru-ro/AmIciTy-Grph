@@ -1,5 +1,6 @@
 package amicity.graph.pc.gui;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -11,6 +12,8 @@ import java.awt.event.MouseMotionAdapter;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
@@ -25,15 +28,33 @@ import javax.swing.event.ChangeListener;
 
 import amicity.graph.pc.CachedJungGraph;
 import amicity.graph.pc.MainController;
+import amicity.graph.pc.common.GraphUpdateEvent;
 import amicity.graph.pc.jung.JungGraph;
 
 public class TabbedGraphEditor extends JTabbedPane {
-	private class TabTitle extends JPanel {
+	boolean enableNewTab = false;
+	private class TabTitle extends JPanel implements Observer {
 		JLabel label;
 
-		public TabTitle(String name) {
-			label = new JLabel(name);
+		public TabTitle(JungGraph graph) {
+			label = new JLabel(graph.getName());
+			label.setOpaque(false);
+			//label.setBackground(new Color(rgba, hasalpha));
+			graph.addObserver(this);
 			this.add(label);
+			this.setOpaque(false);
+		}
+
+		@Override
+		public void update(Observable obj, Object arg) {
+			JungGraph graph = (JungGraph) obj;
+			GraphUpdateEvent event = (GraphUpdateEvent) arg;
+			if (event.type != GraphUpdateEvent.Type.Name) {
+				return;
+			}
+			
+			System.out.println("New name: " + graph.getName());
+			label.setText((String) event.data);
 		}
 	}
 
@@ -50,10 +71,17 @@ public class TabbedGraphEditor extends JTabbedPane {
 	private void addTab(JungGraph graph) {
 		GraphEditor editor = new GraphEditor(graph);
 		openedGraphs.put(graph, editor);
-		remove(newTab);
+		
+		if (enableNewTab)
+			remove(newTab);
 		addTab(graph.getName(), editor);
+
+		//System.out.println(getComponentCount());
+		setTabComponentAt(getTabCount() - 1, new TabTitle(graph));
 		setSelectedComponent(editor);
-		addTab("+", newTab);
+		
+		if (enableNewTab)
+			addTab("+", newTab);
 	}
 
 	public void openGraph(JungGraph graph) {
@@ -81,7 +109,7 @@ public class TabbedGraphEditor extends JTabbedPane {
 	}
 
 	public GraphEditor getCurrentEditor() {
-		if (getTabCount() <= 1)
+		if (getTabCount() < 1)
 			return null;
 		GraphEditor editor = (GraphEditor) getSelectedComponent();
 		return editor;
@@ -93,9 +121,10 @@ public class TabbedGraphEditor extends JTabbedPane {
 
 		openedGraphs = new HashMap<JungGraph, Component>();
 
-		newTab = new JPanel();
-		this.addTab("+", newTab);
-
+		if (enableNewTab) {
+			newTab = new JPanel();
+			this.addTab("+", newTab);
+		}
 		addChangeListener(new ChangeListener() {
 
 			@Override
@@ -118,7 +147,7 @@ public class TabbedGraphEditor extends JTabbedPane {
 					int tabNumber = getUI().tabForCoordinate(
 							TabbedGraphEditor.this, e.getX(), e.getY());
 
-					if (tabNumber > 0) {
+					if (tabNumber >= 0) {
 						System.out.println("TabNumber: " + tabNumber);
 						draggedTabIndex = tabNumber;
 
@@ -144,7 +173,8 @@ public class TabbedGraphEditor extends JTabbedPane {
 										+ bounds.width, bounds.y
 										+ bounds.height, TabbedGraphEditor.this);
 
-						TabbedGraphEditor.this.remove(newTab);
+						if (enableNewTab)
+							TabbedGraphEditor.this.remove(newTab);
 						dragging = true;
 						repaint();
 					}
@@ -166,13 +196,16 @@ public class TabbedGraphEditor extends JTabbedPane {
 					int tabNumber = getUI().tabForCoordinate(
 							TabbedGraphEditor.this, e.getX(), 10);
 
-					if (tabNumber >= 0) {
+					if (tabNumber >= 0 && TabbedGraphEditor.this.getTabCount() > 1) {
 						Component comp = getComponentAt(draggedTabIndex);
-						String title = getTitleAt(draggedTabIndex);
+						Component title = getTabComponentAt(draggedTabIndex);
 						removeTabAt(draggedTabIndex);
-						insertTab(title, null, comp, null, tabNumber);
+						insertTab("lul", null, comp, null, tabNumber);
+						setTabComponentAt(tabNumber, title);
 					}
-					addTab("+", newTab);
+					if (enableNewTab)
+						addTab("+", newTab);
+					repaint();
 				}
 
 				dragging = false;
