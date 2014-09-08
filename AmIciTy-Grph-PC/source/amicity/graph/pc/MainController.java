@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 
 import amicity.graph.pc.gui.GraphEditor;
 import amicity.graph.pc.gui.GraphExplorer;
+import amicity.graph.pc.gui.PatternMatchViewer;
 import amicity.graph.pc.gui.QuickMatchFrame;
 import amicity.graph.pc.gui.TabbedGraphEditor;
 import amicity.graph.pc.gui.ToolBar;
@@ -21,6 +22,7 @@ public class MainController {
 	private GraphExplorer graphExplorer;
 	private TabbedGraphEditor graphEditor;
 	private Object toolBar;
+	private PatternMatchViewer patternViewer;
 
 	public void register(TabbedGraphEditor graphEditor) {
 			this.graphEditor = graphEditor;
@@ -36,6 +38,10 @@ public class MainController {
 	
 	public void register(ToolBar toolBar) {
 		this.toolBar = toolBar;		
+	}
+	
+	public void register(PatternMatchViewer patternViewer) {
+		this.patternViewer = patternViewer;
 	}
 	
 	
@@ -56,6 +62,9 @@ public class MainController {
 		JungGraph graph = new CachedJungGraph("untitled", isPattern);
 		graphEditor.openGraph(graph);
 		graphExplorer.addGraph(graph, isPattern);
+		if (!isPattern) {
+			graph.addObserver(patternViewer);
+		}
 	}
 	
 	public void loadBareGraphFromFile(File file, boolean isPattern) {
@@ -63,6 +72,10 @@ public class MainController {
 		graphEditor.openGraph(graph);
 		graphEditor.getCurrentEditor().doGraphLayout();
 		graphExplorer.addGraph(graph, isPattern);
+		
+		if (!isPattern) {
+			graph.addObserver(patternViewer);
+		}
 	}
 	
 	public void loadGraphFromFile(File file, boolean isPattern) {
@@ -70,6 +83,10 @@ public class MainController {
 		graphEditor.openGraph(graph);
 		graphEditor.getCurrentEditor().doGraphLayout();
 		graphExplorer.addGraph(graph, isPattern);
+		
+		if (!isPattern) {
+			graph.addObserver(patternViewer);
+		}
 	}
 	
 	public void saveCurrentGraph() {
@@ -81,5 +98,9 @@ public class MainController {
 		System.out.println("Running!!");
 		JFrame results = new QuickMatchFrame(graph.asSimpleGraph(), pattern.asGraphPattern());
 		results.setVisible(true);
+	}
+
+	public void hideShowMatchingPatterns(boolean visible) {
+		this.patternViewer.setVisible(true);		
 	}
 }

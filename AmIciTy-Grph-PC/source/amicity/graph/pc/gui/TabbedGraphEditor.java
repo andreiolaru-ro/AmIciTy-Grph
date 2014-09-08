@@ -132,7 +132,18 @@ public class TabbedGraphEditor extends JTabbedPane {
 				JTabbedPane sourceTabbedPane = (JTabbedPane) changeEvent
 						.getSource();
 
-				if (sourceTabbedPane.getSelectedComponent() == newTab) {
+				Component selection = sourceTabbedPane.getSelectedComponent();
+				if (selection == null) {
+					return;
+				}
+				GraphEditor editor = (GraphEditor) selection;
+				if (!editor.getGraph().isPattern()) {
+					controller.hideShowMatchingPatterns(true);
+				} else {
+					controller.hideShowMatchingPatterns(false);
+				}
+				
+				if (sourceTabbedPane.getSelectedComponent() == newTab && enableNewTab) {
 					TabbedGraphEditor.this.openGraph(new CachedJungGraph("untitled", false));
 				}
 				

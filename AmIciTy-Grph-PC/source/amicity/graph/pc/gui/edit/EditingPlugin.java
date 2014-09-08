@@ -8,6 +8,7 @@ import java.awt.geom.Point2D;
 import net.xqhs.graphs.graph.Edge;
 import net.xqhs.graphs.graph.Node;
 import net.xqhs.graphs.graph.SimpleEdge;
+import net.xqhs.graphs.pattern.NodeP;
 
 import org.apache.commons.collections15.Factory;
 
@@ -60,8 +61,7 @@ public class EditingPlugin extends EditingGraphMousePlugin<Node, Edge> {
                         vv.addPostRenderPaintable(arrowPaintable);
                     }
                 } else { // make a new vertex
-
-                    Node newVertex = vertexFactory.create();
+                	Node newVertex = vertexFactory.create();
                     Layout<Node,Edge> layout = vv.getModel().getGraphLayout();
                     graph.addVertexWithHistory(newVertex);
                     layout.setLocation(newVertex, vv.getRenderContext().getMultiLayerTransformer().inverseTransform(e.getPoint()));

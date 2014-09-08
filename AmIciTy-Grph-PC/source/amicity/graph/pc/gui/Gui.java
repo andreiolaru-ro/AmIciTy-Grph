@@ -40,5 +40,8 @@ public class Gui extends JPanel {
 		sideBar.add(graphExplorer);
 
 		this.add(sideBar, BorderLayout.WEST);
+		PatternMatchViewer patternViewer = new PatternMatchViewer(controller);
+		patternViewer.setVisible(false);
+		this.add(patternViewer, BorderLayout.EAST);
 	}
 }

@@ -1,6 +1,10 @@
 package amicity.graph.pc.jung;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Observable;
 
 import amicity.graph.pc.common.Command;
@@ -8,8 +12,10 @@ import amicity.graph.pc.common.GraphUpdateEvent;
 import amicity.graph.pc.common.UndoManager;
 import net.xqhs.graphs.graph.Edge;
 import net.xqhs.graphs.graph.Node;
+import net.xqhs.graphs.graph.SimpleEdge;
 import net.xqhs.graphs.graph.SimpleGraph;
 import net.xqhs.graphs.pattern.GraphPattern;
+import net.xqhs.graphs.pattern.NodeP;
 import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.algorithms.layout.StaticLayout;
 import edu.uci.ics.jung.graph.DirectedSparseMultigraph;
@@ -23,6 +29,7 @@ public class JungGraph extends Observable implements Graph<Node, Edge> {
 	private String name;
 	private String description;
 	private boolean isPattern;
+	private boolean needsLayout;
 
 	protected Graph<Node, Edge> graph;
 	protected Layout<Node, Edge> layout;
@@ -72,11 +79,25 @@ public class JungGraph extends Observable implements Graph<Node, Edge> {
 	
 	public GraphPattern asGraphPattern() {
 		GraphPattern graphPattern = (GraphPattern) new GraphPattern().setUnitName(getName());
+		int count = 1;
+		Map<Node, Node> nodeMap = new HashMap<Node, Node>();
+		
 		for (Node node : graph.getVertices()) {
-			graphPattern.addNode(node);
+			NodeP nodeP;
+			if (node.getLabel().equals("?")) {
+				nodeP = new NodeP(count++); 
+			} else {
+				nodeP = new NodeP(node.getLabel());
+			}
+			nodeMap.put(node, nodeP);
+			graphPattern.addNode(nodeP);
 		}
+		
 		for (Edge edge : graph.getEdges()) {
-			graphPattern.addEdge(edge);
+			Node fromNode = nodeMap.get(edge.getFrom());
+			Node toNode = nodeMap.get(edge.getTo());
+			graphPattern.addEdge(new SimpleEdge(fromNode, toNode, edge.getLabel()));
+			//graphPattern.addEdge(edge);
 		}
 
 		return graphPattern;
@@ -399,5 +420,13 @@ public class JungGraph extends Observable implements Graph<Node, Edge> {
 	
 	public boolean isPattern() {
 		return isPattern;
+	}
+
+	public boolean needsLayout() {
+		return needsLayout;
+	}
+
+	public void setNeedsLayout(boolean needsLayout) {
+		this.needsLayout = needsLayout;
 	}
 }
