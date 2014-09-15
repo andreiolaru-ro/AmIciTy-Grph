@@ -176,6 +176,30 @@ public class JungGraph extends Observable implements Graph<Node, Edge> {
 		
 		return false;
 	}
+	
+	public boolean setLabelWithHistory(Node node, String label) {
+		Command command;
+		if (!node.getLabel().equals(label)) {
+			node.setLabel(label);
+
+			setChanged();
+			notifyObservers(new GraphUpdateEvent(GraphUpdateEvent.Type.GraphStructure, null));
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean setLabelWithHistory(Edge edge, String label) {
+		Command command;
+		if (!edge.getLabel().equals(label)) {
+			edge.setLabel(label);
+
+			setChanged();
+			notifyObservers(new GraphUpdateEvent(GraphUpdateEvent.Type.GraphStructure, null));
+			return true;
+		}
+		return false;
+	}
 
 	@Override
 	public boolean addEdge(Edge arg0, Collection<? extends Node> arg1) {

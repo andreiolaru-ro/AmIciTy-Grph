@@ -63,7 +63,7 @@ public class GraphEditor extends JPanel {
 		this.setLayout(new BorderLayout());
 
 		vv = new VisualizationViewer<Node, Edge>(graph.getLayout());
-		vv.setBackground(Color.lightGray);
+		vv.setBackground(Color.white);
 
 		vv.getRenderContext().setVertexLabelTransformer(new NodeTransformer());
 		vv.getRenderContext().setEdgeLabelTransformer(new EdgeTransformer());

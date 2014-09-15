@@ -123,10 +123,12 @@ public class GraphEditorEventHandler extends EditingModalGraphMouse<Node, Edge> 
                 (VisualizationViewer<Node, Edge>)source;
     	    	
     	Set<Node> pickedNodes = vv.getPickedVertexState().getPicked();
+    	JungGraph graph = (JungGraph) vv.getModel().getGraphLayout().getGraph();
     	for (Node node : pickedNodes) {
     		String newLabel = JOptionPane.showInputDialog("New Vertex Label for "+ node.getLabel());
     		if (newLabel != null && newLabel.length() != 0)
-    			node.setLabel(newLabel);
+    			graph.setLabelWithHistory(node, newLabel);
+    			//node.setLabel(newLabel);
     		vv.repaint();
     	}
 
@@ -136,6 +138,7 @@ public class GraphEditorEventHandler extends EditingModalGraphMouse<Node, Edge> 
     	String newLabel = JOptionPane.showInputDialog("New Edge Label:");
     	if (newLabel != null && newLabel.length() != 0) {
     		for (Edge edge : pickedEdges) {
+    			graph.setLabelWithHistory(edge, newLabel);
     			edge.setLabel(newLabel);
     		}
     		vv.repaint();
