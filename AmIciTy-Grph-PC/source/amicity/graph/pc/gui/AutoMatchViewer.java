@@ -38,6 +38,7 @@ import amicity.graph.pc.gui.edit.GraphEditorEventHandler;
 import amicity.graph.pc.gui.edit.NodeStrokeTransformer;
 import amicity.graph.pc.gui.edit.NodeTransformer;
 import amicity.graph.pc.jung.JungGraph;
+import amicity.graph.pc.jung.MatchPair;
 import edu.uci.ics.jung.algorithms.layout.FRLayout;
 import edu.uci.ics.jung.algorithms.layout.StaticLayout;
 import edu.uci.ics.jung.visualization.GraphZoomScrollPane;
@@ -65,7 +66,7 @@ public class AutoMatchViewer extends JPanel {
 		this.setLayout(new BorderLayout());
 
 		vv = new VisualizationViewer<Node, Edge>(graph.getLayout());
-		vv.setBackground(Color.white);
+		vv.setBackground(Color.lightGray);
 
 		vv.getRenderContext().setVertexLabelTransformer(new NodeTransformer());
 		vv.getRenderContext().setEdgeLabelTransformer(new EdgeTransformer());
@@ -74,6 +75,8 @@ public class AutoMatchViewer extends JPanel {
 		vv.getRenderContext().setEdgeLabelRenderer(
 				new DefaultEdgeLabelRenderer(Color.YELLOW));
 		vv.getRenderer().getVertexLabelRenderer().setPosition(Position.CNTR);
+		
+
 
 		Transformer<Node, Shape> vertexSize = new Transformer<Node, Shape>() {
 			public Shape transform(Node i) {
@@ -119,11 +122,16 @@ public class AutoMatchViewer extends JPanel {
 		graph.setNeedsLayout(false);
 	}
 	
-	public void setMatch(JungGraph match) {
-		this.graph = match;
-		vv.getModel().setGraphLayout(match.getLayout());
-		if (graph.needsLayout())
-			doGraphLayout();
+	public void setMatch(MatchPair match) {
+		this.graph = match.pattern;
+		vv.getModel().setGraphLayout(this.graph.getLayout());
+		vv.getRenderContext().setVertexFillPaintTransformer(new NodeColorTransformer(match));
+		vv.getRenderContext().setEdgeDrawPaintTransformer(new EdgeColorTransformer(match));	
+		}
+	
+	public void setMatch(JungGraph graph) {
+		this.graph = graph;
+		vv.getModel().setGraphLayout(this.graph.getLayout());
 	}
 
 	public JungGraph getGraph() {

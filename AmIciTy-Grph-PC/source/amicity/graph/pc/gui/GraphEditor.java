@@ -35,6 +35,7 @@ import amicity.graph.pc.gui.edit.GraphEditorEventHandler;
 import amicity.graph.pc.gui.edit.NodeStrokeTransformer;
 import amicity.graph.pc.gui.edit.NodeTransformer;
 import amicity.graph.pc.jung.JungGraph;
+import edu.uci.ics.jung.algorithms.layout.CircleLayout;
 import edu.uci.ics.jung.algorithms.layout.FRLayout;
 import edu.uci.ics.jung.algorithms.layout.StaticLayout;
 import edu.uci.ics.jung.visualization.GraphZoomScrollPane;
@@ -120,7 +121,7 @@ public class GraphEditor extends JPanel {
 			}
 		});
 
-		JButton layoutButton = new JButton("perform layout");
+		JButton layoutButton = new JButton("force-directed layout");
 		layoutButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// layout = new CircleLayout<Node,Edge>(graph);
@@ -129,11 +130,23 @@ public class GraphEditor extends JPanel {
 				vv.getModel().setGraphLayout(layout);
 			}
 		});
+		
+		JButton circleButton = new JButton("circle layout");
+		circleButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// layout = new CircleLayout<Node,Edge>(graph);
+				CircleLayout<Node, Edge> layout = new CircleLayout<Node, Edge>(graph);
+				graph.setLayout(new StaticLayout<Node, Edge>(graph, layout));
+				vv.getModel().setGraphLayout(layout);
+			}
+		});
+
 
 		JPanel controls = new JPanel();
 		controls.add(plus);
 		controls.add(minus);
 		controls.add(layoutButton);
+		controls.add(circleButton);
 		;
 		add(controls, BorderLayout.SOUTH);
 

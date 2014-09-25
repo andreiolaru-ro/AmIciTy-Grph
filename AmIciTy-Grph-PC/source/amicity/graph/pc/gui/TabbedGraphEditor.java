@@ -95,14 +95,14 @@ public class TabbedGraphEditor extends JTabbedPane {
 	}
 
 	public void undo() {
-		if (getTabCount() <= 1)
+		if (getTabCount() <= 0)
 			return;
 		GraphEditor editor = (GraphEditor) getSelectedComponent();
 		editor.undo();
 	}
 
 	public void redo() {
-		if (getTabCount() <= 1)
+		if (getTabCount() <= 0)
 			return;
 		GraphEditor editor = (GraphEditor) getSelectedComponent();
 		editor.redo();

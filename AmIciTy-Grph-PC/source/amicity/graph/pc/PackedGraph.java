@@ -27,6 +27,7 @@ public class PackedGraph implements Serializable {
 		}
 		name = graph.getName();
 		description = graph.getDescription();
+		isPattern = graph.isPattern();
 	}
 	
 }

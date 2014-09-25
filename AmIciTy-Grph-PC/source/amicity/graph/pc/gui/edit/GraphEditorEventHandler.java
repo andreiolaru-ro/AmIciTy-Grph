@@ -58,6 +58,10 @@ public class GraphEditorEventHandler extends EditingModalGraphMouse<Node, Edge> 
 		
 		@Override
 		public void keyPressed(KeyEvent e) {
+	    	final VisualizationViewer<Node,Edge> vv =
+	                (VisualizationViewer<Node, Edge>)e.getSource();
+	    	JungGraph graph = (JungGraph) vv.getModel().getGraphLayout().getGraph();
+	    	
 			System.out.println("key pressed: " + e.getKeyCode());
 			switch(e.getKeyCode()) {
 			case 10:
@@ -65,6 +69,10 @@ public class GraphEditorEventHandler extends EditingModalGraphMouse<Node, Edge> 
 				break;
 			case 8:
 				delete(e.getSource());
+				break;
+			
+			case 82:
+				graph.dirty();
 				break;
 			}
 		}

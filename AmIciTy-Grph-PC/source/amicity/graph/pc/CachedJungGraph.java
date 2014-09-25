@@ -38,6 +38,7 @@ public class CachedJungGraph extends JungGraph {
 		for (Edge edge : packedGraph.edges) {
 			addEdge(edge, edge.getFrom(), edge.getTo());
 		}
+		this.isPattern = packedGraph.isPattern;
 	}
 
 	public void setFilepath(File filepath) {

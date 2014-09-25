@@ -62,7 +62,9 @@ public class ToolBar extends JToolBar implements ActionListener {
 		this.addSeparator();
 		undoB = new JButton("Undo");
 		this.add(undoB);
+		undoB.addActionListener(this);
 		redoB = new JButton("Redo");
+		redoB.addActionListener(this);
 		this.add(redoB);
 		this.addSeparator();
 		runB = new JButton("Run");
@@ -86,6 +88,15 @@ public class ToolBar extends JToolBar implements ActionListener {
 		}
 		if(e.getSource() == newPatternItem) {
 			controller.createNewGraph(true);
+		}
+		
+		if (e.getSource() == undoB) {
+			System.out.println("undo");
+			controller.getGraphEditor().undo();
+		}
+		
+		if (e.getSource() == redoB) {
+			controller.getGraphEditor().redo();
 		}
 	}
 }

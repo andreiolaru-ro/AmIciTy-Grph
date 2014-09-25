@@ -35,7 +35,7 @@ public class FileManager {
 		}
 	}
 	
-	public JungGraph loadGraph(File file, boolean isPattern) {
+	public JungGraph loadGraph(File file) {
 		FileInputStream in;
 		try {
 			in = new FileInputStream(file);

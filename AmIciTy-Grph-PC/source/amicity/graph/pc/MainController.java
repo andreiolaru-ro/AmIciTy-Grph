@@ -78,13 +78,13 @@ public class MainController {
 		}
 	}
 	
-	public void loadGraphFromFile(File file, boolean isPattern) {
-		JungGraph graph = fileManager.loadGraph(file, isPattern);
+	public void loadGraphFromFile(File file) {
+		JungGraph graph = fileManager.loadGraph(file);
 		graphEditor.openGraph(graph);
-		graphEditor.getCurrentEditor().doGraphLayout();
-		graphExplorer.addGraph(graph, isPattern);
+		//graphEditor.getCurrentEditor().doGraphLayout();
+		graphExplorer.addGraph(graph, graph.isPattern());
 		
-		if (!isPattern) {
+		if (!graph.isPattern()) {
 			graph.addObserver(patternViewer);
 		}
 	}

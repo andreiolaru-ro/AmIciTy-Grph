@@ -14,6 +14,7 @@ import net.xqhs.graphs.graph.Edge;
 import net.xqhs.graphs.graph.Node;
 import net.xqhs.graphs.graph.SimpleEdge;
 import net.xqhs.graphs.graph.SimpleGraph;
+import net.xqhs.graphs.graph.SimpleNode;
 import net.xqhs.graphs.pattern.GraphPattern;
 import net.xqhs.graphs.pattern.NodeP;
 import edu.uci.ics.jung.algorithms.layout.Layout;
@@ -28,7 +29,7 @@ public class JungGraph extends Observable implements Graph<Node, Edge> {
 	// fix name conflict with net.xqhs.Graph
 	private String name;
 	private String description;
-	private boolean isPattern;
+	protected boolean isPattern;
 	private boolean needsLayout;
 
 	protected Graph<Node, Edge> graph;
@@ -79,6 +80,25 @@ public class JungGraph extends Observable implements Graph<Node, Edge> {
 	
 	public GraphPattern asGraphPattern() {
 		GraphPattern graphPattern = (GraphPattern) new GraphPattern().setUnitName(getName());
+		for (Node node : graph.getVertices()) {
+			graphPattern.addNode(node);
+		}
+		for (Edge edge : graph.getEdges()) {
+			try {
+				graphPattern.addEdge(edge);
+			} catch (Exception e) {
+				System.out.println(edge.getFrom());
+				System.out.println(edge.getLabel());
+				System.out.println(edge.getTo());
+				System.out.println(edge.getClass());
+				e.printStackTrace();
+			}
+		}
+		return graphPattern;
+	}
+	
+	public GraphPattern asGraphPattern3() {
+		GraphPattern graphPattern = (GraphPattern) new GraphPattern().setUnitName(getName());
 		int count = 1;
 		Map<Node, Node> nodeMap = new HashMap<Node, Node>();
 		
@@ -112,6 +132,7 @@ public class JungGraph extends Observable implements Graph<Node, Edge> {
 	}
 	
 	public void undo() {
+		System.out.println("undo graph");
 		if (undoManager.Undo()) {
 			setChanged();
 			notifyObservers(new GraphUpdateEvent(GraphUpdateEvent.Type.GraphStructure, null));
@@ -136,6 +157,11 @@ public class JungGraph extends Observable implements Graph<Node, Edge> {
 		}
 
 		return false;
+	}
+	
+	public void dirty() {
+		setChanged();
+		notifyObservers(new GraphUpdateEvent(GraphUpdateEvent.Type.GraphStructure, null));
 	}
 	
 	public boolean removeVertexWithHistory(Node node) {
@@ -177,9 +203,39 @@ public class JungGraph extends Observable implements Graph<Node, Edge> {
 		return false;
 	}
 	
+	public void replaceNodeWith(Node node, Node newNode) {
+		Collection<Edge> inEdges = this.getInEdges(node);
+		Collection<Edge> outEdges = this.getOutEdges(node);
+
+		
+		addVertex(newNode);
+		layout.setLocation(newNode, layout.transform(node));
+		
+		for (Edge edge : inEdges) {
+			this.removeEdge(edge);
+			edge.setTo(newNode);
+			this.addEdge(edge, edge.getFrom(), edge.getTo());
+		}
+		
+		for (Edge edge : outEdges) {
+			this.removeEdge(edge);
+			edge.setFrom(newNode);
+			this.addEdge(edge, edge.getFrom(), edge.getTo());
+		}
+		
+		this.removeVertex(node);
+	}
+	
 	public boolean setLabelWithHistory(Node node, String label) {
 		Command command;
 		if (!node.getLabel().equals(label)) {
+			if (isPattern) {
+				if (label.equals("?")) {
+					replaceNodeWith(node, new NodeP());
+				} else if (node.getLabel().equals("?")) {
+					replaceNodeWith(node, new SimpleNode(label));
+				}
+			}
 			node.setLabel(label);
 
 			setChanged();

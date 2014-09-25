@@ -26,6 +26,7 @@ public class EditorMenu extends JMenuBar implements ActionListener {
 	JMenuItem redoItem;
 	
 	final JFileChooser fc = new JFileChooser();
+	private JMenuItem quitItem;
 	
 	public EditorMenu(final MainController controller) {
 		this.controller = controller;
@@ -57,8 +58,9 @@ public class EditorMenu extends JMenuBar implements ActionListener {
 		saveItem = new JMenuItem("Save");
 		saveItem.addActionListener(this);
 		menu.add(saveItem);
-		JMenuItem quitItem = new JMenuItem("Quit");
+		quitItem = new JMenuItem("Quit");
 		menu.add(quitItem);
+		quitItem.addActionListener(this);
 		add(menu);
 		
 		menu = new JMenu("Edit");
@@ -79,7 +81,7 @@ public class EditorMenu extends JMenuBar implements ActionListener {
 			
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				File file = fc.getSelectedFile();
-				controller.loadGraphFromFile(file, false);
+				controller.loadGraphFromFile(file);
 			}
 		}
 		
@@ -111,6 +113,10 @@ public class EditorMenu extends JMenuBar implements ActionListener {
 		
 		if (e.getSource() == redoItem) {
 			controller.getGraphEditor().redo();
+		}
+		if (e.getSource() == quitItem) {
+			System.out.println("exit");
+			System.exit(0);
 		}
 	}
 }
