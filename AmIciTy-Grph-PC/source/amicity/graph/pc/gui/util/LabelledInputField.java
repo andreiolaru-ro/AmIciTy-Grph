@@ -1,9 +1,8 @@
-package amicity.graph.pc.gui;
+package amicity.graph.pc.gui.util;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.Label;
-import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.NumberFormat;
 
@@ -11,7 +10,14 @@ import javax.swing.BorderFactory;
 import javax.swing.JFormattedTextField;
 import javax.swing.JPanel;
 
+// TODO refactor: label should be passed to the constructor
 public class LabelledInputField extends JPanel {
+	/**
+	 * serial id.
+	 */
+	private static final long serialVersionUID = -6728229438116682620L;
+	
+	
 	protected Label label;
 	protected JFormattedTextField textField;
 	

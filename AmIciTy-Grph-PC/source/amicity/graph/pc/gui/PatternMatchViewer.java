@@ -2,8 +2,6 @@ package amicity.graph.pc.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.event.ActionListener;
-import java.awt.geom.Point2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
@@ -12,37 +10,33 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.ListModel;
+import javax.swing.JSlider;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import net.xqhs.graphs.graph.Node;
 import net.xqhs.graphs.matcher.Match;
-import net.xqhs.graphs.pattern.GraphPattern;
-
-import com.sun.j3d.utils.scenegraph.io.retained.Controller;
-
-import amicity.graph.pc.JungQuickMatchWorker;
 import amicity.graph.pc.MainController;
-import amicity.graph.pc.QuickMatchWorker;
 import amicity.graph.pc.common.JungMatchListener;
-import amicity.graph.pc.common.MatchListener;
+import amicity.graph.pc.gui.util.LabelledInputField;
+import amicity.graph.pc.gui.util.LabelledInputSlider;
 import amicity.graph.pc.jung.JungGraph;
 import amicity.graph.pc.jung.JungMatch;
 import amicity.graph.pc.jung.MatchPair;
+import amicity.graph.pc.JungQuickMatchWorker;
 
-public class PatternMatchViewer extends JPanel implements Observer, JungMatchListener, ListSelectionListener, PropertyChangeListener {
+public class PatternMatchViewer extends JPanel implements Observer, JungMatchListener, ListSelectionListener, ChangeListener {
 	private JList<MatchPair> matchList;
 	private DefaultListModel<MatchPair> matchListModel;
 	private List<MatchPair> allMatches;
 	AutoMatchViewer viewer;
 	MainController controller;
-	LabelledInputField kField;
+	LabelledInputSlider kField;
 	int threshold = 0;
 	
 	public PatternMatchViewer(MainController controller) {
@@ -59,7 +53,7 @@ public class PatternMatchViewer extends JPanel implements Observer, JungMatchLis
 		JScrollPane pane = new JScrollPane(matchList);
 		pane.setBorder(BorderFactory.createTitledBorder("Matching patterns"));
 		
-		kField = new LabelledInputField();
+		kField = new LabelledInputSlider();
 		kField.addChangeListener(this);
 		this.add(kField, BorderLayout.NORTH);
 		this.add(pane, BorderLayout.CENTER);
@@ -113,13 +107,16 @@ public class PatternMatchViewer extends JPanel implements Observer, JungMatchLis
 		}
 		viewer.setMatch(pair);
 	}
+	
+
+
 
 	@Override
-	public void propertyChange(PropertyChangeEvent evt) {
-		Long value = (Long) evt.getNewValue();
-		if (value == null)
-			return;
-		threshold = value.intValue();
+	public void stateChanged(ChangeEvent evt) {
+		JSlider slider = (JSlider) evt.getSource();
+		
+		threshold = slider.getValue();
+		System.out.println("New threshold: " + threshold);
 		viewer.setMatch(new JungGraph("lol", false));
 		for (MatchPair pair : allMatches) {
 			if (pair.match.getK() > threshold && matchListModel.contains(pair)) {
@@ -130,5 +127,6 @@ public class PatternMatchViewer extends JPanel implements Observer, JungMatchLis
 		}
 
 		matchList.setSelectedIndex(0);
+		
 	}
 }
