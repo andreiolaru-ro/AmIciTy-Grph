@@ -115,7 +115,7 @@ public class TabbedGraphEditor extends JTabbedPane {
 		return editor;
 	}
 
-	public TabbedGraphEditor(MainController controller) {
+	public TabbedGraphEditor(final MainController controller) {
 		controller.register(this);
 		this.controller = controller;
 
