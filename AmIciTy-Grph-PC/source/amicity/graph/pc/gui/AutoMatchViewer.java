@@ -151,7 +151,9 @@ public class AutoMatchViewer extends JPanel {
 	class NodeFactory implements Factory<Node> {
 		@Override
 		public Node create() {
-			return new SimpleNode("vertex");
+			// TODO: remove this;
+			System.err.println("Viewer shouldn't be edittable.");
+			return null;
 		}
 
 	}

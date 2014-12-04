@@ -14,7 +14,6 @@ import net.xqhs.graphs.graph.Edge;
 import net.xqhs.graphs.graph.Node;
 import net.xqhs.graphs.graph.SimpleEdge;
 import net.xqhs.graphs.graph.SimpleGraph;
-import net.xqhs.graphs.graph.SimpleNode;
 import net.xqhs.graphs.pattern.GraphPattern;
 import net.xqhs.graphs.pattern.NodeP;
 import edu.uci.ics.jung.algorithms.layout.Layout;
@@ -202,38 +201,16 @@ public class JungGraph extends Observable implements Graph<Node, Edge> {
 		
 		return false;
 	}
-	
-	public void replaceNodeWith(Node node, Node newNode) {
-		Collection<Edge> inEdges = this.getInEdges(node);
-		Collection<Edge> outEdges = this.getOutEdges(node);
-
 		
-		addVertex(newNode);
-		layout.setLocation(newNode, layout.transform(node));
-		
-		for (Edge edge : inEdges) {
-			this.removeEdge(edge);
-			edge.setTo(newNode);
-			this.addEdge(edge, edge.getFrom(), edge.getTo());
-		}
-		
-		for (Edge edge : outEdges) {
-			this.removeEdge(edge);
-			edge.setFrom(newNode);
-			this.addEdge(edge, edge.getFrom(), edge.getTo());
-		}
-		
-		this.removeVertex(node);
-	}
-	
 	public boolean setLabelWithHistory(Node node, String label) {
+		SettableNodeP nodeP = (SettableNodeP) node;
 		Command command;
 		if (!node.getLabel().equals(label)) {
 			if (isPattern) {
 				if (label.equals("?")) {
-					replaceNodeWith(node, new NodeP());
+					nodeP.setGeneric(true);
 				} else if (node.getLabel().equals("?")) {
-					replaceNodeWith(node, new SimpleNode(label));
+					nodeP.setGeneric(false);
 				}
 			}
 			node.setLabel(label);

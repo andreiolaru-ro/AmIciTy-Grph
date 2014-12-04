@@ -35,6 +35,7 @@ import amicity.graph.pc.gui.edit.GraphEditorEventHandler;
 import amicity.graph.pc.gui.edit.NodeStrokeTransformer;
 import amicity.graph.pc.gui.edit.NodeTransformer;
 import amicity.graph.pc.jung.JungGraph;
+import amicity.graph.pc.jung.SettableNodeP;
 import edu.uci.ics.jung.algorithms.layout.CircleLayout;
 import edu.uci.ics.jung.algorithms.layout.FRLayout;
 import edu.uci.ics.jung.algorithms.layout.StaticLayout;
@@ -175,7 +176,7 @@ public class GraphEditor extends JPanel {
 	class NodeFactory implements Factory<Node> {
 		@Override
 		public Node create() {
-			return new SimpleNode("vertex");
+			return new SettableNodeP("vertex");
 		}
 
 	}
