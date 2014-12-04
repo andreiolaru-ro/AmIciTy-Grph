@@ -20,6 +20,9 @@ public class EditorMenu extends JMenuBar implements ActionListener {
 	JMenuItem loadPatternItem;
 	JMenuItem saveItem;
 	
+	JMenuItem saveAsLibraryItem;
+	JMenuItem loadLibraryItem;
+	
 	
 	// Edit
 	JMenuItem undoItem;
@@ -56,8 +59,17 @@ public class EditorMenu extends JMenuBar implements ActionListener {
 		menu.add(importItem);
 		
 		saveItem = new JMenuItem("Save");
-		saveItem.addActionListener(this);
+		saveItem.addActionListener(this);	
 		menu.add(saveItem);
+			
+		saveAsLibraryItem = new JMenuItem("Save Graph Library");
+		saveAsLibraryItem.addActionListener(this);
+		menu.add(saveAsLibraryItem);
+		
+		loadLibraryItem = new JMenuItem("Load Graph Library");
+		loadLibraryItem.addActionListener(this);
+		menu.add(loadLibraryItem);
+		
 		quitItem = new JMenuItem("Quit");
 		menu.add(quitItem);
 		quitItem.addActionListener(this);
@@ -105,6 +117,14 @@ public class EditorMenu extends JMenuBar implements ActionListener {
 		if (e.getSource() == saveItem) {
 			System.out.println("save!");
 			controller.saveCurrentGraph();
+		}
+		
+		if (e.getSource() == saveAsLibraryItem) {
+			controller.saveGraphLibrary();
+		}
+		
+		if (e.getSource() == loadLibraryItem) {
+			controller.loadGraphLibrary();
 		}
 		
 		if (e.getSource() == undoItem) {

@@ -1,6 +1,7 @@
 package amicity.graph.pc;
 
 import java.io.File;
+import java.util.List;
 
 import javax.swing.JFrame;
 
@@ -91,6 +92,27 @@ public class MainController {
 	
 	public void saveCurrentGraph() {
 		fileManager.saveGraph((CachedJungGraph) graphEditor.getCurrentEditor().getGraph());
+	}
+	
+	public void saveGraphLibrary() {
+		List<JungGraph> graphs = graphExplorer.getGraphs();
+		List<JungGraph> patterns = graphExplorer.getPatterns();
+		
+		fileManager.saveAsLibrary(graphs, patterns);
+	}
+	
+	public void loadGraphLibrary() {
+		List<JungGraph> graphs = fileManager.loadLibrary();
+		if (graphs == null) {
+			return;
+		}
+		for (JungGraph graph : graphs) {
+			graphExplorer.addGraph(graph, graph.isPattern());
+			if (!graph.isPattern()) {
+				graph.addObserver(patternViewer);
+				graphEditor.openGraph(graph);
+			}
+		}
 	}
 
 	
