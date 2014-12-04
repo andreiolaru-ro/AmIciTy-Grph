@@ -31,8 +31,8 @@ import amicity.graph.pc.jung.MatchPair;
 import amicity.graph.pc.JungQuickMatchWorker;
 
 public class PatternMatchViewer extends JPanel implements Observer, JungMatchListener, ListSelectionListener, ChangeListener {
-	private JList<MatchPair> matchList;
-	private DefaultListModel<MatchPair> matchListModel;
+	private JList matchList;
+	private DefaultListModel matchListModel;
 	private List<MatchPair> allMatches;
 	AutoMatchViewer viewer;
 	MainController controller;
@@ -44,8 +44,8 @@ public class PatternMatchViewer extends JPanel implements Observer, JungMatchLis
 		this.controller = controller;
 		
 		allMatches = new ArrayList<MatchPair>();
-		matchListModel = new DefaultListModel<MatchPair>();
-		matchList = new JList<MatchPair>(matchListModel);
+		matchListModel = new DefaultListModel();
+		matchList = new JList(matchListModel);
 		//this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.setLayout(new BorderLayout());
 		
@@ -101,7 +101,7 @@ public class PatternMatchViewer extends JPanel implements Observer, JungMatchLis
 
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
-		MatchPair pair = matchList.getSelectedValue();
+		MatchPair pair = (MatchPair) matchList.getSelectedValue();
 		if (pair == null) {
 			return;
 		}

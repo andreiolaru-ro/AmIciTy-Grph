@@ -38,12 +38,12 @@ public class RunQuickMatchDialog extends JDialog
 	private DialogBody body;
 	
 	private class DialogBody extends JPanel {
-		JList<JungGraph> graphs;
-		JList<JungGraph> patterns;
+		JList graphs;
+		JList patterns;
 		
 		public DialogBody(List<JungGraph> graphs, List<JungGraph> patterns) {
-			DefaultListModel<JungGraph> graphModel = new DefaultListModel();
-			DefaultListModel<JungGraph> patternModel = new DefaultListModel<JungGraph>();
+			DefaultListModel graphModel = new DefaultListModel();
+			DefaultListModel patternModel = new DefaultListModel();
 			
 			for (JungGraph g : graphs) {
 				graphModel.addElement(g);
@@ -62,7 +62,7 @@ public class RunQuickMatchDialog extends JDialog
 			JPanel right = new JPanel();
 			right.setLayout(new BoxLayout(right, BoxLayout.Y_AXIS));
 
-			this.graphs = new JList<JungGraph>(graphModel);
+			this.graphs = new JList(graphModel);
 			if (graphModel.size() > 0) {
 				this.graphs.setSelectedIndex(0);
 			}
@@ -77,7 +77,7 @@ public class RunQuickMatchDialog extends JDialog
 			left.add(leftScroller);
 			
 			// patterns
-			this.patterns = new JList<JungGraph>(patternModel);			
+			this.patterns = new JList(patternModel);			
 			if (patternModel.size() > 0) {
 				this.patterns.setSelectedIndex(0);
 			}
@@ -96,11 +96,11 @@ public class RunQuickMatchDialog extends JDialog
 		}
 	
 		public JungGraph getGraph() {
-			return graphs.getSelectedValue();
+			return (JungGraph) graphs.getSelectedValue();
 		}
 		
 		public JungGraph getPattern() {
-			return patterns.getSelectedValue();
+			return (JungGraph) patterns.getSelectedValue();
 		}
 	}
 	

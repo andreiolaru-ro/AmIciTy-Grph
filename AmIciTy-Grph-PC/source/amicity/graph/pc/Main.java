@@ -3,15 +3,12 @@ package amicity.graph.pc;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
-import javax.swing.SwingWorker;
 import javax.swing.UIManager;
-import javax.swing.UIManager.LookAndFeelInfo;
-import javax.swing.UnsupportedLookAndFeelException;
+
+import org.pushingpixels.substance.api.skin.SubstanceBusinessLookAndFeel;
 
 import amicity.graph.pc.gui.EditorMenu;
 import amicity.graph.pc.gui.Gui;
-
-import org.pushingpixels.substance.api.skin.SubstanceBusinessLookAndFeel;
 
 public class Main {
     public static void useSubstanceLAF() {
