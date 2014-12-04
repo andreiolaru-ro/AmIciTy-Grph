@@ -127,6 +127,7 @@ public class PatternMatchViewer extends JPanel implements Observer, JungMatchLis
 		}
 
 		matchList.setSelectedIndex(0);
+		valueChanged(null);
 		
 	}
 }
