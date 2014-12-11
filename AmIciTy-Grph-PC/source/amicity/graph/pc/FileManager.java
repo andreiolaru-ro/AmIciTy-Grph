@@ -107,10 +107,10 @@ public class FileManager {
 
 	public void saveAsLibrary(List<JungGraph> graphs, List<JungGraph> patterns) {
 	    JFileChooser chooser = new JFileChooser(); 
-	    chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-	    chooser.setAcceptAllFileFilterUsed(false);
+
 	    if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-	    	File directory = chooser.getSelectedFile();
+	    	File directory = chooser.getSelectedFile().getParentFile();
+	    	File libfile = chooser.getSelectedFile();
 	    	String separator = File.separator;
 	    	System.out.println("separator is: " + separator);
 	    	
@@ -132,7 +132,7 @@ public class FileManager {
 	    	}
 	    	
 	    	try {
-				FileOutputStream of = new FileOutputStream(new File(directory + separator + LIBRARY_FILENAME));
+				FileOutputStream of = new FileOutputStream(libfile);
 				ObjectOutputStream output = new ObjectOutputStream(of);
 				output.writeObject(lib);
 				output.close();
@@ -152,23 +152,24 @@ public class FileManager {
 		List<JungGraph> graphs = new ArrayList<JungGraph>();
 		
 	    JFileChooser chooser = new JFileChooser(); 
-	    chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-	    chooser.setAcceptAllFileFilterUsed(false);
+
 	    if (chooser.showOpenDialog(null) != JFileChooser.APPROVE_OPTION) {
 	    	return null;
 	    }
 
-	    File libfile = new File(chooser.getSelectedFile() + File.separator + LIBRARY_FILENAME);
+	    File libfile = chooser.getSelectedFile();
+	    File directory = libfile.getParentFile();
+	    
 		try {
 			FileInputStream in = new FileInputStream(libfile);
 			ObjectInputStream input = new ObjectInputStream(in);
 			GraphLibrary lib = (GraphLibrary) input.readObject();
 			input.close();
 			for (String grphname : lib.graphs) {
-				graphs.add(loadGraph(new File(chooser.getSelectedFile() + File.separator + grphname)));
+				graphs.add(loadGraph(new File(directory + File.separator + grphname)));
 			}
 			for (String grphname : lib.patterns) {
-				graphs.add(loadGraph(new File(chooser.getSelectedFile() + File.separator + grphname)));
+				graphs.add(loadGraph(new File(directory + File.separator + grphname)));
 			}
 			
 			return graphs;
