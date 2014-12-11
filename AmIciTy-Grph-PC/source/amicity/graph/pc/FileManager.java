@@ -1,5 +1,6 @@
 package amicity.graph.pc;
 
+import java.awt.geom.Point2D;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,8 +9,12 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 import amicity.graph.pc.jung.JungGraph;
+import net.xqhs.graphs.graph.Graph;
+import net.xqhs.graphs.graph.GraphDescription;
+import net.xqhs.graphs.graph.Node;
 import net.xqhs.graphs.graph.SimpleGraph;
 import net.xqhs.graphs.pattern.GraphPattern;
+import net.xqhs.graphs.representation.text.TextGraphRepresentation;
 
 public class FileManager {
 	String LIBRARY_FILENAME = ".graph_lib";
@@ -41,22 +46,26 @@ public class FileManager {
 	public JungGraph loadGraph(File file) {
 		FileInputStream in;
 		try {
+			GraphPattern p = new GraphPattern();
 			in = new FileInputStream(file);
-			ObjectInputStream input = new ObjectInputStream(in);
-			PackedGraph packedGraph = (PackedGraph) input.readObject();
-			CachedJungGraph graph = new CachedJungGraph(packedGraph);
-			graph.setFilepath(file);
+			TextGraphRepresentation g = new TextGraphRepresentation(p);
+			g.readRepresentation(in);
+			boolean isPattern = JungGraphDescription.isPattern(p.getDescription());
+			
+			List<Point2D.Double> nodesLocation = JungGraphDescription.ParseDescription(p.getDescription());
+			CachedJungGraph graph = new CachedJungGraph(p, file, file.getName(), isPattern);
+			
+			int i = 0;
+			for (Node v : graph.getVertices()) {
+				graph.getLayout().setLocation(v, nodesLocation.get(i));
+				i++;
+			}
+			
 			return graph;
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null,
 				    "Unable to read from file.",
 				    "I/O Error",
-				    JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			JOptionPane.showMessageDialog(null,
-				    "Something is wrong.",
-				    "Internal Error",
 				    JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
@@ -76,10 +85,16 @@ public class FileManager {
 			}
 		}
 		try {
-			FileOutputStream of = new FileOutputStream(graph.getFilepath());
-			ObjectOutputStream output = new ObjectOutputStream(of);
-			output.writeObject(graph.pack());
-			
+			Graph p = graph.asGraphPattern();
+			GraphDescription description = new JungGraphDescription(graph);
+			p.setDescription(description);
+			TextGraphRepresentation g = new TextGraphRepresentation(p);
+			g.update();
+			System.out.println(g.displayRepresentation());
+			JungGraphDescription.ParseDescription(description);
+			FileWriter output = new FileWriter(graph.getFilepath());
+			output.write(g.displayRepresentation());
+			output.close();
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null,
 				    "Unable to write to file.",

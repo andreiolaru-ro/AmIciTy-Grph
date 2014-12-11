@@ -66,7 +66,7 @@
 	<classpathentry kind="lib" path="lib/laf-plugin-7.3.1-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="lib/substance-7.3.1-SNAPSHOT-tools.jar"/>
 	<classpathentry kind="lib" path="lib/JSplitButton_1.2.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.launching.macosx.MacOSXType/Java SE 8 [1.8.0_20]"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/net.xqhs.Graphs"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
