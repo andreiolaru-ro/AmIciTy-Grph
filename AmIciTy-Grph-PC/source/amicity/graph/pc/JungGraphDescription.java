@@ -2,8 +2,12 @@ package amicity.graph.pc;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
+import amicity.graph.pc.gui.util.Pair;
 import amicity.graph.pc.jung.JungGraph;
 import net.xqhs.graphs.graph.GraphDescription;
 import net.xqhs.graphs.graph.Node;
@@ -14,20 +18,22 @@ public class JungGraphDescription extends GraphDescription {
 		this.graph = graph;
 	}
 	
-	public static List<Point2D.Double> ParseDescription(GraphDescription descr) {
+	public static Map<String, Point2D.Double> ParseDescription(GraphDescription descr) {
 		String[] points = descr.toString().split("\\)");
-		List<Point2D.Double> result = new ArrayList<Point2D.Double>();
+		Map<String, Point2D.Double> result = new HashMap<String, Point2D.Double>();
 		boolean skip = true;
 		for (String p : points) {
 			if (skip) {
 				skip = false;
 				continue;
 			}
-			String [] coords = p.substring(1).split(", ");
+			Entry<String, String> entry = parseKeyValue(p.substring(1));
+			
+			String [] coords = entry.getValue().split(", ");
 			System.out.println(coords[0]);
 			System.out.println(coords[1]);
 			Point2D.Double res = new Point2D.Double(Double.parseDouble(coords[0]), Double.parseDouble(coords[1]));
-			result.add(res);
+			result.put(entry.getKey(), res);
 		}
 		
 		return result;
@@ -43,13 +49,23 @@ public class JungGraphDescription extends GraphDescription {
 		buffer.append("(" + graph.isPattern() + ")");
 		for (Node node : graph.getVertices()) {
 			Point2D p = graph.getLayout().transform(node);
-			buffer.append("(" + p.getX() + ", " + p.getY() + ")");
+			String value = p.getX() +", " + p.getY();
+			String blob = keyValue(node.getLabel(), value);
+			buffer.append("(" + blob + ")");
 		}
 		
 		return buffer.toString();
 	}
 
+	public static Entry<String, String> parseKeyValue(String text) {
+		String[] kv = text.split("=");
+
+		return new Pair<String, String>(kv[0], kv[1]);
+	}
 	
+	public String keyValue(String key, String value) {
+		return key + "=" + value;
+	}
 
 
 }

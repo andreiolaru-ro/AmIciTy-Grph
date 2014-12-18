@@ -4,6 +4,7 @@ import java.awt.geom.Point2D;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -52,13 +53,12 @@ public class FileManager {
 			g.readRepresentation(in);
 			boolean isPattern = JungGraphDescription.isPattern(p.getDescription());
 			
-			List<Point2D.Double> nodesLocation = JungGraphDescription.ParseDescription(p.getDescription());
+			Map<String, Point2D.Double> nodesLocation = JungGraphDescription.ParseDescription(p.getDescription());
 			CachedJungGraph graph = new CachedJungGraph(p, file, file.getName(), isPattern);
 			
-			int i = 0;
+
 			for (Node v : graph.getVertices()) {
-				graph.getLayout().setLocation(v, nodesLocation.get(i));
-				i++;
+				graph.getLayout().setLocation(v, nodesLocation.get(v.getLabel()));
 			}
 			
 			return graph;

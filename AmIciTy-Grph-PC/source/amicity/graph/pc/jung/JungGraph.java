@@ -1,22 +1,19 @@
 package amicity.graph.pc.jung;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 
-import amicity.graph.pc.common.Command;
-import amicity.graph.pc.common.GraphUpdateEvent;
-import amicity.graph.pc.common.UndoManager;
 import net.xqhs.graphs.graph.Edge;
 import net.xqhs.graphs.graph.Node;
 import net.xqhs.graphs.graph.SimpleEdge;
 import net.xqhs.graphs.graph.SimpleGraph;
-import net.xqhs.graphs.graph.SimpleNode;
 import net.xqhs.graphs.pattern.GraphPattern;
 import net.xqhs.graphs.pattern.NodeP;
+import amicity.graph.pc.common.Command;
+import amicity.graph.pc.common.GraphUpdateEvent;
+import amicity.graph.pc.common.UndoManager;
 import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.algorithms.layout.StaticLayout;
 import edu.uci.ics.jung.graph.DirectedSparseMultigraph;
