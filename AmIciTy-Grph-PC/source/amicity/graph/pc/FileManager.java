@@ -132,9 +132,9 @@ public class FileManager {
 	    	}
 	    	
 	    	try {
-				FileOutputStream of = new FileOutputStream(libfile);
-				ObjectOutputStream output = new ObjectOutputStream(of);
-				output.writeObject(lib);
+	    		
+				FileWriter output = new FileWriter(libfile);
+				output.write(lib.toString());
 				output.close();
 			} catch (IOException e) {
 				JOptionPane.showMessageDialog(null,
@@ -162,9 +162,8 @@ public class FileManager {
 	    
 		try {
 			FileInputStream in = new FileInputStream(libfile);
-			ObjectInputStream input = new ObjectInputStream(in);
-			GraphLibrary lib = (GraphLibrary) input.readObject();
-			input.close();
+			GraphLibrary lib = new GraphLibrary(in);
+			in.close();
 			for (String grphname : lib.graphs) {
 				graphs.add(loadGraph(new File(directory + File.separator + grphname)));
 			}
@@ -180,12 +179,11 @@ public class FileManager {
 				    "I/O Error",
 				    JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
+		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null,
-				    "Something is wrong.",
+				    "Something is wrong: " + e.getMessage(),
 				    "Internal Error",
 				    JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace();
 		}
 	    
 		return null;
