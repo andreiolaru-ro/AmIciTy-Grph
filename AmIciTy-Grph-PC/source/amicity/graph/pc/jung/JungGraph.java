@@ -14,6 +14,7 @@ import net.xqhs.graphs.graph.Edge;
 import net.xqhs.graphs.graph.Node;
 import net.xqhs.graphs.graph.SimpleEdge;
 import net.xqhs.graphs.graph.SimpleGraph;
+import net.xqhs.graphs.graph.SimpleNode;
 import net.xqhs.graphs.pattern.GraphPattern;
 import net.xqhs.graphs.pattern.NodeP;
 import edu.uci.ics.jung.algorithms.layout.Layout;
@@ -25,7 +26,7 @@ import edu.uci.ics.jung.graph.util.Graphs;
 import edu.uci.ics.jung.graph.util.Pair;
 
 public class JungGraph extends Observable implements Graph<Node, Edge> {
-	// fix name conflict with net.xqhs.Graph
+	// FIXME name conflict with net.xqhs.Graph
 	private String name;
 	private String description;
 	protected boolean isPattern;
@@ -47,14 +48,20 @@ public class JungGraph extends Observable implements Graph<Node, Edge> {
 	public JungGraph(SimpleGraph simpleGraph, String name, boolean isPattern) {
 		this(name, isPattern);
 
+		Map<Node, Node> transformMap = new HashMap<Node, Node>();
+		
 		// copy the graph
 		for (Node node : simpleGraph.getNodes()) {
-			System.out.println("Node: " + node.getLabel());
-			graph.addVertex(node);
+			SettableNodeP nodeP = new SettableNodeP(node.getLabel());
+			transformMap.put(node, nodeP);
+			graph.addVertex(nodeP);
 		}
 		
 		for (Edge edge : simpleGraph.getEdges()) {
-			graph.addEdge(edge, edge.getFrom(), edge.getTo());
+			Edge updatedEdge = new SimpleEdge(transformMap.get(edge.getFrom()),
+											  transformMap.get(edge.getTo()),
+											  edge.getLabel());
+			graph.addEdge(updatedEdge, updatedEdge.getFrom(), updatedEdge.getTo());
 		}
 	}
 
