@@ -12,7 +12,7 @@ import net.xqhs.graphs.graph.SimpleGraph;
 import net.xqhs.graphs.pattern.GraphPattern;
 import net.xqhs.graphs.pattern.NodeP;
 import amicity.graph.pc.common.Command;
-import amicity.graph.pc.common.GraphUpdateEvent;
+import amicity.graph.pc.common.GraphEvent;
 import amicity.graph.pc.common.UndoManager;
 import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.algorithms.layout.StaticLayout;
@@ -138,14 +138,14 @@ public class JungGraph extends Observable implements Graph<Node, Edge> {
 		System.out.println("undo graph");
 		if (undoManager.Undo()) {
 			setChanged();
-			notifyObservers(new GraphUpdateEvent(GraphUpdateEvent.Type.GraphStructure, null));
+			notifyObservers(new GraphEvent(GraphEvent.Type.GraphStructure, null));
 		}
 	}
 	
 	public void redo() {
 		if (undoManager.Redo()) {
 			setChanged();
-			notifyObservers(new GraphUpdateEvent(GraphUpdateEvent.Type.GraphStructure, null));
+			notifyObservers(new GraphEvent(GraphEvent.Type.GraphStructure, null));
 		}
 	}
 	
@@ -155,7 +155,7 @@ public class JungGraph extends Observable implements Graph<Node, Edge> {
 		if (graph.addVertex(node)) {
 			undoManager.addCommand(command);
 			setChanged();
-			notifyObservers(new GraphUpdateEvent(GraphUpdateEvent.Type.GraphStructure, null));
+			notifyObservers(new GraphEvent(GraphEvent.Type.GraphStructure, null));
 			return true;
 		}
 
@@ -164,7 +164,7 @@ public class JungGraph extends Observable implements Graph<Node, Edge> {
 	
 	public void dirty() {
 		setChanged();
-		notifyObservers(new GraphUpdateEvent(GraphUpdateEvent.Type.GraphStructure, null));
+		notifyObservers(new GraphEvent(GraphEvent.Type.GraphStructure, null));
 	}
 	
 	public boolean removeVertexWithHistory(Node node) {
@@ -173,7 +173,7 @@ public class JungGraph extends Observable implements Graph<Node, Edge> {
 		if (graph.removeVertex(node)) {
 			undoManager.addCommand(command);
 			setChanged();
-			notifyObservers(new GraphUpdateEvent(GraphUpdateEvent.Type.GraphStructure, null));
+			notifyObservers(new GraphEvent(GraphEvent.Type.GraphStructure, null));
 			return true;
 		}
 		
@@ -186,7 +186,7 @@ public class JungGraph extends Observable implements Graph<Node, Edge> {
 		if (graph.addEdge(edge, edge.getFrom(), edge.getTo())) {
 			undoManager.addCommand(command);
 			setChanged();
-			notifyObservers(new GraphUpdateEvent(GraphUpdateEvent.Type.GraphStructure, null));
+			notifyObservers(new GraphEvent(GraphEvent.Type.GraphStructure, null));
 			return true;
 		}
 		
@@ -199,7 +199,7 @@ public class JungGraph extends Observable implements Graph<Node, Edge> {
 		if (graph.removeEdge(edge)) {
 			undoManager.addCommand(command);
 			setChanged();
-			notifyObservers(new GraphUpdateEvent(GraphUpdateEvent.Type.GraphStructure, null));
+			notifyObservers(new GraphEvent(GraphEvent.Type.GraphStructure, null));
 			return true;
 		}
 		
@@ -220,7 +220,7 @@ public class JungGraph extends Observable implements Graph<Node, Edge> {
 			node.setLabel(label);
 
 			setChanged();
-			notifyObservers(new GraphUpdateEvent(GraphUpdateEvent.Type.GraphStructure, null));
+			notifyObservers(new GraphEvent(GraphEvent.Type.GraphStructure, null));
 			return true;
 		}
 		return false;
@@ -232,7 +232,7 @@ public class JungGraph extends Observable implements Graph<Node, Edge> {
 			edge.setLabel(label);
 
 			setChanged();
-			notifyObservers(new GraphUpdateEvent(GraphUpdateEvent.Type.GraphStructure, null));
+			notifyObservers(new GraphEvent(GraphEvent.Type.GraphStructure, null));
 			return true;
 		}
 		return false;
@@ -462,7 +462,7 @@ public class JungGraph extends Observable implements Graph<Node, Edge> {
 	public void setName(String name) {
 		if (!name.equals(this.name)) {
 			setChanged();
-			notifyObservers(new GraphUpdateEvent(GraphUpdateEvent.Type.Name, name));
+			notifyObservers(new GraphEvent(GraphEvent.Type.Name, name));
 		}
 		this.name = name;
 	}

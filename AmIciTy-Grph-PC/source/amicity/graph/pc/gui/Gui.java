@@ -28,7 +28,8 @@ public class Gui extends JPanel {
 		this.add(tabbedPane, BorderLayout.CENTER);
 
 		//graph explorer
-		graphExplorer = new GraphExplorer(controller);
+		graphExplorer = new GraphExplorer();
+		controller.register(graphExplorer);
 		
 		JPanel sideBar = new JPanel();
 		sideBar.setLayout(new BoxLayout(sideBar, BoxLayout.Y_AXIS));

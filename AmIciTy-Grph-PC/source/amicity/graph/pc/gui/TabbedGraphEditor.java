@@ -28,7 +28,7 @@ import javax.swing.event.ChangeListener;
 
 import amicity.graph.pc.CachedJungGraph;
 import amicity.graph.pc.MainController;
-import amicity.graph.pc.common.GraphUpdateEvent;
+import amicity.graph.pc.common.GraphEvent;
 import amicity.graph.pc.jung.JungGraph;
 
 public class TabbedGraphEditor extends JTabbedPane {
@@ -48,8 +48,8 @@ public class TabbedGraphEditor extends JTabbedPane {
 		@Override
 		public void update(Observable obj, Object arg) {
 			JungGraph graph = (JungGraph) obj;
-			GraphUpdateEvent event = (GraphUpdateEvent) arg;
-			if (event.type != GraphUpdateEvent.Type.Name) {
+			GraphEvent event = (GraphEvent) arg;
+			if (event.type != GraphEvent.Type.Name) {
 				return;
 			}
 			

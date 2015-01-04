@@ -11,6 +11,8 @@ import amicity.graph.pc.gui.PatternMatchViewer;
 import amicity.graph.pc.gui.QuickMatchFrame;
 import amicity.graph.pc.gui.TabbedGraphEditor;
 import amicity.graph.pc.gui.ToolBar;
+import amicity.graph.pc.gui.util.GraphUIEvent;
+import amicity.graph.pc.gui.util.GraphUIEventListener;
 import amicity.graph.pc.jung.JungGraph;
 import net.xqhs.graphs.graph.Graph;
 
@@ -18,12 +20,12 @@ import net.xqhs.graphs.graph.Graph;
  * Controls the state of the editor and handles interaction between
  * components.
  */
-public class MainController {
+public class MainController implements GraphUIEventListener {
 	private FileManager fileManager;
 	private GraphExplorer graphExplorer;
 	private TabbedGraphEditor graphEditor;
-	private Object toolBar;
 	private PatternMatchViewer patternViewer;
+	private ToolBar	toolBar;
 
 	public void register(TabbedGraphEditor graphEditor) {
 			this.graphEditor = graphEditor;
@@ -31,6 +33,7 @@ public class MainController {
 	
 	public void register(GraphExplorer graphExplorer) {
 		this.graphExplorer = graphExplorer;
+		graphExplorer.addEventListener(this);
 	}
 	
 	public void register(FileManager fileManager) {
@@ -115,7 +118,6 @@ public class MainController {
 		}
 	}
 
-	
 	public void runQuickMatch(JungGraph graph, JungGraph pattern) {
 		System.out.println("Running!!");
 		JFrame results = new QuickMatchFrame(graph.asSimpleGraph(), pattern.asGraphPattern());
@@ -124,5 +126,16 @@ public class MainController {
 
 	public void hideShowMatchingPatterns(boolean visible) {
 		this.patternViewer.setVisible(true);		
+	}
+
+	@Override
+	public void handleEvent(GraphUIEvent event)
+	{
+		if (event.getSource() == graphExplorer && event.getType() == GraphUIEvent.Type.SelectedGraphChanged) {
+			JungGraph graph = (JungGraph) event.getData();
+			
+			assert graph != null;
+			graphEditor.openGraph(graph);
+		}
 	}
 }

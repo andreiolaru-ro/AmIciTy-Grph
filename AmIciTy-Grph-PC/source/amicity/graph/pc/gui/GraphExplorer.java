@@ -32,9 +32,13 @@ import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
 import amicity.graph.pc.MainController;
+import amicity.graph.pc.gui.util.GraphUIEvent;
+import amicity.graph.pc.gui.util.GraphUIEventDispatcher;
+import amicity.graph.pc.gui.util.GraphUIEventDispatcherImpl;
+import amicity.graph.pc.gui.util.GraphUIEventListener;
 import amicity.graph.pc.jung.JungGraph;
 
-public class GraphExplorer extends JPanel implements TreeSelectionListener {
+public class GraphExplorer extends JPanel implements TreeSelectionListener, GraphUIEventDispatcher {
 	private static final long serialVersionUID = 9187558802298268027L;
 	
 	class TreeLeafPopup extends JPopupMenu implements ActionListener {
@@ -89,6 +93,7 @@ public class GraphExplorer extends JPanel implements TreeSelectionListener {
 	
 	class TreeEditor extends DefaultTreeCellEditor {
 
+		@Override
 		public Component getTreeCellEditorComponent(JTree tree,
 			    Object value, boolean isSelected, boolean expanded,
 			    boolean leaf, int row)
@@ -102,6 +107,7 @@ public class GraphExplorer extends JPanel implements TreeSelectionListener {
 			super(tree, renderer);
 		}
 		
+		@Override
 		public boolean isCellEditable(EventObject event) {
 			System.out.println("called by: " + event);
 			if (event == null) {
@@ -112,7 +118,7 @@ public class GraphExplorer extends JPanel implements TreeSelectionListener {
 				return false;
 			}
 			
-			if (event != null && event.getSource() instanceof JTree && event instanceof MouseEvent) {  
+			if (event.getSource() instanceof JTree && event instanceof MouseEvent) {  
 	            MouseEvent mouseEvent = (MouseEvent)event;  
 	            JTree tree = (JTree)event.getSource();  
 	            TreePath path = tree.getPathForLocation(mouseEvent.getX(), mouseEvent.getY());  
@@ -164,12 +170,10 @@ public class GraphExplorer extends JPanel implements TreeSelectionListener {
 	
 	List<JungGraph> contextGraphList = new ArrayList<JungGraph>();
 	List<JungGraph> patternList = new ArrayList<JungGraph>();
-	private MainController controller;
 	
-	public GraphExplorer(MainController controller) {
-		this.controller = controller;
-		controller.register(this);
-		
+	GraphUIEventDispatcherImpl dispatcher = new GraphUIEventDispatcherImpl();
+	
+	public GraphExplorer() {
 		root.add(contextGraphNode);
 		root.add(patternNode);
 		tree = new JTree(root);
@@ -207,7 +211,9 @@ public class GraphExplorer extends JPanel implements TreeSelectionListener {
 		if (selectedNode == null || !selectedNode.isLeaf())
 			return;
 		JungGraph graph = (JungGraph) selectedNode.getUserObject();
-		controller.getGraphEditor().openGraph(graph);
+		
+		dispatcher.dispatchEvent(new GraphUIEvent(this, GraphUIEvent.Type.SelectedGraphChanged, graph));
+
 	}
 	
 	public List<JungGraph> getPatterns() {
@@ -226,5 +232,11 @@ public class GraphExplorer extends JPanel implements TreeSelectionListener {
 			list.add((JungGraph)node.getUserObject());
 		}
 		return list;
+	}
+
+
+	@Override
+	public void addEventListener(GraphUIEventListener listener) {
+		dispatcher.addEventListener(listener);
 	}
 }
