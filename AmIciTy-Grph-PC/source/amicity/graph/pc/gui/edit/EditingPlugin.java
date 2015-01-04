@@ -31,9 +31,10 @@ public class EditingPlugin extends EditingGraphMousePlugin<Node, Edge> {
 
 	@SuppressWarnings("unchecked")
 	public void mousePressed(MouseEvent e) {
+		System.out.println("Modifiers: " + modifiers);
+	    System.out.println("CustomEditingGraphMousePlugin::mousePressed> modifier= " + e.getModifiers());
 		if(e.getModifiers() == modifiers) {
-			System.out.println("Modifiers: " + modifiers);
-		    System.out.println("CustomEditingGraphMousePlugin::mousePressed> modifier= " + e.getModifiers());
+			
 
             final VisualizationViewer<Node,Edge> vv =
                 (VisualizationViewer<Node,Edge>)e.getSource();
@@ -96,7 +97,15 @@ public class EditingPlugin extends EditingGraphMousePlugin<Node, Edge> {
         }
     }
 	
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		System.out.println("Mouse dragged");
+		super.mouseDragged(e);
+	}
+	
     private void transformEdgeShape(Point2D down, Point2D out) {
+    	System.out.println("from :" + down + ". to: " + out);
+
         float x1 = (float) down.getX();
         float y1 = (float) down.getY();
         float x2 = (float) out.getX();

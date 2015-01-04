@@ -81,6 +81,7 @@ public class CustomPickingGraphMousePlugin<V, E> extends PickingGraphMousePlugin
 
 	    @SuppressWarnings("unchecked")
 	    public void mouseDragged(MouseEvent e) {
+	    	System.out.println("Mouse dragged");
 	        if(locked == false) {
 	            VisualizationViewer<V,E> vv = (VisualizationViewer)e.getSource();
 	            if(vertex != null) {

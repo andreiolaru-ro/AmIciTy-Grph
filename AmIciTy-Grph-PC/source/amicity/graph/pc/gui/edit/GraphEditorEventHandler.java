@@ -92,7 +92,7 @@ public class GraphEditorEventHandler extends EditingModalGraphMouse<Node, Edge> 
                             new CrossoverScalingControl(), 0, in, out);
             //rotatingPlugin = new RotatingGraphMousePlugin();
             //shearingPlugin = new ShearingGraphMousePlugin();
-            editingPlugin = new EditingPlugin(CTRL_MASK, vertexFactory,
+            editingPlugin = new EditingPlugin(ALT_MASK, vertexFactory,
                             edgeFactory);
             //labelEditingPlugin = new CustomLabelEditingPlugin<V, E>(24);
             
