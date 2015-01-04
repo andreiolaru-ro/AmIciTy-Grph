@@ -3,18 +3,13 @@ package amicity.graph.pc;
 import java.io.File;
 import java.util.List;
 
-import javax.swing.JFrame;
-
-import amicity.graph.pc.gui.GraphEditor;
 import amicity.graph.pc.gui.GraphExplorer;
 import amicity.graph.pc.gui.PatternMatchViewer;
-import amicity.graph.pc.gui.QuickMatchFrame;
 import amicity.graph.pc.gui.TabbedGraphEditor;
 import amicity.graph.pc.gui.ToolBar;
 import amicity.graph.pc.gui.util.GraphUIEvent;
 import amicity.graph.pc.gui.util.GraphUIEventListener;
 import amicity.graph.pc.jung.JungGraph;
-import net.xqhs.graphs.graph.Graph;
 
 /*
  * Controls the state of the editor and handles interaction between
@@ -118,11 +113,6 @@ public class MainController implements GraphUIEventListener {
 		}
 	}
 
-	public void runQuickMatch(JungGraph graph, JungGraph pattern) {
-		System.out.println("Running!!");
-		JFrame results = new QuickMatchFrame(graph.asSimpleGraph(), pattern.asGraphPattern());
-		results.setVisible(true);
-	}
 
 	public void hideShowMatchingPatterns(boolean visible) {
 		this.patternViewer.setVisible(true);		
