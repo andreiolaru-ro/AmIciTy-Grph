@@ -50,7 +50,8 @@ public class JungGraphDescription extends GraphDescription {
 		for (Node node : graph.getVertices()) {
 			Point2D p = graph.getLayout().transform(node);
 			String value = p.getX() +", " + p.getY();
-			String blob = keyValue(node.getLabel(), value);
+			System.out.println(node);
+			String blob = keyValue(node.toString(), value);
 			buffer.append("(" + blob + ")");
 		}
 		

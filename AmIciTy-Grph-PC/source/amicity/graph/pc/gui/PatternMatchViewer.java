@@ -121,7 +121,7 @@ public class PatternMatchViewer extends JPanel implements Observer, JungMatchLis
 		for (MatchPair pair : allMatches) {
 			if (pair.match.getK() > threshold && matchListModel.contains(pair)) {
 				matchListModel.removeElement(pair);
-			} else if (pair.match.getK() <= threshold && !matchListModel.contains(pair)){
+			} else if (pair.match.getK() <= threshold && !matchListModel.contains(pair)) {
 				matchListModel.addElement(pair);
 			}
 		}

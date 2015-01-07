@@ -48,8 +48,12 @@ public class JungGraph extends Observable implements Graph<Node, Edge> {
 		Map<Node, Node> transformMap = new HashMap<Node, Node>();
 		
 		// copy the graph
+		int genericLabelIndex = 1;
 		for (Node node : simpleGraph.getNodes()) {
 			SettableNodeP nodeP = new SettableNodeP(node.getLabel());
+			if (node.getLabel().equals("?")) {
+				nodeP.setLabelIndex(genericLabelIndex++);
+			}
 			transformMap.put(node, nodeP);
 			graph.addVertex(nodeP);
 		}

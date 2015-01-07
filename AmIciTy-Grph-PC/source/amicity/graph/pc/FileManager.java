@@ -58,7 +58,8 @@ public class FileManager {
 			
 
 			for (Node v : graph.getVertices()) {
-				graph.getLayout().setLocation(v, nodesLocation.get(v.getLabel()));
+				System.out.println("v=" + v.toString());
+				graph.getLayout().setLocation(v, nodesLocation.get(v.toString()));
 			}
 			
 			return graph;

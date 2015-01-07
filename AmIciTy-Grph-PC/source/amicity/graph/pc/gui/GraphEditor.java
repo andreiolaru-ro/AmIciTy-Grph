@@ -77,16 +77,9 @@ public class GraphEditor extends JPanel {
 
 		Transformer<Node, Shape> vertexSize = new Transformer<Node, Shape>() {
 			public Shape transform(Node i) {
-				// Ellipse2D circle = new Ellipse2D.Double(-15,-15,20, 20);
-
 				int length = i.getLabel().length() * 10;
 				length = length > 30 ? length : 30;
 				return new Rectangle(-20, -10, length, 30);
-				// return AffineTransform.getScaleInstance(2,
-				// 2).createTransformedShape(circle);
-				// else if(i==2) return circle;
-				// else return new Rectangle(-20, -10, 40, 20);
-
 			}
 		};
 		vv.getRenderContext().setVertexShapeTransformer(vertexSize);
