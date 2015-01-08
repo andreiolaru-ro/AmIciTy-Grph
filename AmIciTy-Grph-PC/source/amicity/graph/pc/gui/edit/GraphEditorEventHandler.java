@@ -15,6 +15,7 @@ import org.apache.commons.collections15.Factory;
 import org.apache.commons.collections15.Transformer;
 import org.apache.commons.collections15.functors.MapTransformer;
 
+import amicity.graph.pc.gui.util.OSValidator;
 import amicity.graph.pc.jung.JungGraph;
 import edu.uci.ics.jung.visualization.RenderContext;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
@@ -39,10 +40,20 @@ import edu.uci.ics.jung.visualization.control.TranslatingGraphMousePlugin;
  */
 public class GraphEditorEventHandler extends EditingModalGraphMouse<Node, Edge> {
 
+	int[] defaultKeyMap = {10, 127, 82};
+	int[] macKeyMap = {10, 8, 82};
+	int[] keyMap;
+	
 	public GraphEditorEventHandler(RenderContext<Node, Edge> rc,
 			Factory<Node> vertexFactory, Factory<Edge> edgeFactory) {
 		super(rc, vertexFactory, edgeFactory);
 		setModeKeyListener(new ModeKeyAdapter());
+		
+		if (OSValidator.isMac()) {
+			keyMap = macKeyMap;
+		} else {
+			keyMap = defaultKeyMap;
+		}
 	}
 	
 	final int SHIFT_MASK = 17;
@@ -63,17 +74,12 @@ public class GraphEditorEventHandler extends EditingModalGraphMouse<Node, Edge> 
 	    	JungGraph graph = (JungGraph) vv.getModel().getGraphLayout().getGraph();
 	    	
 			System.out.println("key pressed: " + e.getKeyCode());
-			switch(e.getKeyCode()) {
-			case 10:
+			if (keyMap[0] == e.getKeyCode()) {
 				openEditPopup(e.getSource());
-				break;
-			case 8:
+			} else if (keyMap[1] == e.getKeyCode()) {
 				delete(e.getSource());
-				break;
-			
-			case 82:
+			} else if (keyMap[2] == e.getKeyCode()) {
 				graph.dirty();
-				break;
 			}
 		}
 	}
