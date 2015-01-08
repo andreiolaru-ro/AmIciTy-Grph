@@ -88,7 +88,7 @@ public class GraphEditor extends JPanel {
 		panel.setPreferredSize(new Dimension(400, 400));
 		add(panel, BorderLayout.CENTER);
 
-		Factory<Node> vertexFactory = new NodeFactory();
+		Factory<Node> vertexFactory = new NodeFactory(this.graph);
 		Factory<Edge> edgeFactory = new EdgeFactory();
 
 		final GraphEditorEventHandler graphMouse = new GraphEditorEventHandler(
@@ -167,9 +167,36 @@ public class GraphEditor extends JPanel {
 	}
 
 	class NodeFactory implements Factory<Node> {
+		JungGraph graph;
+		
+		public NodeFactory(JungGraph graph) {
+			this.graph = graph;
+		}
+		
+		public String getNextNameFor(String baseName) {
+			int i = 2;
+			String name = baseName;
+			while (graphContains(name)) {
+				name = baseName + i++;
+			}
+			
+			return name;
+		}
+		
+		boolean graphContains(String name) {
+			for (Node node : graph.getVertices()) {
+				if (node.getLabel().equals(name)) {
+					return true;
+				}
+			}
+			return false;
+		}
+		
 		@Override
 		public Node create() {
-			return new SettableNodeP("vertex");
+
+			String name = getNextNameFor("vertex");
+			return new SettableNodeP(name);
 		}
 
 	}

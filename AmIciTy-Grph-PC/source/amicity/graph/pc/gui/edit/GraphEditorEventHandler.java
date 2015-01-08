@@ -125,6 +125,46 @@ public class GraphEditorEventHandler extends EditingModalGraphMouse<Node, Edge> 
     	super.remove(plugin);
     }
     
+    
+	public String getNextNameFor(JungGraph graph, String currentName) {
+		int i = 0;
+		
+		String id = "0";
+		String baseName = currentName;
+		for (int k = currentName.length() - 1; k >= 1; k++) {
+			if (currentName.charAt(k) <= '9' && currentName.charAt(k) >= '0') {
+				id = currentName.charAt(k) + id;
+				i++;
+			} else {
+				break;
+			}
+		}
+		
+		if (i > 0) {
+			baseName = currentName.substring(0, currentName.length() - i);
+			i = Integer.parseInt(id);
+		} else {
+			i = 2;
+		}
+		
+		String name = baseName;
+		while (graphContains(graph, name)) {
+			name = baseName + i++;
+		}
+		
+		return name;
+	}
+	
+	boolean graphContains(JungGraph graph, String name) {
+		for (Node node : graph.getVertices()) {
+			if (node.getLabel().equals(name)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+    
     private
     void openEditPopup(Object source) {
     	final VisualizationViewer<Node,Edge> vv =
@@ -134,9 +174,22 @@ public class GraphEditorEventHandler extends EditingModalGraphMouse<Node, Edge> 
     	JungGraph graph = (JungGraph) vv.getModel().getGraphLayout().getGraph();
     	for (Node node : pickedNodes) {
     		String newLabel = JOptionPane.showInputDialog("New Vertex Label for "+ node.getLabel());
-    		if (newLabel != null && newLabel.length() != 0)
+    		
+
+    		
+    		if (newLabel != null && newLabel.length() != 0) {
+        		if (newLabel.length() > 1 && newLabel.charAt(0) == '?') {
+        			continue;			
+        		}
+        		
+        		if (newLabel.equals("?") && !graph.isPattern()) {
+        			continue;
+        		}
+        		
+        		if (!newLabel.equals("?"))
+        			newLabel = getNextNameFor(graph, newLabel);
     			graph.setLabelWithHistory(node, newLabel);
-    			//node.setLabel(newLabel);
+    		}
     		vv.repaint();
     	}
 
