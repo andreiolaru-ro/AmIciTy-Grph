@@ -184,6 +184,7 @@ public class FileManager {
 				    JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		} catch (Exception e) {
+			e.printStackTrace();
 			JOptionPane.showMessageDialog(null,
 				    "Something is wrong: " + e.getMessage(),
 				    "Internal Error",
