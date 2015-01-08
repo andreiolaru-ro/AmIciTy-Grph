@@ -51,6 +51,9 @@ public class FileManager {
 			in = new FileInputStream(file);
 			TextGraphRepresentation g = new TextGraphRepresentation(p);
 			g.readRepresentation(in);
+			if (p.getDescription() == null) {
+				System.out.println("ERROR reading: " + file);
+			}
 			boolean isPattern = JungGraphDescription.isPattern(p.getDescription());
 			
 			Map<String, Point2D.Double> nodesLocation = JungGraphDescription.ParseDescription(p.getDescription());
