@@ -44,6 +44,43 @@ public class GraphEditorEventHandler extends EditingModalGraphMouse<Node, Edge> 
 	int[] macKeyMap = {10, 8, 82};
 	int[] keyMap;
 	
+	public enum FeatureMask {
+		PICK_SUPPORT(1),
+		TRANSLATE_SUPPORT(2),
+		SCALING_SUPPORT(4),
+		EDITING_SUPPORT(8),
+		KEYBOARD_SUPPORT(16);
+		
+		private int value;
+		private FeatureMask(int value) {
+			this.value = value;
+		}
+		
+		public int getValue() {
+			return value;
+		}
+		
+		public boolean hasFeature(FeatureMask featureMask) {
+			return ((value & featureMask.getValue()) == 0);
+		}
+	}
+	
+	FeatureMask mask;
+	
+	public GraphEditorEventHandler(RenderContext<Node, Edge> rc,
+									Factory<Node> vertexFactory, Factory<Edge> edgeFactory, FeatureMask map) {
+		super(rc, vertexFactory, edgeFactory);
+		if (map.hasFeature(FeatureMask.KEYBOARD_SUPPORT)) {
+			setModeKeyListener(new ModeKeyAdapter());		
+			if (OSValidator.isMac()) {
+				keyMap = macKeyMap;
+			} else {
+				keyMap = defaultKeyMap;
+			}
+		}
+		
+	}
+	
 	public GraphEditorEventHandler(RenderContext<Node, Edge> rc,
 			Factory<Node> vertexFactory, Factory<Edge> edgeFactory) {
 		super(rc, vertexFactory, edgeFactory);
@@ -103,9 +140,6 @@ public class GraphEditorEventHandler extends EditingModalGraphMouse<Node, Edge> 
             //labelEditingPlugin = new CustomLabelEditingPlugin<V, E>(24);
             
             annotatingPlugin = new AnnotatingGraphMousePlugin<Node, Edge>(rc);
-            
-            popupEditingPlugin = new CustomEditingPopupGraphMousePlugin<Node, Edge>(
-                            vertexFactory, edgeFactory);
             
             
             add(scalingPlugin);

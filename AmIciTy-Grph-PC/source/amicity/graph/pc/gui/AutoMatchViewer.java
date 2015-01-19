@@ -107,8 +107,8 @@ public class AutoMatchViewer extends JPanel {
 		// the EditingGraphMouse will pass mouse event coordinates to the
 		// vertexLocations function to set the locations of the vertices as
 		// they are created
-		vv.setGraphMouse(graphMouse);
-		vv.addKeyListener(graphMouse.getModeKeyListener());
+		//vv.setGraphMouse(graphMouse);
+		//vv.addKeyListener(graphMouse.getModeKeyListener());
 
 		//final ScalingControl scaler = new CrossoverScalingControl();
 
@@ -122,11 +122,25 @@ public class AutoMatchViewer extends JPanel {
 		graph.setNeedsLayout(false);
 	}
 	
-	public void setMatch(MatchPair match) {
+	public void setMatchAutoLayout(MatchPair match) {
 		this.graph = match.pattern;
+		if (match.layout == null) {
+			match.layout = new FRLayout<Node, Edge>(graph, new Dimension(400, 400));
+		}
+		vv.getModel().setGraphLayout(match.layout);
+		double scale = vv.getRenderContext().getMultiLayerTransformer().getTransformer(Layer.VIEW).getScale();
+		vv.getRenderContext().getMultiLayerTransformer().getTransformer(Layer.VIEW).setScale(0.9, 0.9, vv.getCenter());
+		System.out.println("Scale is: " + scale);
+	}
+	
+	public void setMatch(MatchPair match) {
+		setMatchAutoLayout(match);
+		return;
+		/*this.graph = match.pattern;
 		vv.getModel().setGraphLayout(this.graph.getLayout());
 		vv.getRenderContext().setVertexFillPaintTransformer(new NodeColorTransformer(match));
-		vv.getRenderContext().setEdgeDrawPaintTransformer(new EdgeColorTransformer(match));	
+		vv.getRenderContext().setEdgeDrawPaintTransformer(new EdgeColorTransformer(match));
+		*/	
 		}
 	
 	public void setMatch(JungGraph graph) {
