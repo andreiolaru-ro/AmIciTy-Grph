@@ -5,6 +5,8 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -110,8 +112,32 @@ public class FileManager {
 	}
 
 	public void saveAsLibrary(List<JungGraph> graphs, List<JungGraph> patterns) {
-	    JFileChooser chooser = new JFileChooser(); 
-
+		Set<String> uniqueNames = new TreeSet<String>();
+		boolean error = false;
+		for (JungGraph grph : graphs) {
+			if (uniqueNames.contains(grph.getName())) {
+				error = true;
+				break;
+			}
+			uniqueNames.add(grph.getName());
+		}
+		
+		for (JungGraph grph : patterns) {
+			if (uniqueNames.contains(grph.getName())) {
+				error = true;
+				break;
+			}
+			uniqueNames.add(grph.getName());
+		}
+		if (error) {
+			JOptionPane.showMessageDialog(null,
+				    "Saving multiple names with the same name is not allowed.",
+				    "Unique names error",
+				    JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		
+	    JFileChooser chooser = new JFileChooser();
 	    if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
 	    	File directory = chooser.getSelectedFile().getParentFile();
 	    	File libfile = chooser.getSelectedFile();
