@@ -42,17 +42,22 @@ public class JungGraph extends Observable implements Graph<Node, Edge> {
 		undoManager = new UndoManager();
 	}
 	
-	public JungGraph(SimpleGraph simpleGraph, String name, boolean isPattern) {
+	public JungGraph(GraphPattern simpleGraph, String name, boolean isPattern) {
 		this(name, isPattern);
 
 		Map<Node, Node> transformMap = new HashMap<Node, Node>();
 		
 		// copy the graph
-		int genericLabelIndex = 1;
 		for (Node node : simpleGraph.getNodes()) {
+
 			SettableNodeP nodeP = new SettableNodeP(node.getLabel());
 			if (node.getLabel().equals("?")) {
-				nodeP.setLabelIndex(genericLabelIndex++);
+				if (node instanceof NodeP) {
+					NodeP asNodeP = (NodeP)node;
+					nodeP.setLabelIndex(asNodeP.genericIndex());
+				} else {
+					System.err.println("ERROR: node is not generic.");
+				}
 			}
 			transformMap.put(node, nodeP);
 			graph.addVertex(nodeP);
