@@ -99,7 +99,7 @@ public class EditingPlugin extends EditingGraphMousePlugin<Node, Edge> {
 	
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		System.out.println("Mouse dragged");
+		// System.out.println("Mouse dragged");
 		super.mouseDragged(e);
 	}
 	
