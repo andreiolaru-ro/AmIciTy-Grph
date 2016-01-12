@@ -109,32 +109,6 @@ public class JungGraph extends Observable implements Graph<Node, Edge> {
 		return graphPattern;
 	}
 	
-	public GraphPattern asGraphPattern3() {
-		GraphPattern graphPattern = (GraphPattern) new GraphPattern().setUnitName(getName());
-		int count = 1;
-		Map<Node, Node> nodeMap = new HashMap<Node, Node>();
-		
-		for (Node node : graph.getVertices()) {
-			NodeP nodeP;
-			if (node.getLabel().equals("?")) {
-				nodeP = new NodeP(count++); 
-			} else {
-				nodeP = new NodeP(node.getLabel());
-			}
-			nodeMap.put(node, nodeP);
-			graphPattern.addNode(nodeP);
-		}
-		
-		for (Edge edge : graph.getEdges()) {
-			Node fromNode = nodeMap.get(edge.getFrom());
-			Node toNode = nodeMap.get(edge.getTo());
-			graphPattern.addEdge(new SimpleEdge(fromNode, toNode, edge.getLabel()));
-			//graphPattern.addEdge(edge);
-		}
-
-		return graphPattern;
-	}
-	
 	public Layout<Node, Edge> getLayout() {
 		return layout;
 	}
