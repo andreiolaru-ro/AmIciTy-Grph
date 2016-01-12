@@ -9,6 +9,7 @@ import net.xqhs.graphs.graph.Edge;
 import net.xqhs.graphs.graph.Node;
 import net.xqhs.graphs.graph.SimpleEdge;
 import net.xqhs.graphs.graph.SimpleGraph;
+import net.xqhs.graphs.matchingPlatform.TrackingGraph;
 import net.xqhs.graphs.pattern.GraphPattern;
 import net.xqhs.graphs.pattern.NodeP;
 import amicity.graph.pc.common.Command;
@@ -34,12 +35,16 @@ public class JungGraph extends Observable implements Graph<Node, Edge> {
 	
 	protected UndoManager undoManager;
 	
+	protected boolean trackHistory;
+	
 	public JungGraph(String name, boolean isPattern) {
 		this.setName(name);
 		this.graph = Graphs.<Node,Edge>synchronizedDirectedGraph(new DirectedSparseMultigraph<Node, Edge>());
 		layout = new StaticLayout<Node, Edge>(this);
 		this.isPattern = isPattern;
 		undoManager = new UndoManager();
+		
+		trackHistory = true;
 	}
 	
 	public JungGraph(GraphPattern simpleGraph, String name, boolean isPattern) {
@@ -70,7 +75,7 @@ public class JungGraph extends Observable implements Graph<Node, Edge> {
 			graph.addEdge(updatedEdge, updatedEdge.getFrom(), updatedEdge.getTo());
 		}
 	}
-
+	
 	public net.xqhs.graphs.graph.Graph asSimpleGraph() {
 		SimpleGraph simpleGraph = (SimpleGraph) new SimpleGraph().setUnitName(getName());
 		for (Node node : graph.getVertices()) {
@@ -118,75 +123,56 @@ public class JungGraph extends Observable implements Graph<Node, Edge> {
 	}
 	
 	public void undo() {
-		System.out.println("undo graph");
-		if (undoManager.Undo()) {
-			setChanged();
-			notifyObservers(new GraphEvent(GraphEvent.Type.GraphStructure, null));
-		}
+		undoManager.Undo();
 	}
 	
 	public void redo() {
-		if (undoManager.Redo()) {
-			setChanged();
-			notifyObservers(new GraphEvent(GraphEvent.Type.GraphStructure, null));
-		}
+		undoManager.Redo();
 	}
 	
-	public boolean addVertexWithHistory(Node node) {
-		Command command = new AddRemoveCommand<Node>(this, node, AddRemoveCommand.Type.Add);
-		
-		if (graph.addVertex(node)) {
+	public boolean addVertexWithHistory(Node node) {		
+		boolean result = graph.addVertex(node);
+		if (result) {
+			Command command = new AddRemoveCommand<Node>(this, node, AddRemoveCommand.Type.Add);
 			undoManager.addCommand(command);
-			setChanged();
-			notifyObservers(new GraphEvent(GraphEvent.Type.GraphStructure, null));
-			return true;
 		}
 
-		return false;
+		return result;
 	}
 	
-	public void dirty() {
+	public void dirty(GraphEvent.Type type) {
 		setChanged();
-		notifyObservers(new GraphEvent(GraphEvent.Type.GraphStructure, null));
+		notifyObservers(new GraphEvent(type, null));
 	}
 	
 	public boolean removeVertexWithHistory(Node node) {
-		Command command = new AddRemoveCommand<Node>(this, node, AddRemoveCommand.Type.Remove);
-		
+		boolean result = graph.removeVertex(node);
 		if (graph.removeVertex(node)) {
+			Command command = new AddRemoveCommand<Node>(this, node, AddRemoveCommand.Type.Remove);
 			undoManager.addCommand(command);
-			setChanged();
-			notifyObservers(new GraphEvent(GraphEvent.Type.GraphStructure, null));
-			return true;
 		}
 		
-		return false;
+		return result;
 	}
 
 	public boolean addEdgeWithHistory(Edge edge) {
-		Command command = new AddRemoveCommand<Edge>(this, edge, AddRemoveCommand.Type.Add);
-		
-		if (graph.addEdge(edge, edge.getFrom(), edge.getTo())) {
+		boolean result = graph.addEdge(edge, edge.getFrom(), edge.getTo());
+		if (result) {
+			Command command = new AddRemoveCommand<Edge>(this, edge, AddRemoveCommand.Type.Add);
 			undoManager.addCommand(command);
-			setChanged();
-			notifyObservers(new GraphEvent(GraphEvent.Type.GraphStructure, null));
-			return true;
 		}
 		
-		return false;
+		return result;
 	}
 	
 	public boolean removeEdgeWithHistory(Edge edge) {
-		Command command = new AddRemoveCommand<Edge>(this, edge, AddRemoveCommand.Type.Remove);
-		
-		if (graph.removeEdge(edge)) {
+		boolean result = graph.removeEdge(edge);
+		if (result) {
+			Command command = new AddRemoveCommand<Edge>(this, edge, AddRemoveCommand.Type.Remove);
 			undoManager.addCommand(command);
-			setChanged();
-			notifyObservers(new GraphEvent(GraphEvent.Type.GraphStructure, null));
-			return true;
 		}
 		
-		return false;
+		return result;
 	}
 		
 	public boolean setLabelWithHistory(Node node, String label) {
@@ -202,8 +188,7 @@ public class JungGraph extends Observable implements Graph<Node, Edge> {
 			}
 			node.setLabel(label);
 
-			setChanged();
-			notifyObservers(new GraphEvent(GraphEvent.Type.GraphStructure, null));
+			dirty(GraphEvent.Type.GraphStructure);
 			return true;
 		}
 		return false;
@@ -214,8 +199,7 @@ public class JungGraph extends Observable implements Graph<Node, Edge> {
 		if (!edge.getLabel().equals(label)) {
 			edge.setLabel(label);
 
-			setChanged();
-			notifyObservers(new GraphEvent(GraphEvent.Type.GraphStructure, null));
+			dirty(GraphEvent.Type.GraphStructure);
 			return true;
 		}
 		return false;
@@ -223,18 +207,34 @@ public class JungGraph extends Observable implements Graph<Node, Edge> {
 
 	@Override
 	public boolean addEdge(Edge arg0, Collection<? extends Node> arg1) {
-		return graph.addEdge(arg0, arg1);
+		boolean result = graph.addEdge(arg0, arg1);
+		
+		if (result) {
+			dirty(GraphEvent.Type.GraphStructure);
+		}
+		return result;
 	}
 
 	@Override
 	public boolean addEdge(Edge arg0, Collection<? extends Node> arg1,
 			EdgeType arg2) {
-		return graph.addEdge(arg0, arg1, arg2);
+		boolean result = graph.addEdge(arg0, arg1, arg2);
+		
+		if (result) {
+			dirty(GraphEvent.Type.GraphStructure);
+		}
+		
+		return result;
 	}
 
 	@Override
-	public boolean addVertex(Node node) {
-		return graph.addVertex(node);
+	public boolean addVertex(Node node) {		
+		boolean result = graph.addVertex(node);
+		if (result) {
+			dirty(GraphEvent.Type.GraphStructure);
+		}
+		
+		return result;
 	}
 
 
@@ -340,22 +340,37 @@ public class JungGraph extends Observable implements Graph<Node, Edge> {
 
 	@Override
 	public boolean removeEdge(Edge arg0) {
-		return graph.removeEdge(arg0);
+		boolean result = graph.removeEdge(arg0);
+		if (result) {
+			dirty(GraphEvent.Type.GraphStructure);
+		}
+		
+		return result;
 	}
 
 	@Override
 	public boolean removeVertex(Node arg0) {
-		return graph.removeVertex(arg0);
+		boolean result = graph.removeVertex(arg0);
+		if (result) {
+			setChanged();
+			notifyObservers(new GraphEvent(GraphEvent.Type.GraphStructure, null));
+		}
+		return result;
 	}
 
 	@Override
 	public boolean addEdge(Edge e, Node v1, Node v2) {
-		return graph.addEdge(e, v1, v2);
+		boolean result = graph.addEdge(e, v1, v2);
+		if (result) {
+			dirty(GraphEvent.Type.GraphStructure);
+		}
+		return result;
 	}
 
 	@Override
 	public boolean addEdge(Edge e, Node v1, Node v2, EdgeType edgeType) {
-		return graph.addEdge(e, v1, v2, edgeType);
+		throw new RuntimeException("Not supported");
+		//return graph.addEdge(e, v1, v2, edgeType);
 	}
 
 	@Override

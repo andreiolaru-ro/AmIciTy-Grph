@@ -15,6 +15,7 @@ import org.apache.commons.collections15.Factory;
 import org.apache.commons.collections15.Transformer;
 import org.apache.commons.collections15.functors.MapTransformer;
 
+import amicity.graph.pc.common.GraphEvent.Type;
 import amicity.graph.pc.gui.util.OSValidator;
 import amicity.graph.pc.jung.JungGraph;
 import edu.uci.ics.jung.visualization.RenderContext;
@@ -116,7 +117,7 @@ public class GraphEditorEventHandler extends EditingModalGraphMouse<Node, Edge> 
 			} else if (keyMap[1] == e.getKeyCode()) {
 				delete(e.getSource());
 			} else if (keyMap[2] == e.getKeyCode()) {
-				graph.dirty();
+				graph.dirty(Type.GraphStructure);
 			}
 		}
 	}
