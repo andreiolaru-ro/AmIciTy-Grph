@@ -26,21 +26,6 @@ public class CachedJungGraph extends JungGraph {
 		super(name, isPattern);
 		dirty = true;
 	}
-	
-	public CachedJungGraph(PackedGraph packedGraph) {
-		super(packedGraph.name, packedGraph.isPattern);
-		for (int i = 0; i < packedGraph.nodes.size(); i++) {
-			Node node = packedGraph.nodes.get(i);
-			Point2D pos = packedGraph.points.get(i);
-			addVertex(node);
-			layout.setLocation(node, pos);
-		}
-
-		for (Edge edge : packedGraph.edges) {
-			addEdge(edge, edge.getFrom(), edge.getTo());
-		}
-		this.isPattern = packedGraph.isPattern;
-	}
 
 	public void setFilepath(File filepath) {
 		this.filepath = filepath;
@@ -49,10 +34,4 @@ public class CachedJungGraph extends JungGraph {
 	public File getFilepath() {
 		return filepath;
 	}
-	
-	public PackedGraph pack() {
-		return new PackedGraph(this);
-	}
-	
-
 }
