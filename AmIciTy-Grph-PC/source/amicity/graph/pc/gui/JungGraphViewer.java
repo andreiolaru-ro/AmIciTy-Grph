@@ -75,7 +75,7 @@ public class JungGraphViewer extends JPanel {
 	}
 
 	public void doGraphLayout() {
-		FRLayout<Node, Edge> layout = new FRLayout<Node, Edge>(graph);
+		FRLayout<Node, Edge> layout = new FRLayout<Node, Edge>(graph, vv.getSize());
 		graph.setLayout(new StaticLayout<Node, Edge>(graph, layout));
 		vv.getModel().setGraphLayout(layout);
 	}

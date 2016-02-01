@@ -50,6 +50,9 @@ public class JungGraph extends Observable implements Graph<Node, Edge> {
 	public JungGraph(GraphPattern simpleGraph, String name, boolean isPattern) {
 		this(name, isPattern);
 
+		// This whole mess is needed to enforce that generic nodes have a unique
+		// id. TODO: move this outside the JungGraph type.
+		
 		Map<Node, Node> transformMap = new HashMap<Node, Node>();
 		
 		// copy the graph
@@ -483,6 +486,7 @@ public class JungGraph extends Observable implements Graph<Node, Edge> {
 		this.description = description;
 	}
 	
+	@Override
 	public String toString() {
 		return getName();
 	}
