@@ -58,13 +58,14 @@ public class GraphEditor extends JPanel {
 
 	private JungGraph graph;
 	private VisualizationViewer<Node, Edge> vv;
+	
 
 	public GraphEditor(JungGraph aGraph) {
 		this.graph = aGraph;
 
 		this.setLayout(new BorderLayout());
-
 		vv = new VisualizationViewer<Node, Edge>(graph.getLayout());
+		
 		vv.setBackground(Color.white);
 
 		vv.getRenderContext().setVertexLabelTransformer(new NodeTransformer());
@@ -118,8 +119,7 @@ public class GraphEditor extends JPanel {
 		JButton layoutButton = new JButton("force-directed layout");
 		layoutButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// layout = new CircleLayout<Node,Edge>(graph);
-				FRLayout<Node, Edge> layout = new FRLayout<Node, Edge>(graph);
+				FRLayout<Node, Edge> layout = new FRLayout<Node, Edge>(graph, vv.getSize());
 				graph.setLayout(new StaticLayout<Node, Edge>(graph, layout));
 				vv.getModel().setGraphLayout(layout);
 			}
@@ -141,19 +141,22 @@ public class GraphEditor extends JPanel {
 		controls.add(minus);
 		controls.add(layoutButton);
 		controls.add(circleButton);
-		;
 		add(controls, BorderLayout.SOUTH);
-
 	}
 
 	public void doGraphLayout() {
-		FRLayout<Node, Edge> layout = new FRLayout<Node, Edge>(graph);
+		FRLayout<Node, Edge> layout = new FRLayout<Node, Edge>(graph, vv.getSize());
 		graph.setLayout(new StaticLayout<Node, Edge>(graph, layout));
 		vv.getModel().setGraphLayout(layout);
 	}
 
 	public JungGraph getGraph() {
 		return graph;
+	}
+	
+	public void setGraph(JungGraph graph) {
+		this.graph = graph;
+		doGraphLayout();
 	}
 
 	public void undo() {

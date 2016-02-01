@@ -76,6 +76,16 @@ public class JungGraph extends Observable implements Graph<Node, Edge> {
 		}
 	}
 	
+	public JungGraph(SimpleGraph simpleGraph) {
+		this("default", false);
+		for (Node node : simpleGraph.getNodes()) {
+			graph.addVertex(node);
+		}
+		for (Edge edge : simpleGraph.getEdges()) {
+			graph.addEdge(edge, edge.getFrom(), edge.getTo());
+		}
+	}
+	
 	public net.xqhs.graphs.graph.Graph asSimpleGraph() {
 		SimpleGraph simpleGraph = (SimpleGraph) new SimpleGraph().setUnitName(getName());
 		for (Node node : graph.getVertices()) {
