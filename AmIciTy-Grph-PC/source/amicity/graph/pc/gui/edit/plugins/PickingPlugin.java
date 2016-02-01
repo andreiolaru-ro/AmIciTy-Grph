@@ -1,4 +1,4 @@
-package amicity.graph.pc.gui.edit;
+package amicity.graph.pc.gui.edit.plugins;
 
 import java.awt.Point;
 import java.awt.event.MouseEvent;
@@ -11,7 +11,7 @@ import edu.uci.ics.jung.visualization.VisualizationViewer;
 import edu.uci.ics.jung.visualization.control.PickingGraphMousePlugin;
 import edu.uci.ics.jung.visualization.picking.PickedState;
 
-public class CustomPickingGraphMousePlugin<V, E> extends PickingGraphMousePlugin<V, E> {
+public class PickingPlugin<V, E> extends PickingGraphMousePlugin<V, E> {
 	 @SuppressWarnings("unchecked")
 	    public void mousePressed(MouseEvent e) {
 	        down = e.getPoint();

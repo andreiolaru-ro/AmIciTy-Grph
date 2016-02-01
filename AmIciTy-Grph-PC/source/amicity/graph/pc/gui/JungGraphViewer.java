@@ -42,8 +42,8 @@ import edu.uci.ics.jung.visualization.renderers.Renderer.VertexLabel.Position;
 public class JungGraphViewer extends JPanel {
 	private static final long serialVersionUID = -2023243689258876709L;
 
-	private JungGraph graph;
-	private VisualizationViewer<Node, Edge> vv;
+	protected JungGraph graph;
+	protected VisualizationViewer<Node, Edge> vv;
 	
 
 	public JungGraphViewer(JungGraph aGraph) {

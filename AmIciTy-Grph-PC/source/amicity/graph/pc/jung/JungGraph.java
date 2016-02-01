@@ -9,7 +9,6 @@ import net.xqhs.graphs.graph.Edge;
 import net.xqhs.graphs.graph.Node;
 import net.xqhs.graphs.graph.SimpleEdge;
 import net.xqhs.graphs.graph.SimpleGraph;
-import net.xqhs.graphs.matchingPlatform.TrackingGraph;
 import net.xqhs.graphs.pattern.GraphPattern;
 import net.xqhs.graphs.pattern.NodeP;
 import amicity.graph.pc.common.Command;
@@ -24,15 +23,20 @@ import edu.uci.ics.jung.graph.util.Graphs;
 import edu.uci.ics.jung.graph.util.Pair;
 
 public class JungGraph extends Observable implements Graph<Node, Edge> {
+	public enum LayoutType {
+		FRLayout,
+		SpringLayout
+	}
+	
 	// FIXME name conflict with net.xqhs.Graph
 	private String name;
 	private String description;
 	protected boolean isPattern;
-	private boolean needsLayout;
 
 	protected Graph<Node, Edge> graph;
 	protected Layout<Node, Edge> layout;
 	
+	// TODO: move undo manager to the editor code.
 	protected UndoManager undoManager;
 	
 	protected boolean trackHistory;
@@ -89,6 +93,7 @@ public class JungGraph extends Observable implements Graph<Node, Edge> {
 		}
 	}
 	
+	// TODO(catalinb): can JungGraph just implement net.xqhs.graphs.graph.Graph?
 	public net.xqhs.graphs.graph.Graph asSimpleGraph() {
 		SimpleGraph simpleGraph = (SimpleGraph) new SimpleGraph().setUnitName(getName());
 		for (Node node : graph.getVertices()) {
@@ -130,7 +135,7 @@ public class JungGraph extends Observable implements Graph<Node, Edge> {
 	public Layout<Node, Edge> getLayout() {
 		return layout;
 	}
-
+	
 	public void setLayout(Layout<Node, Edge> layout) {
 		this.layout = layout;
 	}
@@ -493,13 +498,5 @@ public class JungGraph extends Observable implements Graph<Node, Edge> {
 	
 	public boolean isPattern() {
 		return isPattern;
-	}
-
-	public boolean needsLayout() {
-		return needsLayout;
-	}
-
-	public void setNeedsLayout(boolean needsLayout) {
-		this.needsLayout = needsLayout;
 	}
 }

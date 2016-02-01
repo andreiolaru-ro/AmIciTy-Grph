@@ -53,53 +53,23 @@ import edu.uci.ics.jung.visualization.transform.MutableTransformer;
  * @author Tom Nelson
  * 
  */
-public class GraphEditor extends JPanel {
+public class GraphEditor extends JungGraphViewer {
 	private static final long serialVersionUID = -2023243689258876709L;
 
-	private JungGraph graph;
-	private VisualizationViewer<Node, Edge> vv;
 	
-
 	public GraphEditor(JungGraph aGraph) {
-		this.graph = aGraph;
-
-		this.setLayout(new BorderLayout());
-		vv = new VisualizationViewer<Node, Edge>(graph.getLayout());
-		
-		vv.setBackground(Color.white);
-
-		vv.getRenderContext().setVertexLabelTransformer(new NodeTransformer());
-		vv.getRenderContext().setEdgeLabelTransformer(new EdgeTransformer());
-		vv.getRenderContext().setVertexStrokeTransformer(
-				new NodeStrokeTransformer(vv));
-		vv.getRenderContext().setEdgeLabelRenderer(
-				new DefaultEdgeLabelRenderer(Color.YELLOW));
-		vv.getRenderer().getVertexLabelRenderer().setPosition(Position.CNTR);
-
-		Transformer<Node, Shape> vertexSize = new Transformer<Node, Shape>() {
-			public Shape transform(Node i) {
-				int length = i.getLabel().length() * 10;
-				length = length > 30 ? length : 30;
-				return new Rectangle(-20, -10, length, 30);
-			}
-		};
-		vv.getRenderContext().setVertexShapeTransformer(vertexSize);
-
-		final GraphZoomScrollPane panel = new GraphZoomScrollPane(vv);
-		panel.setPreferredSize(new Dimension(400, 400));
-		add(panel, BorderLayout.CENTER);
-
+		super(aGraph);
 		Factory<Node> vertexFactory = new NodeFactory(this.graph);
 		Factory<Edge> edgeFactory = new EdgeFactory();
 
-		final GraphEditorEventHandler graphMouse = new GraphEditorEventHandler(
+		final GraphEditorEventHandler eventHandler = new GraphEditorEventHandler(
 				vv.getRenderContext(), vertexFactory, edgeFactory);
 
 		// the EditingGraphMouse will pass mouse event coordinates to the
 		// vertexLocations function to set the locations of the vertices as
 		// they are created
-		vv.setGraphMouse(graphMouse);
-		vv.addKeyListener(graphMouse.getModeKeyListener());
+		vv.setGraphMouse(eventHandler);
+		vv.addKeyListener(eventHandler.getModeKeyListener());
 
 		final ScalingControl scaler = new CrossoverScalingControl();
 		JButton plus = new JButton("+");
@@ -134,7 +104,6 @@ public class GraphEditor extends JPanel {
 				vv.getModel().setGraphLayout(layout);
 			}
 		});
-
 
 		JPanel controls = new JPanel();
 		controls.add(plus);

@@ -16,6 +16,8 @@ import org.apache.commons.collections15.Transformer;
 import org.apache.commons.collections15.functors.MapTransformer;
 
 import amicity.graph.pc.common.GraphEvent.Type;
+import amicity.graph.pc.gui.edit.plugins.PickingPlugin;
+import amicity.graph.pc.gui.edit.plugins.EditingPlugin;
 import amicity.graph.pc.gui.util.OSValidator;
 import amicity.graph.pc.jung.JungGraph;
 import edu.uci.ics.jung.visualization.RenderContext;
@@ -125,7 +127,7 @@ public class GraphEditorEventHandler extends EditingModalGraphMouse<Node, Edge> 
 
     @Override
     protected void loadPlugins() {
-            pickingPlugin = new CustomPickingGraphMousePlugin<Node, Edge>();
+            pickingPlugin = new PickingPlugin<Node, Edge>();
             animatedPickingPlugin = new AnimatedPickingGraphMousePlugin<Node, Edge>();
             // Drag translate
             translatingPlugin = new TranslatingGraphMousePlugin(
