@@ -81,7 +81,7 @@ public class JungGraph extends Observable implements Graph<Node, Edge> {
 		}
 	}
 	
-	public JungGraph(SimpleGraph simpleGraph) {
+	public JungGraph(net.xqhs.graphs.graph.Graph simpleGraph) {
 		this("default", false);
 		for (Node node : simpleGraph.getNodes()) {
 			graph.addVertex(node);
@@ -238,6 +238,7 @@ public class JungGraph extends Observable implements Graph<Node, Edge> {
 	@Override
 	public boolean addVertex(Node node) {		
 		boolean result = graph.addVertex(node);
+		System.out.println("Add vertex result: " + result);
 		if (result) {
 			dirty(GraphEvent.Type.GraphStructure);
 		}

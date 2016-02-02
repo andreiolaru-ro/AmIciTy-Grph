@@ -15,6 +15,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.Shape;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JPanel;
 
@@ -30,6 +32,9 @@ import amicity.graph.pc.jung.JungGraph;
 import edu.uci.ics.jung.algorithms.layout.FRLayout;
 import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.algorithms.layout.StaticLayout;
+import edu.uci.ics.jung.algorithms.layout.util.Relaxer;
+import edu.uci.ics.jung.algorithms.layout.util.VisRunner;
+import edu.uci.ics.jung.algorithms.util.IterativeContext;
 import edu.uci.ics.jung.visualization.GraphZoomScrollPane;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 import edu.uci.ics.jung.visualization.renderers.DefaultEdgeLabelRenderer;
@@ -82,7 +87,7 @@ public class JungGraphViewer extends JPanel {
 		this.layout = layout;
 		vv.getModel().setGraphLayout(layout);
 	}
-
+	
 	public JungGraph getGraph() {
 		return graph;
 	}
@@ -96,4 +101,6 @@ public class JungGraphViewer extends JPanel {
 		graph.redo();
 		vv.repaint();
 	}
+
+
 }

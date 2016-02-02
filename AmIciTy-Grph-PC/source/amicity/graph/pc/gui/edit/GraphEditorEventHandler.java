@@ -47,15 +47,19 @@ public class GraphEditorEventHandler extends EditingModalGraphMouse<Node, Edge> 
 	int[] macKeyMap = {10, 8, 82};
 	int[] keyMap;
 	
-	public enum FeatureMask {
-		PICK_SUPPORT(1),
-		TRANSLATE_SUPPORT(2),
-		SCALING_SUPPORT(4),
-		EDITING_SUPPORT(8),
-		KEYBOARD_SUPPORT(16);
+	public static class FeatureMask {
+		public static final int PICK_SUPPORT = 1;
+		public static final int TRANSLATE_SUPPORT = 2;
+		public static final int SCALING_SUPPORT = 4;
+		public static final int EDITING_SUPPORT = 8;
+		public static final int KEYBOARD_SUPPORT = 16;
+		public static final int ANNOTATE_SUPPORT = 32;
+		
+		// Make sure this will include all bits;
+		public static final int ALL = 0xffff;
 		
 		private int value;
-		private FeatureMask(int value) {
+		public FeatureMask(int value) {
 			this.value = value;
 		}
 		
@@ -63,8 +67,8 @@ public class GraphEditorEventHandler extends EditingModalGraphMouse<Node, Edge> 
 			return value;
 		}
 		
-		public boolean hasFeature(FeatureMask featureMask) {
-			return ((value & featureMask.getValue()) == 0);
+		public boolean hasFeature(int feature) {
+			return ((value & feature) != 0);
 		}
 	}
 	
@@ -73,6 +77,7 @@ public class GraphEditorEventHandler extends EditingModalGraphMouse<Node, Edge> 
 	public GraphEditorEventHandler(RenderContext<Node, Edge> rc,
 									Factory<Node> vertexFactory, Factory<Edge> edgeFactory, FeatureMask map) {
 		super(rc, vertexFactory, edgeFactory);
+		this.mask = map;
 		if (map.hasFeature(FeatureMask.KEYBOARD_SUPPORT)) {
 			setModeKeyListener(new ModeKeyAdapter());		
 			if (OSValidator.isMac()) {
@@ -81,19 +86,12 @@ public class GraphEditorEventHandler extends EditingModalGraphMouse<Node, Edge> 
 				keyMap = defaultKeyMap;
 			}
 		}
-		
+		loadPluginsCustom();
 	}
 	
 	public GraphEditorEventHandler(RenderContext<Node, Edge> rc,
 			Factory<Node> vertexFactory, Factory<Edge> edgeFactory) {
-		super(rc, vertexFactory, edgeFactory);
-		setModeKeyListener(new ModeKeyAdapter());
-		
-		if (OSValidator.isMac()) {
-			keyMap = macKeyMap;
-		} else {
-			keyMap = defaultKeyMap;
-		}
+		this(rc, vertexFactory, edgeFactory, new FeatureMask(FeatureMask.ALL));
 	}
 	
 	final int SHIFT_MASK = 17;
@@ -123,33 +121,52 @@ public class GraphEditorEventHandler extends EditingModalGraphMouse<Node, Edge> 
 			}
 		}
 	}
-	
 
-    @Override
-    protected void loadPlugins() {
-            pickingPlugin = new PickingPlugin<Node, Edge>();
+	 @Override
+	 protected void loadPlugins() {
+		 // do nothing
+	 }
+
+    protected void loadPluginsCustom() {
+
             animatedPickingPlugin = new AnimatedPickingGraphMousePlugin<Node, Edge>();
             // Drag translate
-            translatingPlugin = new TranslatingGraphMousePlugin(
-                            InputEvent.BUTTON1_MASK);
-
+            
+            if (mask.hasFeature(FeatureMask.TRANSLATE_SUPPORT)) {
+            	translatingPlugin = new TranslatingGraphMousePlugin(
+                            	InputEvent.BUTTON1_MASK);
+            	add(translatingPlugin);
+            }
+            
             // zoom in/out
-            scalingPlugin = new ScalingGraphMousePlugin(
-                            new CrossoverScalingControl(), 0, in, out);
+            if (mask.hasFeature(FeatureMask.SCALING_SUPPORT)) {
+            	scalingPlugin = new ScalingGraphMousePlugin(
+                            		new CrossoverScalingControl(), 0, in, out); 
+            	add(scalingPlugin);
+            }
+            
             //rotatingPlugin = new RotatingGraphMousePlugin();
             //shearingPlugin = new ShearingGraphMousePlugin();
-            editingPlugin = new EditingPlugin(ALT_MASK, vertexFactory,
-                            edgeFactory);
+            if (mask.hasFeature(FeatureMask.EDITING_SUPPORT)) {
+            	editingPlugin = new EditingPlugin(ALT_MASK, vertexFactory,
+                            	edgeFactory);
+                add(editingPlugin);
+            }
             //labelEditingPlugin = new CustomLabelEditingPlugin<V, E>(24);
             
-            annotatingPlugin = new AnnotatingGraphMousePlugin<Node, Edge>(rc);
-            
-            
-            add(scalingPlugin);
-            add(pickingPlugin);
-            add(translatingPlugin);
+            /*
+            if (mask.hasFeature(FeatureMask.ANNOTATE_SUPPORT)) {
+            	annotatingPlugin = new AnnotatingGraphMousePlugin<Node, Edge>(rc);
+            }
+            */
+
+            if (mask.hasFeature(FeatureMask.PICK_SUPPORT)) {
+                pickingPlugin = new PickingPlugin<Node, Edge>();
+               	add(pickingPlugin);
+            }
+
             //add(labelEditingPlugin);
-            add(editingPlugin);
+
 
             //setMode(Mode.TRANSFORMING);
     }

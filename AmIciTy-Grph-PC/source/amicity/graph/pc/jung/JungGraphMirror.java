@@ -1,5 +1,6 @@
 package amicity.graph.pc.jung;
 
+import amicity.graph.pc.common.GraphEvent;
 import net.xqhs.graphs.graph.Edge;
 import net.xqhs.graphs.graph.GraphComponent;
 import net.xqhs.graphs.graph.Node;
@@ -22,10 +23,10 @@ public class JungGraphMirror extends JungGraph implements ChangeNotificationRece
 		case ADD:
 			GraphComponent component = t.getComponent();
 			if (component instanceof Node) {
-				graph.addVertex((Node) component);
+				addVertex((Node) component);
 			} else if (component instanceof Edge) {
 				Edge edge = (Edge) component;
-				graph.addEdge(edge, edge.getFrom(), edge.getTo());
+				addEdge(edge, edge.getFrom(), edge.getTo());
 			}
 			break;
 		case REMOVE:
