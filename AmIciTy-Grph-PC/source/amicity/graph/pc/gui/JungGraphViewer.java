@@ -28,6 +28,7 @@ import amicity.graph.pc.gui.edit.NodeStrokeTransformer;
 import amicity.graph.pc.gui.edit.NodeTransformer;
 import amicity.graph.pc.jung.JungGraph;
 import edu.uci.ics.jung.algorithms.layout.FRLayout;
+import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.algorithms.layout.StaticLayout;
 import edu.uci.ics.jung.visualization.GraphZoomScrollPane;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
@@ -44,13 +45,15 @@ public class JungGraphViewer extends JPanel {
 
 	protected JungGraph graph;
 	protected VisualizationViewer<Node, Edge> vv;
+	protected Layout<Node, Edge> layout;
 	
 
 	public JungGraphViewer(JungGraph aGraph) {
 		this.graph = aGraph;
 
 		this.setLayout(new BorderLayout());
-		vv = new VisualizationViewer<Node, Edge>(graph.getLayout());
+		layout = new StaticLayout<Node, Edge>(graph);
+		vv = new VisualizationViewer<Node, Edge>(layout);
 		
 		vv.setBackground(Color.white);
 
@@ -76,7 +79,7 @@ public class JungGraphViewer extends JPanel {
 
 	public void doGraphLayout() {
 		FRLayout<Node, Edge> layout = new FRLayout<Node, Edge>(graph, vv.getSize());
-		graph.setLayout(new StaticLayout<Node, Edge>(graph, layout));
+		this.layout = layout;
 		vv.getModel().setGraphLayout(layout);
 	}
 

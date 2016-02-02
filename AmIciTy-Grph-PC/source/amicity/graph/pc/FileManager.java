@@ -61,11 +61,12 @@ public class FileManager {
 			Map<String, Point2D.Double> nodesLocation = JungGraphDescription.ParseDescription(p.getDescription());
 			CachedJungGraph graph = new CachedJungGraph(p, file, file.getName(), isPattern);
 			
-
+			System.err.println("FIXME: graph layout is broken");
+			/*
 			for (Node v : graph.getVertices()) {
-				System.out.println("v=" + v.toString());
 				graph.getLayout().setLocation(v, nodesLocation.get(v.toString()));
 			}
+			*/
 			
 			return graph;
 		} catch (IOException e) {

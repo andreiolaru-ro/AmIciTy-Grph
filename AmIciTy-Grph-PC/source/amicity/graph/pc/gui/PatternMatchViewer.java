@@ -2,8 +2,6 @@ package amicity.graph.pc.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -21,18 +19,18 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import net.xqhs.graphs.matcher.Match;
+import amicity.graph.pc.JungQuickMatchWorker;
 import amicity.graph.pc.MainController;
 import amicity.graph.pc.common.JungMatchListener;
-import amicity.graph.pc.gui.util.LabelledInputField;
 import amicity.graph.pc.gui.util.LabelledInputSlider;
 import amicity.graph.pc.jung.JungGraph;
 import amicity.graph.pc.jung.JungMatch;
 import amicity.graph.pc.jung.MatchPair;
-import amicity.graph.pc.JungQuickMatchWorker;
 
 public class PatternMatchViewer extends JPanel implements Observer, JungMatchListener, ListSelectionListener, ChangeListener {
-	private JList matchList;
-	private DefaultListModel matchListModel;
+	private static final long	serialVersionUID	= 1L;
+	private JList<MatchPair> matchList;
+	private DefaultListModel<MatchPair> matchListModel;
 	private List<MatchPair> allMatches;
 	AutoMatchViewer viewer;
 	MainController controller;
@@ -44,8 +42,8 @@ public class PatternMatchViewer extends JPanel implements Observer, JungMatchLis
 		this.controller = controller;
 		
 		allMatches = new ArrayList<MatchPair>();
-		matchListModel = new DefaultListModel();
-		matchList = new JList(matchListModel);
+		matchListModel = new DefaultListModel<MatchPair>();
+		matchList = new JList<MatchPair>(matchListModel);
 		//this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.setLayout(new BorderLayout());
 		
@@ -70,8 +68,8 @@ public class PatternMatchViewer extends JPanel implements Observer, JungMatchLis
 	public void update(Observable o, Object arg) {
 		matchListModel.clear();
 		allMatches.clear();
-
-		viewer.setMatch(new JungGraph("lol", false));
+	
+		// clear viewer
 		
 		JungGraph graph = (JungGraph) o;
 		List<JungMatch> matches = new ArrayList<JungMatch>();
@@ -95,29 +93,24 @@ public class PatternMatchViewer extends JPanel implements Observer, JungMatchLis
 			}
 		}
 		
-		//viewer.setMatch(matchListModel.get(0));
 		matchList.setSelectedIndex(0);
 	}
 
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
-		MatchPair pair = (MatchPair) matchList.getSelectedValue();
+		MatchPair pair = matchList.getSelectedValue();
 		if (pair == null) {
 			return;
 		}
 		viewer.setMatch(pair);
 	}
 	
-
-
-
 	@Override
 	public void stateChanged(ChangeEvent evt) {
 		JSlider slider = (JSlider) evt.getSource();
 		
 		threshold = slider.getValue();
 		System.out.println("New threshold: " + threshold);
-		viewer.setMatch(new JungGraph("lol", false));
 		for (MatchPair pair : allMatches) {
 			if (pair.match.getK() > threshold && matchListModel.contains(pair)) {
 				matchListModel.removeElement(pair);

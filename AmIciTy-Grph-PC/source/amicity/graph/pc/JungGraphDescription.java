@@ -47,6 +47,8 @@ public class JungGraphDescription extends GraphDescription {
 	public String toString() {
 		StringBuilder buffer = new StringBuilder();
 		buffer.append("(" + graph.isPattern() + ")");
+		System.err.println("FIXME: graph position is broken.");
+		/*
 		for (Node node : graph.getVertices()) {
 			Point2D p = graph.getLayout().transform(node);
 			String value = p.getX() +", " + p.getY();
@@ -54,6 +56,7 @@ public class JungGraphDescription extends GraphDescription {
 			String blob = keyValue(node.toString(), value);
 			buffer.append("(" + blob + ")");
 		}
+		*/
 		
 		return buffer.toString();
 	}

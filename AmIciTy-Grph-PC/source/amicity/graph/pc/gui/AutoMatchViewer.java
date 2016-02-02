@@ -21,6 +21,8 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -43,6 +45,7 @@ import amicity.graph.pc.gui.edit.NodeTransformer;
 import amicity.graph.pc.jung.JungGraph;
 import amicity.graph.pc.jung.MatchPair;
 import edu.uci.ics.jung.algorithms.layout.FRLayout;
+import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.algorithms.layout.StaticLayout;
 import edu.uci.ics.jung.visualization.GraphZoomScrollPane;
 import edu.uci.ics.jung.visualization.Layer;
@@ -57,52 +60,21 @@ import edu.uci.ics.jung.visualization.renderers.Renderer.VertexLabel.Position;
  * @author Tom Nelson
  * 
  */
-public class AutoMatchViewer extends JPanel {
+public class AutoMatchViewer extends JungGraphViewer {
 	private static final long serialVersionUID = -2023243689258876709L;
-
-	private JungGraph graph;
-	private VisualizationViewer<Node, Edge> vv;
+	
+	private Map<JungGraph, Layout<Node, Edge>> layoutMap;
 
 	public AutoMatchViewer(JungGraph aGraph) {
-		this.graph = aGraph;
-
-		this.setLayout(new BorderLayout());
-
-		vv = new VisualizationViewer<Node, Edge>(graph.getLayout());
+		super(aGraph);
 		vv.setBackground(Color.lightGray);
-
-		vv.getRenderContext().setVertexLabelTransformer(new NodeTransformer());
-		vv.getRenderContext().setEdgeLabelTransformer(new EdgeTransformer());
-		vv.getRenderContext().setVertexStrokeTransformer(new NodeStrokeTransformer(vv));
-		vv.getRenderContext().setEdgeLabelRenderer(new DefaultEdgeLabelRenderer(Color.YELLOW));
-		vv.getRenderer().getVertexLabelRenderer().setPosition(Position.CNTR);
-
-		Transformer<Node, Shape> vertexSize = new Transformer<Node, Shape>() {
-			public Shape transform(Node i) {
-				int length = i.getLabel().length() * 10;
-				length = length > 30 ? length : 30;
-				return new Rectangle(-20, -10, length, 30);
-			}
-		};
-		vv.getRenderContext().setVertexShapeTransformer(vertexSize);
-
-		vv.setPreferredSize(new Dimension(400, 400));
-		add(vv, BorderLayout.CENTER);
-	}
-
-	public void doGraphLayout() {
-		FRLayout<Node, Edge> layout = new FRLayout<Node, Edge>(graph);
-		layout.setSize(vv.getSize());
-		graph.setLayout(new StaticLayout<Node, Edge>(graph, layout));
-		vv.getModel().setGraphLayout(layout);
-		graph.setLayout(layout);
-		graph.setNeedsLayout(false);
+		layoutMap = new HashMap<JungGraph, Layout<Node, Edge>>();
 	}
 		
 	public void setMatch(MatchPair match) {
 		this.graph = match.pattern;
 		if (match.layout == null) {
-			match.layout = new FRLayout<Node, Edge>(graph, new Dimension(400, 400));
+			match.layout = new FRLayout<Node, Edge>(graph, vv.getSize());
 		}
 		vv.getModel().setGraphLayout(match.layout);
 		double scale = vv.getRenderContext().getMultiLayerTransformer().getTransformer(Layer.VIEW).getScale();
@@ -110,11 +82,6 @@ public class AutoMatchViewer extends JPanel {
 		System.out.println("Scale is: " + scale);
 	}
 	
-	public void setMatch(JungGraph graph) {
-		this.graph = graph;
-		vv.getModel().setGraphLayout(this.graph.getLayout());
-	}
-
 	public JungGraph getGraph() {
 		return graph;
 	}

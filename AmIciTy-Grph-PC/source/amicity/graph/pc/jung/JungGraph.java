@@ -34,7 +34,6 @@ public class JungGraph extends Observable implements Graph<Node, Edge> {
 	protected boolean isPattern;
 
 	protected Graph<Node, Edge> graph;
-	protected Layout<Node, Edge> layout;
 	
 	// TODO: move undo manager to the editor code.
 	protected UndoManager undoManager;
@@ -44,7 +43,6 @@ public class JungGraph extends Observable implements Graph<Node, Edge> {
 	public JungGraph(String name, boolean isPattern) {
 		this.setName(name);
 		this.graph = Graphs.<Node,Edge>synchronizedDirectedGraph(new DirectedSparseMultigraph<Node, Edge>());
-		layout = new StaticLayout<Node, Edge>(this);
 		this.isPattern = isPattern;
 		undoManager = new UndoManager();
 		
@@ -130,14 +128,6 @@ public class JungGraph extends Observable implements Graph<Node, Edge> {
 			}
 		}
 		return graphPattern;
-	}
-	
-	public Layout<Node, Edge> getLayout() {
-		return layout;
-	}
-	
-	public void setLayout(Layout<Node, Edge> layout) {
-		this.layout = layout;
 	}
 	
 	public void undo() {

@@ -88,19 +88,21 @@ public class GraphEditor extends JungGraphViewer {
 
 		JButton layoutButton = new JButton("force-directed layout");
 		layoutButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
-				FRLayout<Node, Edge> layout = new FRLayout<Node, Edge>(graph, vv.getSize());
-				graph.setLayout(new StaticLayout<Node, Edge>(graph, layout));
+				FRLayout<Node, Edge> newLayout = new FRLayout<Node, Edge>(graph, vv.getSize());
+				layout = newLayout;
 				vv.getModel().setGraphLayout(layout);
 			}
 		});
 		
 		JButton circleButton = new JButton("circle layout");
 		circleButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				// layout = new CircleLayout<Node,Edge>(graph);
-				CircleLayout<Node, Edge> layout = new CircleLayout<Node, Edge>(graph);
-				graph.setLayout(new StaticLayout<Node, Edge>(graph, layout));
+				CircleLayout<Node, Edge> newLayout = new CircleLayout<Node, Edge>(graph);
+				layout = newLayout;
 				vv.getModel().setGraphLayout(layout);
 			}
 		});
@@ -113,11 +115,6 @@ public class GraphEditor extends JungGraphViewer {
 		add(controls, BorderLayout.SOUTH);
 	}
 
-	public void doGraphLayout() {
-		FRLayout<Node, Edge> layout = new FRLayout<Node, Edge>(graph, vv.getSize());
-		graph.setLayout(new StaticLayout<Node, Edge>(graph, layout));
-		vv.getModel().setGraphLayout(layout);
-	}
 
 	public JungGraph getGraph() {
 		return graph;
