@@ -2,3 +2,4 @@
 android/bin/*
 AmIciTy-Grph-PC/bin/
 android/*.log
+doc-*
